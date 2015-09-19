@@ -40,22 +40,7 @@ function wp_user_alerts_metabox() {
 	ob_start(); ?>
 
 	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
-	<table class="form-table rowfat">
-		<tr class="broadcast">
-			<td>
-				
-			</td>
-			<td colspan="3">
-				<label>
-					<input type="checkbox" id="wp_user_alerts_broadcast" name="wp_user_alerts_broadcast" value="" />
-					<?php esc_html_e( 'Broadcast this alert to everyone', 'wp-user-alerts' ); ?>
-					<p class="description">
-						<?php esc_html_e( 'A broadcast is a specific type of alert that uses all communication channels.', 'wp-user-alerts' ); ?>
-					</p>
-				</label>
-			</td>
-		</tr>
-
+	<table class="form-table rowfat wp-user-alerts">
 		<tr>
 			<th>
 				<label for="wp_user_alert_users"><?php esc_html_e( 'Users', 'wp-user-alerts'); ?></label>
@@ -66,7 +51,7 @@ function wp_user_alerts_metabox() {
 			</td>
 
 			<th>
-				<label for="wp_user_alert_users_by"><?php esc_html_e( 'Via', 'wp-user-alerts'); ?></label>
+				<label for="wp_user_alert_users_by"><?php esc_html_e( 'Methods', 'wp-user-alerts'); ?></label>
 			</th>
 
 			<td>

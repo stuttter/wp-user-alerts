@@ -31,9 +31,13 @@ function wp_user_alerts_get_alert_types() {
 		   'name'     => esc_html__( 'Email', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_email'
 	   ),
-	   'web' => (object) array(
-		   'name'     => esc_html__( 'Web', 'wp-user-alerts' ),
-		   'callback' => 'wp_user_alerts_users_by_web'
+	   'dashboard' => (object) array(
+		   'name'     => esc_html__( 'Dashboard', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_users_by_dashboard'
+	   ),
+	   'popup' => (object) array(
+		   'name'     => esc_html__( 'Pop-up', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_users_by_modal'
 	   )
 	) );
 }

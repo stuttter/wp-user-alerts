@@ -1,19 +1,19 @@
-#wp-user-alerts th {
+table.wp-user-alerts th {
 	font-weight: normal;
 	text-align: right;
 	width: 10%;
 }
 
-#wp-user-alerts tr:not(.broadcast) td {
+table.wp-user-alerts tr:not(.broadcast) td {
 	vertical-align: top;
 	width: 33%;
 }
 
-#wp-user-alerts .broadcast p {
+table.wp-user-alerts .broadcast p {
 	margin-left: 25px;
 }
 
-#wp-user-alerts .alerts-picker {
+table.wp-user-alerts .alerts-picker {
 	min-height: 42px;
 	max-height: 200px;
 	overflow: auto;
@@ -22,6 +22,6 @@
 	background-color: #fdfdfd;
 }
 
-#wp-user-alerts .alerts-picker label {
+table.wp-user-alerts .alerts-picker label {
 	font-size: 13px;
 }
