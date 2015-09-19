@@ -37,31 +37,52 @@ function wp_user_alerts_admin_metaboxes( $post_type ) {
 function wp_user_alerts_metabox() {
 
 	// Start an output buffer
-	ob_start(); ?>
+	ob_start();
+
+	// Before
+	do_action( 'wp_user_alerts_metabox_before' ); ?>
 
 	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 	<table class="form-table rowfat wp-user-alerts">
-		<tr>
-			<th>
-				<label for="wp_user_alert_users"><?php esc_html_e( 'Users', 'wp-user-alerts'); ?></label>
-			</th>
 
-			<td>
-				<?php wp_user_alerts_users_picker(); ?>
-			</td>
+		<?php do_action( 'wp_user_alerts_metabox_rows' ); ?>
 
-			<th>
-				<label for="wp_user_alert_users_by"><?php esc_html_e( 'Methods', 'wp-user-alerts'); ?></label>
-			</th>
-
-			<td>
-				<?php wp_user_alerts_type_picker(); ?>
-			</td>
-		</tr>
 	</table>
 
 	<?php
 
+	// After
+	do_action( 'wp_user_alerts_metabox_after' );
+
 	// End & flush the output buffer
 	ob_end_flush();
+}
+
+/**
+ * Default user-alerts metabox rows
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_default_metabox_rows() {
+?>
+
+	<tr>
+		<th>
+			<label for="wp_user_alert_users"><?php esc_html_e( 'Users', 'wp-user-alerts'); ?></label>
+		</th>
+
+		<td>
+			<?php wp_user_alerts_users_picker(); ?>
+		</td>
+
+		<th>
+			<label for="wp_user_alert_users_by"><?php esc_html_e( 'Methods', 'wp-user-alerts'); ?></label>
+		</th>
+
+		<td>
+			<?php wp_user_alerts_type_picker(); ?>
+		</td>
+	</tr>
+
+<?php
 }
