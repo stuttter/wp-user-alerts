@@ -65,20 +65,40 @@ function wp_user_alerts_metabox() {
 }
 
 /**
- * Default user-alerts metabox rows
+ * Default user-alerts who and how metabox row
  *
  * @since 0.1.0
  */
-function wp_user_alerts_default_metabox_rows() {
+function wp_user_alerts_metabox_who_and_how() {
 ?>
 
-	<tr>
+	<tr class="who-and-how">
 		<td>
 			<?php wp_user_alerts_types(); ?>
 		</td>
 
 		<td>
 			<?php wp_user_alerts_methods(); ?>
+		</td>
+	</tr>
+
+<?php
+}
+
+/**
+ * Default user-alerts preview metabox row
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_metabox_preview() {
+?>
+
+	<tr class="alert-preview">
+		<td colspan="2">
+			<div class="panel" data-severity="info">
+				<div class="alert-timestamp"><?php esc_html_e( 'January 1, 2015, at 11:00 am:', 'wp-user-alerts' ); ?></div>
+				<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
+			</div>
 		</td>
 	</tr>
 

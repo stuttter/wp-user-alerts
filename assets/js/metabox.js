@@ -21,4 +21,16 @@ jQuery( document ).ready( function ( $ ) {
 
 		return false;
 	} );
+
+	/* Preview */
+	$( 'input[type=radio].alert-severity' ).change( function () {
+		var severity = $( this ).data( 'severity' ),
+			panel    = $( '.alert-preview .panel' );
+
+		panel.attr( 'data-severity', severity );
+	} );
+
+	$( 'textarea.wp-editor-area' ).bind( 'input propertychange', function() {
+		$( '.alert-post-content' ).html( $( this ).val() );
+	} );
 } );
