@@ -96,7 +96,7 @@ function wp_user_alerts_metabox_preview() {
 	<tr class="alert-preview">
 		<td colspan="2">
 			<div class="panel" data-severity="info">
-				<div class="alert-timestamp"><?php esc_html_e( 'January 1, 2015, at 11:00 am:', 'wp-user-alerts' ); ?></div>
+				<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y g:i a:' ); ?></div>
 				<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
 			</div>
 		</td>
