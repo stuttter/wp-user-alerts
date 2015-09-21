@@ -28,6 +28,8 @@ function _wp_user_alerts() {
 	require $plugin_path . 'includes/class-wp-user-groups-walker.php';
 	require $plugin_path . 'includes/functions.php';
 	require $plugin_path . 'includes/admin.php';
+	require $plugin_path . 'includes/post-types.php';
+	require $plugin_path . 'includes/metadata.php';
 	require $plugin_path . 'includes/metaboxes.php';
 	require $plugin_path . 'includes/hooks.php';
 }

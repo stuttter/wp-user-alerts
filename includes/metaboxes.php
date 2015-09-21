@@ -68,19 +68,19 @@ function wp_user_alerts_default_metabox_rows() {
 
 	<tr>
 		<th>
-			<label for="wp_user_alert_users"><?php esc_html_e( 'Users', 'wp-user-alerts'); ?></label>
+			<label for="wp_user_alert_users"><?php esc_html_e( 'Who', 'wp-user-alerts'); ?></label>
 		</th>
 
 		<td>
-			<?php wp_user_alerts_users_picker(); ?>
+			<?php wp_user_alerts_types(); ?>
 		</td>
 
 		<th>
-			<label for="wp_user_alert_users_by"><?php esc_html_e( 'Methods', 'wp-user-alerts'); ?></label>
+			<label for="wp_user_alert_users_by"><?php esc_html_e( 'How', 'wp-user-alerts'); ?></label>
 		</th>
 
 		<td>
-			<?php wp_user_alerts_type_picker(); ?>
+			<?php wp_user_alerts_methods(); ?>
 		</td>
 	</tr>
 

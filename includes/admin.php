@@ -15,40 +15,74 @@ defined( 'ABSPATH' ) || exit;
  * @since 0.1.0
  */
 function wp_user_alerts_admin_assets() {
-	wp_enqueue_style( 'wp_user_alerts', wp_user_alerts_get_plugin_url() . '/assets/css/user-alerts.css', false, wp_user_alerts_get_asset_version(), false );
+	$url = wp_user_alerts_get_plugin_url();
+	$ver = wp_user_alerts_get_asset_version();
+
+	wp_enqueue_style( 'wp_user_alerts',  $url . '/assets/css/user-alerts.css', false,             $ver, false );
+	wp_enqueue_script( 'wp_user_alerts', $url . '/assets/js/tabs.js',          array( 'jquery' ), $ver, true  );
 }
 
 /**
- * Display a list of possible alert types
+ * Output the alert types picker, which allows a post author to pick which users
+ * will be alerted. Defaults are "Users" and "Roles" but some other plugins may
+ * be supported in the future (like WP User Groups, for example.)
  *
  * @since 0.1.0
  */
-function wp_user_alerts_type_picker() {
+function wp_user_alerts_types() {
 
 	// Get the post type
 	$post_type = get_post_type();
 
-	// Query for users
-	$types = wp_user_alerts_get_alert_types(); ?>
+	// Get alert types
+	$types = wp_user_alerts_get_alert_types();
 
-	<div id="user-alert-<?php echo esc_attr( $post_type ); ?>" class="alerts-picker">
-		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+	// Reset position
+	$position = 0;
 
-			<?php foreach ( $types as $type_id => $type ) : ?>
+	// Start an output buffer
+	ob_start(); ?>
 
-				<li>
-					<label class="selectit">
-						<input value="<?php echo esc_attr( $type_id ); ?>" type="checkbox" name="user_alert[]" id="" />
-						<?php echo esc_html( $type->name ); ?>
-					</label>
-				</li>
+	<ul id="user-alert-who-tabs" class="category-tabs">
 
-			<?php endforeach; ?>
+		<?php
 
-		</ul>
-	</div>
+		foreach ( $types as $type_id => $type ) {
+			if ( ! empty( $type->name ) ) {
+				$class = empty( $position ) ? 'tabs' : 'hide-if-no-js'; ?>
+
+				<li class="<?php echo esc_attr( $class ); ?>"><a href="#alert-<?php echo esc_attr( $type_id ); ?>"><?php echo esc_html( $type->name ); ?></a></li>
+
+		<?php
+			++$position;
+
+			}
+		} ?>
+
+	</ul>
 
 	<?php
+
+	// Reset position
+	$position = 0;
+
+	// Loop through types & look for callback
+	foreach ( $types as $type_id => $type ) {
+		if ( is_callable( $type->callback ) ) {
+
+			// Is visible?
+			$visible = empty( $position )
+				? ''
+				: ' style="display: none;"';
+
+			call_user_func( $type->callback, $post_type, $visible );
+
+			++$position;
+		}
+	}
+
+	// All done
+	ob_end_flush();
 }
 
 /**
@@ -56,10 +90,7 @@ function wp_user_alerts_type_picker() {
  *
  * @since 0.1.0
  */
-function wp_user_alerts_users_picker() {
-
-	// Get the post type
-	$post_type = get_post_type();
+function wp_user_alerts_users_picker( $post_type = '', $visible = '' ) {
 
 	// Query for users
 	$users = get_users( array(
@@ -69,9 +100,7 @@ function wp_user_alerts_users_picker() {
 		)
 	) ); ?>
 
-	<div id="user-alert-<?php echo esc_attr( $post_type ); ?>" class="alerts-picker">
-		<input type="hidden" name="user_alert['<?php echo esc_attr( $post_type ); ?>'][]" value="0" />
-
+	<div id="alert-users" class="tabs-panel alerts-picker"<?php echo $visible; ?>>
 		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
 
 			<?php foreach ( $users as $user ) : ?>
@@ -92,11 +121,125 @@ function wp_user_alerts_users_picker() {
 }
 
 /**
+ * Display roles in a list with checkboxes to let a post author pick from them.
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_roles_picker( $post_type = '', $visible = '' ) {
+
+	// Get the post type
+	$post_type = get_post_type();
+
+	// Query for users
+	$roles = $GLOBALS['wp_roles']->roles; ?>
+
+	<div id="alert-roles" class="tabs-panel alerts-picker"<?php echo $visible; ?>>
+		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+
+			<?php foreach ( $roles as $role => $details ) : ?>
+
+				<li>
+					<label class="selectit">
+						<input value="<?php echo esc_attr( $role ); ?>" type="checkbox" name="role_alert[]" id="" />
+						<?php echo translate_user_role( $details['name'] ); ?>
+					</label>
+				</li>
+
+			<?php endforeach; ?>
+
+		</ul>
+	</div>
+
+	<?php
+}
+
+function wp_user_alerts_methods() {
+?>
+
+	<ul id="user-alert-how-tabs" class="category-tabs">
+		<li class="tabs"><a href="#alert-methods"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#alert-severities"><?php esc_html_e( 'Severities', 'wp-user-alerts' ); ?></a></li>
+	</ul>
+
+<?php
+
+	// Methods
+	wp_user_alerts_methods_picker();
+
+	// Severities
+	wp_user_alerts_severity_picker();
+}
+
+/**
+ * Display a list of possible alert types
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_methods_picker() {
+
+	// Get the post type
+	$post_type = get_post_type();
+
+	// Query for users
+	$methods = wp_user_alerts_get_alert_methods(); ?>
+
+	<div id="alert-methods" class="tabs-panel alerts-picker">
+		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+
+			<?php foreach ( $methods as $method_id => $method ) : ?>
+
+				<li>
+					<label class="selectit">
+						<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="user_alert[]" id="" />
+						<?php echo esc_html( $method->name ); ?>
+					</label>
+				</li>
+
+			<?php endforeach; ?>
+
+		</ul>
+	</div>
+
+	<?php
+}
+
+/**
+ * Display a list of possible alert types
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_severity_picker() {
+
+	// Get the post type
+	$post_type = get_post_type();
+
+	// Query for users
+	$severities = wp_user_alerts_get_alert_severities(); ?>
+
+	<div id="alert-severities" class="tabs-panel alerts-picker" style="display: none;">
+		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+
+			<?php foreach ( $severities as $severity_id => $severity ) : ?>
+
+				<li>
+					<label class="selectit">
+						<input value="<?php echo esc_attr( $severity_id ); ?>" type="radio" name="alert_severity[]" id="" />
+						<?php echo esc_html( $severity->name ); ?>
+					</label>
+				</li>
+
+			<?php endforeach; ?>
+
+		</ul>
+	</div>
+
+	<?php
+}
+
+/**
  * Display hierarchical user groups form fields.
  *
- * @since 0.1.5
- *
- * @todo Create taxonomy-agnostic wrapper for this.
+ * @since 0.1.0
  *
  * @param WP_Post $post Post object.
  * @param array   $box {
@@ -112,7 +255,7 @@ function wp_user_alerts_users_picker() {
  *     }
  * }
  */
-function wp_user_alerts_groups_picker( $post, $box ) {
+function wp_user_alerts_groups_picker( $post, $box = array() ) {
 
 	// Get args from box array
 	$args = ! empty( $box['args'] )

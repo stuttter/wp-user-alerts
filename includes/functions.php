@@ -27,6 +27,26 @@ function wp_register_default_user_alert_post_types() {
  */
 function wp_user_alerts_get_alert_types() {
 	return apply_filters( 'wp_user_alerts_get_alert_types', array(
+	   'users' => (object) array(
+		   'name'     => esc_html__( 'Users', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_users_picker'
+	   ),
+	   'roles' => (object) array(
+		   'name'     => esc_html__( 'Roles', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_roles_picker'
+	   )
+	) );
+}
+
+/**
+ * Return an array of registered alert methods
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_alerts_get_alert_methods() {
+	return apply_filters( 'wp_user_alerts_get_alert_methods', array(
 	   'email' => (object) array(
 		   'name'     => esc_html__( 'Email', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_email'
@@ -38,6 +58,46 @@ function wp_user_alerts_get_alert_types() {
 	   'popup' => (object) array(
 		   'name'     => esc_html__( 'Pop-up', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_modal'
+	   )
+	) );
+}
+
+/**
+ * Return an array of registered alert severities
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_alerts_get_alert_severities() {
+	return apply_filters( 'wp_user_alerts_get_alert_severities', array(
+	   'info' => (object) array(
+		   'name'     => esc_html__( 'Info', 'wp-user-alerts' ),
+		   'callback' => ''
+	   ),
+	   'notice' => (object) array(
+		   'name'     => esc_html__( 'Notice', 'wp-user-alerts' ),
+		   'callback' => ''
+	   ),
+	   'warning' => (object) array(
+		   'name'     => esc_html__( 'Warning', 'wp-user-alerts' ),
+		   'callback' => ''
+	   ),
+	   'error' => (object) array(
+		   'name'     => esc_html__( 'Error', 'wp-user-alerts' ),
+		   'callback' => ''
+	   ),
+	   'critical' => (object) array(
+		   'name'     => esc_html__( 'Critical', 'wp-user-alerts' ),
+		   'callback' => ''
+	   ),
+	   'alert' => (object) array(
+		   'name'     => esc_html__( 'Alert', 'wp-user-alerts' ),
+		   'callback' => ''
+	   ),
+	   'emergency' => (object) array(
+		   'name'     => esc_html__( 'Emergency', 'wp-user-alerts' ),
+		   'callback' => ''
 	   )
 	) );
 }
