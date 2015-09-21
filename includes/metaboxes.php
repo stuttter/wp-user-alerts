@@ -44,9 +44,15 @@ function wp_user_alerts_metabox() {
 
 	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 	<table class="form-table rowfat wp-user-alerts">
+		<thead>
+			<th><?php esc_html_e( 'Who to alert',      'wp-user-alerts'); ?></th>
+			<th><?php esc_html_e( 'How to alert them', 'wp-user-alerts'); ?></th>
+		</thead>
+		<tbody>
 
-		<?php do_action( 'wp_user_alerts_metabox_rows' ); ?>
+			<?php do_action( 'wp_user_alerts_metabox_rows' ); ?>
 
+		</tbody>
 	</table>
 
 	<?php
@@ -67,17 +73,9 @@ function wp_user_alerts_default_metabox_rows() {
 ?>
 
 	<tr>
-		<th>
-			<label for="wp_user_alert_users"><?php esc_html_e( 'Who', 'wp-user-alerts'); ?></label>
-		</th>
-
 		<td>
 			<?php wp_user_alerts_types(); ?>
 		</td>
-
-		<th>
-			<label for="wp_user_alert_users_by"><?php esc_html_e( 'How', 'wp-user-alerts'); ?></label>
-		</th>
 
 		<td>
 			<?php wp_user_alerts_methods(); ?>

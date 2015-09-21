@@ -223,7 +223,7 @@ function wp_user_alerts_severity_picker() {
 
 				<li>
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $severity_id ); ?>" type="radio" name="alert_severity[]" id="" />
+						<input value="<?php echo esc_attr( $severity_id ); ?>" type="radio" name="alert_severity[]" id="" <?php checked( $severity_id, 'info' ); ?> />
 						<?php echo esc_html( $severity->name ); ?>
 					</label>
 				</li>

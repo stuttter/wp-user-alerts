@@ -1,16 +1,27 @@
+#post-body #wp-user-alerts .inside {
+	margin: 0;
+	padding: 0;
+}
+
+table.wp-user-alerts {
+	margin-top: 0;
+}
+
 table.wp-user-alerts th {
-	font-weight: normal;
-	text-align: right;
-	width: 10%;
+	background: #f1f1f1;
+	font-weight: bold;
+	font-size: 13px;
+	text-align: center;
+	padding: 10px;
+}
+
+table.wp-user-alerts td {
+	padding: 0 10px 10px;
+	margin: 0;
 }
 
 table.wp-user-alerts tr:not(.broadcast) td {
 	vertical-align: top;
-	width: 33%;
-}
-
-table.wp-user-alerts .broadcast p {
-	margin-left: 25px;
 }
 
 table.wp-user-alerts .alerts-picker {
