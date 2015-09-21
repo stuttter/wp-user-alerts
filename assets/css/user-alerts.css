@@ -36,3 +36,25 @@ table.wp-user-alerts .alerts-picker {
 table.wp-user-alerts .alerts-picker label {
 	font-size: 13px;
 }
+
+table.wp-user-alerts .alert-severity-info {
+	color: greenyellow;
+}
+table.wp-user-alerts .alert-severity-notice {
+	color: skyblue;
+}
+table.wp-user-alerts .alert-severity-warning {
+	color: lightgray;
+}
+table.wp-user-alerts .alert-severity-error {
+	color: red;
+}
+table.wp-user-alerts .alert-severity-critical {
+	color: darkorchid;
+}
+table.wp-user-alerts .alert-severity-alert {
+	color: darkorange;
+}
+table.wp-user-alerts .alert-severity-emergency {
+	color: darkred;
+}

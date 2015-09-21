@@ -22,6 +22,8 @@ function wp_user_alerts_admin_assets() {
 	wp_enqueue_script( 'wp_user_alerts', $url . '/assets/js/tabs.js',          array( 'jquery' ), $ver, true  );
 }
 
+/** Types *********************************************************************/
+
 /**
  * Output the alert types picker, which allows a post author to pick which users
  * will be alerted. Defaults are "Users" and "Roles" but some other plugins may
@@ -105,7 +107,7 @@ function wp_user_alerts_users_picker( $post_type = '', $visible = '' ) {
 
 			<?php foreach ( $users as $user ) : ?>
 
-				<li>
+				<li class="alert-user-<?php echo esc_attr( $user->user_nicename ); ?>">
 					<label class="selectit">
 						<input value="<?php echo esc_attr( $user->ID ); ?>" type="checkbox" name="user_alert[]" id="" />
 						<?php echo esc_html( sprintf( '%s - %s', $user->display_name, $user->user_email ) ); ?>
@@ -138,7 +140,7 @@ function wp_user_alerts_roles_picker( $post_type = '', $visible = '' ) {
 
 			<?php foreach ( $roles as $role => $details ) : ?>
 
-				<li>
+				<li class="alert-role-<?php echo esc_attr( $role ); ?>">
 					<label class="selectit">
 						<input value="<?php echo esc_attr( $role ); ?>" type="checkbox" name="role_alert[]" id="" />
 						<?php echo translate_user_role( $details['name'] ); ?>
@@ -153,6 +155,13 @@ function wp_user_alerts_roles_picker( $post_type = '', $visible = '' ) {
 	<?php
 }
 
+/** Methods *******************************************************************/
+
+/**
+ * Output user alert methods section
+ *
+ * @since 0.1.0
+ */
 function wp_user_alerts_methods() {
 ?>
 
@@ -188,7 +197,7 @@ function wp_user_alerts_methods_picker() {
 
 			<?php foreach ( $methods as $method_id => $method ) : ?>
 
-				<li>
+				<li class="alert-method-<?php echo esc_attr( $method_id ); ?>">
 					<label class="selectit">
 						<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="user_alert[]" id="" />
 						<?php echo esc_html( $method->name ); ?>
@@ -221,7 +230,7 @@ function wp_user_alerts_severity_picker() {
 
 			<?php foreach ( $severities as $severity_id => $severity ) : ?>
 
-				<li>
+				<li class="alert-severity-<?php echo esc_attr( $severity_id ); ?>">
 					<label class="selectit">
 						<input value="<?php echo esc_attr( $severity_id ); ?>" type="radio" name="alert_severity[]" id="" <?php checked( $severity_id, 'info' ); ?> />
 						<?php echo esc_html( $severity->name ); ?>
