@@ -38,7 +38,7 @@ table.wp-user-alerts .alerts-picker label {
 }
 
 table.wp-user-alerts .alert-severity-info {
-	color: greenyellow;
+	color: limegreen;
 }
 table.wp-user-alerts .alert-severity-notice {
 	color: skyblue;
