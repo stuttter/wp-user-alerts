@@ -21,17 +21,19 @@ defined( 'ABSPATH' ) || exit;
 function _wp_user_alerts() {
 
 	// Get the plugin path
-	$plugin_path = plugin_dir_path( __FILE__ );
+	$dir = plugin_dir_path( __FILE__ );
 
-	// Required files
-	require $plugin_path . 'includes/class-user-alerts.php';
-	require $plugin_path . 'includes/class-wp-user-groups-walker.php';
-	require $plugin_path . 'includes/functions.php';
-	require $plugin_path . 'includes/admin.php';
-	require $plugin_path . 'includes/post-types.php';
-	require $plugin_path . 'includes/metadata.php';
-	require $plugin_path . 'includes/metaboxes.php';
-	require $plugin_path . 'includes/hooks.php';
+	// Include the files
+	include $dir . '/includes/admin.php';
+	require $dir . 'includes/class-user-alerts.php';
+	require $dir . 'includes/class-wp-user-groups-walker.php';
+	include $dir . '/includes/capabilities.php';
+	include $dir . '/includes/functions.php';
+	include $dir . '/includes/post-types.php';
+	//include $dir . '/includes/taxonomies.php';
+	include $dir . '/includes/metadata.php';
+	include $dir . '/includes/metaboxes.php';
+	include $dir . '/includes/hooks.php';
 }
 add_action( 'plugins_loaded', '_wp_user_alerts' );
 
