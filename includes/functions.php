@@ -125,3 +125,25 @@ function wp_user_alerts_users_by_email( $users = array(), $post = 0 ) {
 function wp_user_alerts_users_by_web( $users = array(), $post = 0 ) {
 
 }
+
+/**
+ * Insert an alert
+ *
+ * @todo everything
+ *
+ * @since 0.1.0
+ *
+ * @param array $args
+ */
+function wp_user_alerts_insert( $args = array() ) {
+
+	// Parse args
+	$r = wp_parse_args( $args, array(
+		'post_parent'  => 0,
+		'post_author'  => 0,
+		'post_content' => ''
+	) );
+
+	// Insert the post
+	wp_insert_post( $r );
+}
