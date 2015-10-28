@@ -18,8 +18,8 @@ function wp_user_alerts_admin_assets() {
 	$url = wp_user_alerts_get_plugin_url();
 	$ver = wp_user_alerts_get_asset_version();
 
-	wp_enqueue_style( 'wp_user_alerts',  $url . '/assets/css/user-alerts.css', false,             $ver, false );
-	wp_enqueue_script( 'wp_user_alerts', $url . '/assets/js/metabox.js',       array( 'jquery' ), $ver, true  );
+	wp_enqueue_style( 'wp_user_alerts',  $url . 'assets/css/user-alerts.css', false,             $ver, false );
+	wp_enqueue_script( 'wp_user_alerts', $url . 'assets/js/metabox.js',       array( 'jquery' ), $ver, true  );
 }
 
 /**
