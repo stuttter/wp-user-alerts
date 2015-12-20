@@ -15,9 +15,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 0.1.0
  */
 function wp_user_alerts_register_post_metadata() {
-	register_meta( 'post', 'wp_user_alert_type',     'wp_user_alerts_sanitize_types'      );
-	register_meta( 'post', 'wp_user_alert_method',   'wp_user_alerts_sanitize_methods'    );
-	register_meta( 'post', 'wp_user_alert_severity', 'wp_user_alerts_sanitize_severities' );
+	register_meta( 'post', 'wp_user_alert_types',      'wp_user_alerts_sanitize_types'      );
+	register_meta( 'post', 'wp_user_alert_methods',    'wp_user_alerts_sanitize_methods'    );
+	register_meta( 'post', 'wp_user_alert_severities', 'wp_user_alerts_sanitize_severities' );
 }
 
 /**
