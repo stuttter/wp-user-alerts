@@ -4,10 +4,10 @@
  * Plugin Name: WP User Alerts
  * Plugin URI:  https://wordpress.org/plugins/wp-user-alerts/
  * Description: Alert users of goings-on when posting new content
- * Author:      John James Jacoby
  * Version:     0.1.0
- * Author URI:  https://profiles.wordpress.org/johnjamesjacoby/
- * License:     GPL v2 or later
+ * Author:      John James Jacoby
+ * Author URI:  http://jjj.me
+ * License:     GPLv2 or later
  */
 
 // Exit if accessed directly
@@ -21,19 +21,17 @@ defined( 'ABSPATH' ) || exit;
 function _wp_user_alerts() {
 
 	// Get the plugin path
-	$dir = plugin_dir_path( __FILE__ );
+	$plugin_path = plugin_dir_path( __FILE__ );
 
-	// Include the files
-	include $dir . '/includes/admin.php';
-	require $dir . 'includes/class-user-alerts.php';
-	require $dir . 'includes/class-wp-user-groups-walker.php';
-	include $dir . '/includes/capabilities.php';
-	include $dir . '/includes/functions.php';
-	include $dir . '/includes/post-types.php';
-	//include $dir . '/includes/taxonomies.php';
-	include $dir . '/includes/metadata.php';
-	include $dir . '/includes/metaboxes.php';
-	include $dir . '/includes/hooks.php';
+	// Required files
+	require $plugin_path . 'includes/class-user-alerts.php';
+	require $plugin_path . 'includes/class-wp-user-groups-walker.php';
+	require $plugin_path . 'includes/functions.php';
+	require $plugin_path . 'includes/admin.php';
+	require $plugin_path . 'includes/post-types.php';
+	require $plugin_path . 'includes/metadata.php';
+	require $plugin_path . 'includes/metaboxes.php';
+	require $plugin_path . 'includes/hooks.php';
 }
 add_action( 'plugins_loaded', '_wp_user_alerts' );
 
