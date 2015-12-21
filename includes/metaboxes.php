@@ -146,7 +146,8 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 
 		<tr class="user-cellular-carrier">
 			<th><label for="cellular_carrier"><?php esc_html_e( 'Carrier', 'wp-user-alerts' ); ?></label></th>
-			<td><select name="cellular_carrier" id="cellular_carrier" >
+			<td>
+				<select name="cellular_carrier" id="cellular_carrier" >
 				<option value="0" <?php selected( false, $user->cellular_carrier ); ?>><?php esc_html_e( '&mdash; Not Listed &mdash; ', 'wp-user-alerts' ); ?></option>
 
 				<?php foreach ( $carriers as $carrier_id => $carrier ) : ?>
@@ -155,7 +156,9 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 
 				<?php endforeach; ?>
 
-			</select></td>
+				</select>
+				<p class="description"><?php esc_html_e( 'Usage charges may apply to incoming messages. Please check with your cellular carrier for more information.', 'wp-user-alerts' ); ?></p>
+			</td>
 		</tr>
 	</table>
 
