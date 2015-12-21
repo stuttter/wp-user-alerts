@@ -151,3 +151,49 @@ function wp_user_alerts_insert( $args = array() ) {
 	// Insert the post
 	wp_insert_post( $r );
 }
+
+/**
+ * Return array of cellular carriers
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_alerts_get_cellular_carriers() {
+	return apply_filters( 'wp_user_alerts_get_cellular_carriers', array(
+
+		// American
+		'att' => (object) array(
+			'name'   => 'AT&T',
+			'format' => '@txt.att.net'
+		),
+		'comcast' => (object) array(
+			'name'   => 'Comcast',
+			'format' => '@comcastpcs.textmsg.com'
+		),
+		'dobson' => (object) array(
+			'name'   => 'Dobson',
+			'format' => '@mobile.dobson.net'
+		),
+		'sprint' => (object) array(
+			'name'   => 'Sprint',
+			'format' => '@messaging.sprintpcs.com'
+		),
+		't-mobile' => (object) array(
+			'name'   => 'T-Mobile',
+			'format' => '@tmomail.net'
+		),
+		'uscellular' => (object) array(
+			'name'   => 'U.S. Cellular',
+			'format' => '@email.uscc.net'
+		),
+		'virgin' => (object) array(
+			'name'   => 'Virgin',
+			'format' => '@vmobl.com'
+		),
+		'verizon' => (object) array(
+			'name'   => 'Verizon',
+			'format' => '@vtext.com'
+		),
+	) );
+}
