@@ -108,3 +108,14 @@ table.wp-user-alerts .alert-preview .panel[data-severity="emergency"] {
 	color: #db2828;
 	background-color: #ffe8e6;
 }
+
+.categorychecklist span.label {
+	display: inline-block;
+	border-radius: 3px;
+	background-color: #eee;
+	color: #555;
+	font-weight: 600;
+	font-size: 10px;
+	padding: 0 8px;
+	margin: -1px 0 0 0;
+}
