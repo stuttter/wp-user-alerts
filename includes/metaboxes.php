@@ -105,6 +105,83 @@ function wp_user_alerts_metabox_preview() {
 <?php
 }
 
+/** User Profiles *************************************************************/
+
+/**
+ * Output an SMS metabox
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_add_sms_metabox( $type = '', $user = null ) {
+
+	// Register metabox for the user's SMS preferences
+	add_meta_box(
+		'smsdiv',
+		_x( 'Cellular', 'users user-admin edit screen', 'wp-user-alerts' ),
+		'wp_user_alerts_sms_metabox',
+		$type,
+		'normal',
+		'core',
+		$user
+	);
+}
+
+/**
+ * Output the SMS metabox
+ *
+ * @since 0.1.0
+ *
+ * @param object $user
+ */
+function wp_user_alerts_sms_metabox( $user = null ) {
+
+	// Get cellular carriers
+	$carriers = wp_user_alerts_get_cellular_carriers(); ?>
+
+	<table class="form-table">
+		<tr class="user-cellular-number-wrap">
+			<th><label for="cellular_number"><?php esc_html_e( 'Number', 'wp-user-alerts' ); ?></label></th>
+			<td><input type="tel" name="cellular_number" id="cellular_number" value="<?php echo esc_attr( $user->cellular_number ); ?>" class="regular-text"></td>
+		</tr>
+
+		<tr class="user-cellular-carrier">
+			<th><label for="cellular_carrier"><?php esc_html_e( 'Carrier', 'wp-user-alerts' ); ?></label></th>
+			<td><select name="cellular_carrier" id="cellular_carrier" >
+				<option value="0" <?php selected( false, $user->cellular_carrier ); ?>><?php esc_html_e( '&mdash; Not Listed &mdash; ', 'wp-user-alerts' ); ?></option>
+
+				<?php foreach ( $carriers as $carrier_id => $carrier ) : ?>
+
+					<option value="<?php echo esc_attr( $carrier_id ); ?>" <?php selected( $carrier_id, $user->cellular_carrier ); ?>><?php echo esc_html( $carrier->name ); ?></option>
+
+				<?php endforeach; ?>
+
+			</select></td>
+		</tr>
+	</table>
+
+	<?php
+}
+
+/**
+ * Update a user's cellular data
+ *
+ * @since 0.1.0
+ *
+ * @param type $user_id
+ */
+function wp_user_alerts_save_sms_metabox( $user_id = 0 ) {
+
+	// Number
+	if ( isset( $_POST['cellular_number'] ) ) {
+		update_user_meta( $user_id, 'cellular_number', $_POST['cellular_number'] );
+	}
+
+	// Carrier
+	if ( isset( $_POST['cellular_carrier'] ) ) {
+		update_user_meta( $user_id, 'cellular_carrier', $_POST['cellular_carrier'] );
+	}
+}
+
 /** Types *********************************************************************/
 
 /**

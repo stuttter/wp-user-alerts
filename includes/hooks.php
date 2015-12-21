@@ -10,8 +10,8 @@
 defined( 'ABSPATH' ) || exit;
 
 // Global
-add_action( 'init', 'wp_user_alerts_register_post_types'    );
-add_action( 'init', 'wp_user_alerts_register_post_metadata' );
+add_action( 'init', 'wp_user_alerts_register_post_types' );
+add_action( 'init', 'wp_user_alerts_register_metadata'   );
 
 // Register the default alert types
 add_action( 'init', 'wp_register_default_user_alert_post_types' );
@@ -24,6 +24,13 @@ add_action( 'admin_head', 'wp_user_alerts_admin_assets' );
 
 // Maybe add a metabox
 add_action( 'add_meta_boxes', 'wp_user_alerts_admin_metaboxes' );
+
+// User Profiles metabox
+add_action( 'wp_user_profiles_add_account_meta_boxes', 'wp_user_alerts_add_sms_metabox', 10, 2 );
+
+// Save User Profile
+add_action( 'personal_options_update',  'wp_user_alerts_save_sms_metabox' );
+add_action( 'edit_user_profile_update', 'wp_user_alerts_save_sms_metabox' );
 
 // Support for User Groups
 add_filter( 'wp_user_alerts_get_alert_types', 'wp_user_alerts_add_user_groups_to_types' );
