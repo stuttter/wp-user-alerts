@@ -24,14 +24,16 @@ function _wp_user_alerts() {
 	$plugin_path = plugin_dir_path( __FILE__ );
 
 	// Required files
-	require $plugin_path . 'includes/class-user-alerts.php';
-	require $plugin_path . 'includes/class-wp-user-groups-walker.php';
-	require $plugin_path . 'includes/functions.php';
-	require $plugin_path . 'includes/admin.php';
-	require $plugin_path . 'includes/post-types.php';
-	require $plugin_path . 'includes/metadata.php';
-	require $plugin_path . 'includes/metaboxes.php';
-	require $plugin_path . 'includes/hooks.php';
+	require_once $plugin_path . 'includes/capabilities.php';
+	require_once $plugin_path . 'includes/class-user-alerts.php';
+	require_once $plugin_path . 'includes/class-wp-user-groups-walker.php';
+	require_once $plugin_path . 'includes/functions.php';
+	require_once $plugin_path . 'includes/admin.php';
+	require_once $plugin_path . 'includes/post-types.php';
+	require_once $plugin_path . 'includes/metadata.php';
+	require_once $plugin_path . 'includes/metaboxes.php';
+	require_once $plugin_path . 'includes/user-groups.php';
+	require_once $plugin_path . 'includes/hooks.php';
 }
 add_action( 'plugins_loaded', '_wp_user_alerts' );
 
