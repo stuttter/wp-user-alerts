@@ -25,6 +25,9 @@ add_action( 'admin_head', 'wp_user_alerts_admin_assets' );
 // Maybe add a metabox
 add_action( 'add_meta_boxes', 'wp_user_alerts_admin_metaboxes' );
 
+// Support for User Groups
+add_filter( 'wp_user_alerts_get_alert_types', 'wp_user_alerts_add_user_groups_to_types' );
+
 // Default rows
 add_action( 'wp_user_alerts_metabox_rows', 'wp_user_alerts_metabox_who_and_how' );
 add_action( 'wp_user_alerts_metabox_rows', 'wp_user_alerts_metabox_preview'     );
