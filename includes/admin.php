@@ -220,9 +220,17 @@ function wp_user_alerts_add_dropdown_filters( $post_type = '' ) {
 	<select name="wp-user-alerts-user" id="wp-user-alerts-user">
 		<option value="0"><?php esc_html_e( 'All users', 'wp-user-alerts' ); ?></option>
 
-		<?php foreach ( $users as $user ) : ?>
+		<?php foreach ( $users as $user ) :
+			$user->filter = 'display';
 
-			<option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( $current_user ); ?>><?php echo esc_html( $user->display_name ); ?></option>
+			// Prefer first & last name, fallback to display name
+			if ( ! empty( $user->first_name ) && ! empty( $user->last_name ) ) {
+				$display_name = "{$user->first_name} {$user->last_name}";
+			} else {
+				$display_name = $user->display_name;
+			} ?>
+
+			<option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( $current_user ); ?>><?php echo esc_html( $display_name ); ?></option>
 
 		<?php endforeach; ?>
 

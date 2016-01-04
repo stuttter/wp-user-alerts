@@ -272,20 +272,26 @@ function wp_user_alerts_users_picker( $args = array() ) {
 	// Query for users
 	$users = get_users( array(
 		'count_total' => false,
-		'fields' => array(
-			'ID', 'display_name', 'user_email'
-		)
+		'orderby'     => 'display_name'
 	) ); ?>
 
 	<div id="alert-users" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
 		<ul id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $args['post_type'] ); ?>" class="categorychecklist form-no-clear">
 
-			<?php foreach ( $users as $user ) : ?>
+			<?php foreach ( $users as $user ) :
+				$user->filter = 'display';
+
+				// Prefer first & last name, fallback to display name
+				if ( ! empty( $user->first_name ) && ! empty( $user->last_name ) ) {
+					$display_name = "{$user->first_name} {$user->last_name}";
+				} else {
+					$display_name = $user->display_name;
+				} ?>
 
 				<li class="alert-user-<?php echo esc_attr( $user->user_nicename ); ?>">
 					<label class="selectit">
 						<input value="<?php echo esc_attr( $user->ID ); ?>" type="checkbox" name="user_alert[]" id="" />
-						<?php echo esc_html( sprintf( '%s - %s', $user->display_name, $user->user_email ) ); ?>
+						<?php echo esc_html( sprintf( '%s - %s', $display_name, $user->user_email ) ); ?>
 					</label>
 				</li>
 
