@@ -47,9 +47,11 @@ table.wp-user-alerts .alerts-picker {
 	background-color: #fdfdfd;
 }
 
+table.wp-user-alerts .alerts-picker select[multiple="multiple"],
 table.wp-user-alerts .alerts-picker .chosen-container-multi {
 	margin-top: 20px;
-	max-width: 350px;
+	max-width: 400px;
+	width: 99%;
 }
 table.wp-user-alerts .alerts-picker .chosen-container-multi .search-field input {
 	width: 150px;
