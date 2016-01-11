@@ -54,7 +54,11 @@ function wp_user_alerts_user_group_picker( $args = array() ) {
 		'taxonomy'     => $args['object_id'],
 		'hierarchical' => 0,
 		'hide_empty'   => 0
-	) ); ?>
+	) );
+
+	// Get meta data
+	$post  = get_post();
+	$_meta = wp_parse_id_list( get_post_meta( $post->ID, 'wp_user_alerts_user_group_' . $args['object_id'] ) ); ?>
 
 	<div id="alert-<?php echo esc_attr( $args['object_id'] ); ?>" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
 		<ul data-wp-lists="list:<?php echo esc_attr( $args['post_type'] ); ?>" class="categorychecklist form-no-clear">
@@ -63,7 +67,7 @@ function wp_user_alerts_user_group_picker( $args = array() ) {
 
 				<li class="alert-<?php echo esc_attr( $args['object_id'] ); ?>-<?php echo esc_attr( $details->term_id ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $details->term_id ); ?>" type="checkbox" name="role_alert[]" id="" />
+						<input value="<?php echo esc_attr( $details->term_id ); ?>" type="checkbox" name="wp_user_alerts_user_group_<?php echo esc_attr( $args['object_id'] ); ?>[]" id="" <?php checked( in_array( $details->term_id, $_meta, true ) ); ?> />
 						<?php echo translate_user_role( $details->name ); ?>
 						<span class="label"><?php printf( _n( '%s Person', '%s People', $details->count, 'wp-user-alerts' ), number_format_i18n( $details->count ) ); ?></span>
 					</label>
@@ -75,4 +79,55 @@ function wp_user_alerts_user_group_picker( $args = array() ) {
 	</div>
 
 	<?php
+}
+
+/**
+ * Delete User Groups meta
+ *
+ * @since 0.1.0
+ *
+ * @param  int     $post_id
+ * @param  object  $post
+ */
+function wp_user_alerts_delete_user_groups_meta( $post_id = 0, $post = null ) {
+
+	// Bail if User Groups is not active
+	if ( ! function_exists( '_wp_user_groups' ) ) {
+		return;
+	}
+
+	$groups = array_keys( wp_get_user_group_objects() );
+
+	// Add user groups to "Who to Alert" section
+	foreach ( $groups as $taxonomy ) {
+		delete_user_meta( $post_id, "wp_user_alerts_user_group_{$taxonomy}" );
+	}
+}
+
+/**
+ * Delete User Groups meta
+ *
+ * @since 0.1.0
+ *
+ * @param  int     $post_id
+ * @param  object  $post
+ */
+function wp_user_alerts_add_user_groups_meta( $post_id = 0, $post = null ) {
+
+	// Bail if User Groups is not active
+	if ( ! function_exists( '_wp_user_groups' ) ) {
+		return;
+	}
+
+	$groups = array_keys( wp_get_user_group_objects() );
+
+	// Add user groups to "Who to Alert" section
+	foreach ( $groups as $taxonomy ) {
+		$key = "wp_user_alerts_user_group_{$taxonomy}";
+		if ( ! empty( $_POST[ $key ] ) ) {
+			foreach ( $_POST[ $key ] as $term_id ) {
+				add_post_meta( $post_id, $key, $term_id );
+			}
+		}
+	}
 }

@@ -37,6 +37,8 @@ add_action( 'edit_user_profile_update', 'wp_user_alerts_save_sms_metabox' );
 
 // Support for User Groups
 add_filter( 'wp_user_alerts_get_alert_types', 'wp_user_alerts_add_user_groups_to_types' );
+add_filter( 'wp_user_alerts_delete_metas',    'wp_user_alerts_delete_user_groups_meta'  );
+add_filter( 'wp_user_alerts_add_metas',       'wp_user_alerts_add_user_groups_meta'     );
 
 // Default rows
 add_action( 'wp_user_alerts_metabox_rows', 'wp_user_alerts_metabox_who_and_how' );

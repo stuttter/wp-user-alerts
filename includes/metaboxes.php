@@ -159,8 +159,8 @@ function wp_user_alerts_save_alerts_metabox( $post_id = 0, $post = null ) {
 		}
 	}
 
-	// Save any other metas
-	do_action( 'wp_user_alerts_save_metas', $post_id, $post );
+	// Add any other metas
+	do_action( 'wp_user_alerts_add_metas', $post_id, $post );
 }
 
 /** User Profiles *************************************************************/
