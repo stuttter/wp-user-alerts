@@ -471,7 +471,7 @@ function wp_user_alerts_priority_picker() {
 
 				<li class="alert-priority-<?php echo esc_attr( $priority_id ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $priority_id ); ?>" type="radio" name="wp_user_alerts_priorities[]" class="alert-priority" data-priority="<?php echo esc_attr( $priority_id ); ?>" id="" <?php checked( in_array( $priority_id, $_meta, true ) ); ?> />
+						<input value="<?php echo esc_attr( $priority_id ); ?>" type="radio" name="wp_user_alerts_priorities[]" class="alert-priority" data-priority="<?php echo esc_attr( $priority_id ); ?>" id="" <?php checked( in_array( $priority_id, $_meta, true ) || ( 'info' === $priority_id ) ); ?> />
 						<?php echo esc_html( $priority->name ); ?>
 					</label>
 				</li>
