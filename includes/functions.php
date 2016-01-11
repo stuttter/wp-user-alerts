@@ -189,3 +189,55 @@ function wp_user_alerts_get_cellular_carriers() {
 		),
 	) );
 }
+
+/**
+ * Send all of the alerts
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_maybe_do_all_alerts( $post_id = 0, $post = null ) {
+
+	// Bail on autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	// Bail if not supported
+	if ( ! post_type_supports( $post->post_type, 'alerts' ) ) {
+		return;
+	}
+
+	// Bail if not publishing
+	if ( 'publish' !== get_post_status( $post_id ) ) {
+		return;
+	}
+
+	// Bespoke users
+	$users = ! empty( $_POST['wp_user_alerts_users'] )
+		? wp_parse_id_list( $_POST['wp_user_alerts_users'] )
+		: array();
+
+	// Bespoke users
+	$methods = ! empty( $_POST['wp_user_alerts_methods'] )
+		? array_map( 'sanitize_key', $_POST['wp_user_alerts_methods'] )
+		: array();
+
+	// Roles to get users from
+	$roles = ! empty( $_POST['wp_user_alerts_roles'] )
+		? array_map( 'sanitize_key', $_POST['wp_user_alerts_roles'] )
+		: array();
+
+	// Strip the post for Email
+	$subject = '[Alert]' . wp_kses( $post->post_title, array() );
+	$message = 'This is a test.<br><br>' . wp_kses( $post->post_content, array() );
+
+	// Loop through users and send email
+	if ( in_array( 'email', $methods, true ) ) {
+		foreach ( $users as $user_id ) {
+			$user = get_userdata( $user_id );
+			if ( ! empty( $user->user_email ) ) {
+				wp_mail( $user->user_email, $subject, $message );
+			}
+		}
+	}
+}
