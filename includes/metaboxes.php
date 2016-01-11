@@ -44,10 +44,6 @@ function wp_user_alerts_metabox() {
 
 	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 	<table class="form-table rowfat wp-user-alerts">
-		<thead>
-			<th><?php esc_html_e( 'Who to alert',      'wp-user-alerts'); ?></th>
-			<th><?php esc_html_e( 'How to alert them', 'wp-user-alerts'); ?></th>
-		</thead>
 		<tbody>
 
 			<?php do_action( 'wp_user_alerts_metabox_rows' ); ?>
