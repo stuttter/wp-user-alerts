@@ -23,11 +23,11 @@ jQuery( document ).ready( function ( $ ) {
 	} );
 
 	/* Preview */
-	$( 'input[type=radio].alert-severity' ).change( function () {
-		var severity = $( this ).data( 'severity' ),
+	$( 'input[type=radio].alert-priority' ).change( function () {
+		var priority = $( this ).data( 'priority' ),
 			panel    = $( '.alert-preview .panel' );
 
-		panel.attr( 'data-severity', severity );
+		panel.attr( 'data-priority', priority );
 	} );
 
 	$( 'textarea.wp-editor-area' ).bind( 'input propertychange', function() {

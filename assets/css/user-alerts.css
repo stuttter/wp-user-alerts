@@ -15,9 +15,22 @@ table.wp-user-alerts th {
 	padding: 10px;
 }
 
-table.wp-user-alerts td {
-	padding: 0 10px 10px;
-	margin: 0;
+@media screen and ( max-width: 786px ) {
+	table.wp-user-alerts td {
+		padding-left: 10px;
+	}
+}
+
+@media screen and ( min-width: 786px ) {
+	table.wp-user-alerts td {
+		padding: 0 10px 10px;
+		margin: 0;
+		width: 50%;
+	}
+
+	table.wp-user-alerts .who-and-how td:first-of-type {
+		padding-right: 0;
+	}
 }
 
 table.wp-user-alerts tr:not(.broadcast) td {
@@ -25,7 +38,8 @@ table.wp-user-alerts tr:not(.broadcast) td {
 }
 
 table.wp-user-alerts .alerts-picker {
-	min-height: 42px;
+	height: 150px;
+	min-height: 150px;
 	max-height: 200px;
 	overflow: auto;
 	padding: 0 0.9em;
@@ -33,29 +47,34 @@ table.wp-user-alerts .alerts-picker {
 	background-color: #fdfdfd;
 }
 
+table.wp-user-alerts .alerts-picker .chosen-container-multi {
+	margin-top: 20px;
+	max-width: 350px;
+}
+table.wp-user-alerts .alerts-picker .chosen-container-multi .search-field input {
+	width: 150px;
+}
+table.wp-user-alerts #alert-users {
+	overflow: visible;
+}
+
 table.wp-user-alerts .alerts-picker label {
 	font-size: 13px;
 }
 
-table.wp-user-alerts .alert-severity-info {
+table.wp-user-alerts .alert-priority-info {
 	color: #2185d0;
 }
-table.wp-user-alerts .alert-severity-notice {
+table.wp-user-alerts .alert-priority-reminder {
 	color: #1ebc30;
 }
-table.wp-user-alerts .alert-severity-warning {
-	color: #b58105;
-}
-table.wp-user-alerts .alert-severity-error {
-	color: #e03997;
-}
-table.wp-user-alerts .alert-severity-critical {
+table.wp-user-alerts .alert-priority-important {
 	color: #6435c9;
 }
-table.wp-user-alerts .alert-severity-alert {
+table.wp-user-alerts .alert-priority-alert {
 	color: #f2711c;
 }
-table.wp-user-alerts .alert-severity-emergency {
+table.wp-user-alerts .alert-priority-emergency {
 	color: #db2828;
 }
 
@@ -74,37 +93,27 @@ table.wp-user-alerts .alert-preview .panel {
 	box-shadow: 0 0 0 1px rgba(34, 36, 38, .22) inset, 0 0 0 0 transparent;
 }
 
-table.wp-user-alerts .alert-preview .panel[data-severity="info"] {
+table.wp-user-alerts .alert-preview .panel[data-priority="info"] {
 	color: #2185d0;
 	background-color: #dff0ff;	
 }
 
-table.wp-user-alerts .alert-preview .panel[data-severity="notice"] {
+table.wp-user-alerts .alert-preview .panel[data-priority="reminder"] {
 	color: #1ebc30;
 	background-color: #e5f9e7;
 }
 
-table.wp-user-alerts .alert-preview .panel[data-severity="warning"] {
-	color: #b58105;
-	background-color: #fff8db;
-}
-
-table.wp-user-alerts .alert-preview .panel[data-severity="error"] {
-	color: #e03997;
-	background-color: #ffe3fb;
-}
-
-table.wp-user-alerts .alert-preview .panel[data-severity="critical"] {
+table.wp-user-alerts .alert-preview .panel[data-priority="important"] {
 	color: #6435c9;
 	background-color: #eae7ff;
 }
 
-table.wp-user-alerts .alert-preview .panel[data-severity="alert"] {
+table.wp-user-alerts .alert-preview .panel[data-priority="alert"] {
 	color: #f2711c;
 	background-color: #ffedde;
 }
 
-table.wp-user-alerts .alert-preview .panel[data-severity="emergency"] {
+table.wp-user-alerts .alert-preview .panel[data-priority="emergency"] {
 	color: #db2828;
 	background-color: #ffe8e6;
 }

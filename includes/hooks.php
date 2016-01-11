@@ -26,7 +26,7 @@ add_action( 'admin_head', 'wp_user_alerts_admin_assets' );
 add_action( 'add_meta_boxes', 'wp_user_alerts_admin_metaboxes' );
 
 // User Profiles metabox
-add_action( 'wp_user_profiles_add_account_meta_boxes', 'wp_user_alerts_add_sms_metabox', 10, 2 );
+add_action( 'wp_user_profiles_add_profile_meta_boxes', 'wp_user_alerts_add_sms_metabox', 10, 2 );
 
 // Save User Profile
 add_action( 'personal_options_update',  'wp_user_alerts_save_sms_metabox' );

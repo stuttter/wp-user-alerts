@@ -95,7 +95,7 @@ function wp_user_alerts_metabox_preview() {
 
 	<tr class="alert-preview">
 		<td colspan="2">
-			<div class="panel" data-severity="info">
+			<div class="panel" data-priority="info">
 				<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y g:i a:' ); ?></div>
 				<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
 			</div>
@@ -208,25 +208,21 @@ function wp_user_alerts_types() {
 	// Start an output buffer
 	ob_start(); ?>
 
-	<ul id="user-alert-who-tabs" class="category-tabs">
+	<ul id="user-alert-who-tabs" class="category-tabs"><?php
+		foreach ( $types as $type_id => $type ) {
+			if ( empty( $type->name ) ) {
+				continue;
+			}
 
-		<?php
+			$class = empty( $position )
+				? 'tabs'
+				: 'hide-if-no-js';
 
-		foreach ( $types as $type_id => $type ) :
-			if ( ! empty( $type->name ) ) :
-				$class = empty( $position ) ? 'tabs' : 'hide-if-no-js'; ?>
+			?><li class="<?php echo esc_attr( $class ); ?>"><a href="#alert-<?php echo esc_attr( $type_id ); ?>"><?php echo esc_html( $type->name ); ?></a></li><?php
 
-				<li class="<?php echo esc_attr( $class ); ?>">
-					<a href="#alert-<?php echo esc_attr( $type_id ); ?>"><?php echo esc_html( $type->name ); ?></a>
-				</li>
-
-		<?php
 			++$position;
-
-			endif;
-		endforeach; ?>
-
-	</ul>
+		}
+	?></ul>
 
 	<?php
 
@@ -276,7 +272,7 @@ function wp_user_alerts_users_picker( $args = array() ) {
 	) ); ?>
 
 	<div id="alert-users" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
-		<select name="user_alert[]" id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" multiple="multiple"><?php
+		<select data-placeholder="<?php esc_html_e( 'Search for People', 'wp-user-alerts' );?>" name="user_alert[]" id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" multiple="multiple"><?php
 
 			foreach ( $users as $user ) :
 				$user->filter = 'display';
@@ -340,7 +336,7 @@ function wp_user_alerts_methods() {
 
 	<ul id="user-alert-how-tabs" class="category-tabs">
 		<li class="tabs"><a href="#alert-methods"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></a></li>
-		<li class="hide-if-no-js"><a href="#alert-severities"><?php esc_html_e( 'Severities', 'wp-user-alerts' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#alert-priorities"><?php esc_html_e( 'Priorities', 'wp-user-alerts' ); ?></a></li>
 	</ul>
 
 <?php
@@ -348,8 +344,8 @@ function wp_user_alerts_methods() {
 	// Methods
 	wp_user_alerts_methods_picker();
 
-	// Severities
-	wp_user_alerts_severity_picker();
+	// Priorities
+	wp_user_alerts_priority_picker();
 }
 
 /**
@@ -390,23 +386,23 @@ function wp_user_alerts_methods_picker() {
  *
  * @since 0.1.0
  */
-function wp_user_alerts_severity_picker() {
+function wp_user_alerts_priority_picker() {
 
 	// Get the post type
 	$post_type = get_post_type();
 
 	// Query for users
-	$severities = wp_user_alerts_get_alert_severities(); ?>
+	$priorities = wp_user_alerts_get_alert_priorities(); ?>
 
-	<div id="alert-severities" class="tabs-panel alerts-picker" style="display: none;">
+	<div id="alert-priorities" class="tabs-panel alerts-picker" style="display: none;">
 		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
 
-			<?php foreach ( $severities as $severity_id => $severity ) : ?>
+			<?php foreach ( $priorities as $priority_id => $priority ) : ?>
 
-				<li class="alert-severity-<?php echo esc_attr( $severity_id ); ?>">
+				<li class="alert-priority-<?php echo esc_attr( $priority_id ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $severity_id ); ?>" type="radio" name="alert_severity[]" class="alert-severity" data-severity="<?php echo esc_attr( $severity_id ); ?>" id="" <?php checked( $severity_id, 'info' ); ?> />
-						<?php echo esc_html( $severity->name ); ?>
+						<input value="<?php echo esc_attr( $priority_id ); ?>" type="radio" name="alert_priority[]" class="alert-priority" data-priority="<?php echo esc_attr( $priority_id ); ?>" id="" <?php checked( $priority_id, 'info' ); ?> />
+						<?php echo esc_html( $priority->name ); ?>
 					</label>
 				</li>
 

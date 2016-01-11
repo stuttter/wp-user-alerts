@@ -23,19 +23,22 @@ function wp_user_alerts_add_user_groups_to_types( $types = array() ) {
 		return $types;
 	}
 
+	// Empty types array
+	$new_types = array();
+
 	// Get user groups
 	$groups = wp_get_user_group_objects();
 
 	// Add user groups to "Who to Alert" section
 	foreach ( $groups as $taxonomy_id => $taxonomy ) {
-		$types[ $taxonomy_id ] = (object) array(
+		$new_types[ $taxonomy_id ] = (object) array(
 			'name'      => $taxonomy->labels->name,
 			'callback'  => 'wp_user_alerts_user_group_picker',
 			'object_id' => $taxonomy_id
 	   );
 	}
 
-	return $types;
+	return array_merge( $new_types, $types );
 }
 
 /**

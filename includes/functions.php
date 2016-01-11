@@ -67,32 +67,24 @@ function wp_user_alerts_get_alert_methods() {
 }
 
 /**
- * Return an array of registered alert severities
+ * Return an array of registered alert priorities
  *
  * @since 0.1.0
  *
  * @return array
  */
-function wp_user_alerts_get_alert_severities() {
-	return apply_filters( 'wp_user_alerts_get_alert_severities', array(
+function wp_user_alerts_get_alert_priorities() {
+	return apply_filters( 'wp_user_alerts_get_alert_priorities', array(
 	   'info' => (object) array(
 		   'name'     => esc_html__( 'Info', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
-	   'notice' => (object) array(
-		   'name'     => esc_html__( 'Notice', 'wp-user-alerts' ),
+	   'reminder' => (object) array(
+		   'name'     => esc_html__( 'Reminder', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
-	   'warning' => (object) array(
-		   'name'     => esc_html__( 'Warning', 'wp-user-alerts' ),
-		   'callback' => ''
-	   ),
-	   'error' => (object) array(
-		   'name'     => esc_html__( 'Error', 'wp-user-alerts' ),
-		   'callback' => ''
-	   ),
-	   'critical' => (object) array(
-		   'name'     => esc_html__( 'Critical', 'wp-user-alerts' ),
+	   'important' => (object) array(
+		   'name'     => esc_html__( 'Important', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
 	   'alert' => (object) array(

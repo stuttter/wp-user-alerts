@@ -38,7 +38,7 @@ function wp_user_alerts_manage_posts_columns( $columns = array() ) {
 		'content'  => esc_html__( 'Content',  'wp-user-alerts' ),
 		'who'      => esc_html__( 'Who',      'wp-user-alerts' ),
 		'how'      => esc_html__( 'How',      'wp-user-alerts' ),
-		'severity' => esc_html__( 'Severity', 'wp-user-alerts' )
+		'priority' => esc_html__( 'Priority', 'wp-user-alerts' )
 	);
 
 	// Return overridden columns

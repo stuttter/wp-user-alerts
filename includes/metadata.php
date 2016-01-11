@@ -17,9 +17,10 @@ defined( 'ABSPATH' ) || exit;
 function wp_user_alerts_register_metadata() {
 
 	// Posts
-	register_meta( 'post', 'wp_user_alert_types',      'wp_user_alerts_sanitize_types'      );
+	register_meta( 'post', 'wp_user_alert_roles',      'wp_user_alerts_sanitize_roles'      );
+	register_meta( 'post', 'wp_user_alert_users',      'wp_user_alerts_sanitize_users'      );
 	register_meta( 'post', 'wp_user_alert_methods',    'wp_user_alerts_sanitize_methods'    );
-	register_meta( 'post', 'wp_user_alert_severities', 'wp_user_alerts_sanitize_severities' );
+	register_meta( 'post', 'wp_user_alert_priorities', 'wp_user_alerts_sanitize_priorities' );
 
 	// Users
 	register_meta( 'user', 'cellular_number',  'wp_user_alerts_sanitize_cellular_number'  );
@@ -27,14 +28,25 @@ function wp_user_alerts_register_metadata() {
 }
 
 /**
- * Sanitize user alert types for saving
+ * Sanitize user alert users for saving
  *
  * @since 0.1.0
  *
- * @param array $types
+ * @param array $users
  */
-function wp_user_alerts_sanitize_types( $types = array() ) {
-	return $types;
+function wp_user_alerts_sanitize_users( $users = array() ) {
+	return $users;
+}
+
+/**
+ * Sanitize user alert roles for saving
+ *
+ * @since 0.1.0
+ *
+ * @param array $roles
+ */
+function wp_user_alerts_sanitize_roles( $roles = array() ) {
+	return $roles;
 }
 
 /**
@@ -49,14 +61,14 @@ function wp_user_alerts_sanitize_methods( $methods = array() ) {
 }
 
 /**
- * Sanitize user alert severities for saving
+ * Sanitize user alert priorities for saving
  *
  * @since 0.1.0
  *
- * @param array $severities
+ * @param array $priorities
  */
-function wp_user_alerts_sanitize_severities( $severities = array() ) {
-	return $severities;
+function wp_user_alerts_sanitize_priorities( $priorities = array() ) {
+	return $priorities;
 }
 
 /**
