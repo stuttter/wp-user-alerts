@@ -128,6 +128,9 @@ function wp_user_alerts_save_alerts_metabox( $post_id = 0, $post = null ) {
 	delete_post_meta( $post_id, 'wp_user_alerts_method'   );
 	delete_post_meta( $post_id, 'wp_user_alerts_priority' );
 
+	// Delete any other metas
+	do_action( 'wp_user_alerts_delete_metas', $post_id );
+
 	// Users
 	if ( ! empty( $_POST['wp_user_alerts_users'] ) ) {
 		foreach ( $_POST['wp_user_alerts_users'] as $user_id ) {
@@ -137,24 +140,27 @@ function wp_user_alerts_save_alerts_metabox( $post_id = 0, $post = null ) {
 
 	// Roles
 	if ( ! empty( $_POST['wp_user_alerts_roles'] ) ) {
-		foreach ( $_POST['wp_user_alerts_roles'] as $user_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_role', $user_id );
+		foreach ( $_POST['wp_user_alerts_roles'] as $role_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_role', $role_id );
 		}
 	}
 
 	// Methods
 	if ( ! empty( $_POST['wp_user_alerts_methods'] ) ) {
-		foreach ( $_POST['wp_user_alerts_methods'] as $user_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_method', $user_id );
+		foreach ( $_POST['wp_user_alerts_methods'] as $method_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_method', $method_id );
 		}
 	}
 
 	// Priorities
 	if ( ! empty( $_POST['wp_user_alerts_priorities'] ) ) {
-		foreach ( $_POST['wp_user_alerts_priorities'] as $user_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_priority', $user_id );
+		foreach ( $_POST['wp_user_alerts_priorities'] as $priority_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_priority', $priority_id );
 		}
 	}
+
+	// Save any other metas
+	do_action( 'wp_user_alerts_save_metas', $post_id, $post );
 }
 
 /** User Profiles *************************************************************/
