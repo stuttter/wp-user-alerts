@@ -17,10 +17,11 @@ defined( 'ABSPATH' ) || exit;
 function wp_user_alerts_register_metadata() {
 
 	// Posts
-	register_meta( 'post', 'wp_user_alerts_role',     'wp_user_alerts_sanitize_role'     );
-	register_meta( 'post', 'wp_user_alerts_user',     'wp_user_alerts_sanitize_user'     );
-	register_meta( 'post', 'wp_user_alerts_method',   'wp_user_alerts_sanitize_method'   );
-	register_meta( 'post', 'wp_user_alerts_prioritY', 'wp_user_alerts_sanitize_priority' );
+	register_meta( 'post', 'wp_user_alerts_role',       'wp_user_alerts_sanitize_role'       );
+	register_meta( 'post', 'wp_user_alerts_user',       'wp_user_alerts_sanitize_user'       );
+	register_meta( 'post', 'wp_user_alerts_method',     'wp_user_alerts_sanitize_method'     );
+	register_meta( 'post', 'wp_user_alerts_priority',   'wp_user_alerts_sanitize_priority'   );
+	register_meta( 'post', 'wp_user_alerts_user_group', 'wp_user_alerts_sanitize_user_group' );
 
 	// Users
 	register_meta( 'user', 'cellular_number',  'wp_user_alerts_sanitize_cellular_number'  );
@@ -45,7 +46,7 @@ function wp_user_alerts_sanitize_user( $user = 0 ) {
  *
  * @param string $role
  */
-function wp_user_alerts_sanitize_role( $role = 'spectator' ) {
+function wp_user_alerts_sanitize_role( $role = '' ) {
 	return $role;
 }
 
@@ -56,7 +57,7 @@ function wp_user_alerts_sanitize_role( $role = 'spectator' ) {
  *
  * @param int $method
  */
-function wp_user_alerts_sanitize_method( $method = 0 ) {
+function wp_user_alerts_sanitize_method( $method = '' ) {
 	return $method;
 }
 
@@ -67,8 +68,19 @@ function wp_user_alerts_sanitize_method( $method = 0 ) {
  *
  * @param int $priority
  */
-function wp_user_alerts_sanitize_priority( $priority = 0 ) {
+function wp_user_alerts_sanitize_priority( $priority = '' ) {
 	return $priority;
+}
+
+/**
+ * Sanitize user alert user-group for saving
+ *
+ * @since 0.1.0
+ *
+ * @param int $user_group
+ */
+function wp_user_alerts_sanitize_user_group( $user_group = '' ) {
+	return $user_group;
 }
 
 /**

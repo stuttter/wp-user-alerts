@@ -58,7 +58,7 @@ function wp_user_alerts_user_group_picker( $args = array() ) {
 
 	// Get meta data
 	$post  = get_post();
-	$_meta = wp_parse_id_list( get_post_meta( $post->ID, 'wp_user_alerts_user_group_' . $args['object_id'] ) ); ?>
+	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_user_group' ); ?>
 
 	<div id="alert-<?php echo esc_attr( $args['object_id'] ); ?>" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
 		<ul data-wp-lists="list:<?php echo esc_attr( $args['post_type'] ); ?>" class="categorychecklist form-no-clear">
@@ -67,7 +67,7 @@ function wp_user_alerts_user_group_picker( $args = array() ) {
 
 				<li class="alert-<?php echo esc_attr( $args['object_id'] ); ?>-<?php echo esc_attr( $details->term_id ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $details->term_id ); ?>" type="checkbox" name="wp_user_alerts_user_group_<?php echo esc_attr( $args['object_id'] ); ?>[]" id="" <?php checked( in_array( $details->term_id, $_meta, true ) ); ?> />
+						<input value="<?php echo esc_attr( $args['object_id'] ); ?>-<?php echo esc_attr( $details->term_id ); ?>" type="checkbox" name="wp_user_alerts_user_group[]" id="" <?php checked( in_array( "{$args['object_id']}-{$details->term_id}", $_meta, true ) ); ?> />
 						<?php echo translate_user_role( $details->name ); ?>
 						<span class="label"><?php printf( _n( '%s Person', '%s People', $details->count, 'wp-user-alerts' ), number_format_i18n( $details->count ) ); ?></span>
 					</label>
@@ -96,12 +96,7 @@ function wp_user_alerts_delete_user_groups_meta( $post_id = 0, $post = null ) {
 		return;
 	}
 
-	$groups = array_keys( wp_get_user_group_objects() );
-
-	// Add user groups to "Who to Alert" section
-	foreach ( $groups as $taxonomy ) {
-		delete_user_meta( $post_id, "wp_user_alerts_user_group_{$taxonomy}" );
-	}
+	delete_user_meta( $post_id, 'wp_user_alerts_user_group' );
 }
 
 /**
@@ -119,15 +114,10 @@ function wp_user_alerts_add_user_groups_meta( $post_id = 0, $post = null ) {
 		return;
 	}
 
-	$groups = array_keys( wp_get_user_group_objects() );
-
 	// Add user groups to "Who to Alert" section
-	foreach ( $groups as $taxonomy ) {
-		$key = "wp_user_alerts_user_group_{$taxonomy}";
-		if ( ! empty( $_POST[ $key ] ) ) {
-			foreach ( $_POST[ $key ] as $term_id ) {
-				add_post_meta( $post_id, $key, $term_id );
-			}
+	if ( ! empty( $_POST['wp_user_alerts_user_group'] ) ) {
+		foreach ( $_POST['wp_user_alerts_user_group'] as $group_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_user_group', $group_id );
 		}
 	}
 }
