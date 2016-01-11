@@ -17,10 +17,10 @@ defined( 'ABSPATH' ) || exit;
 function wp_user_alerts_register_metadata() {
 
 	// Posts
-	register_meta( 'post', 'wp_user_alert_roles',      'wp_user_alerts_sanitize_roles'      );
-	register_meta( 'post', 'wp_user_alert_users',      'wp_user_alerts_sanitize_users'      );
-	register_meta( 'post', 'wp_user_alert_methods',    'wp_user_alerts_sanitize_methods'    );
-	register_meta( 'post', 'wp_user_alert_priorities', 'wp_user_alerts_sanitize_priorities' );
+	register_meta( 'post', 'wp_user_alerts_role',     'wp_user_alerts_sanitize_role'     );
+	register_meta( 'post', 'wp_user_alerts_user',     'wp_user_alerts_sanitize_user'     );
+	register_meta( 'post', 'wp_user_alerts_method',   'wp_user_alerts_sanitize_method'   );
+	register_meta( 'post', 'wp_user_alerts_prioritY', 'wp_user_alerts_sanitize_priority' );
 
 	// Users
 	register_meta( 'user', 'cellular_number',  'wp_user_alerts_sanitize_cellular_number'  );
@@ -28,47 +28,47 @@ function wp_user_alerts_register_metadata() {
 }
 
 /**
- * Sanitize user alert users for saving
+ * Sanitize user alert user for saving
  *
  * @since 0.1.0
  *
- * @param array $users
+ * @param int $user
  */
-function wp_user_alerts_sanitize_users( $users = array() ) {
-	return $users;
+function wp_user_alerts_sanitize_user( $user = 0 ) {
+	return $user;
 }
 
 /**
- * Sanitize user alert roles for saving
+ * Sanitize user alert role for saving
  *
  * @since 0.1.0
  *
- * @param array $roles
+ * @param string $role
  */
-function wp_user_alerts_sanitize_roles( $roles = array() ) {
-	return $roles;
+function wp_user_alerts_sanitize_role( $role = 'spectator' ) {
+	return $role;
 }
 
 /**
- * Sanitize user alert methods for saving
+ * Sanitize user alert method for saving
  *
  * @since 0.1.0
  *
- * @param array $methods
+ * @param int $method
  */
-function wp_user_alerts_sanitize_methods( $methods = array() ) {
-	return $methods;
+function wp_user_alerts_sanitize_method( $method = 0 ) {
+	return $method;
 }
 
 /**
- * Sanitize user alert priorities for saving
+ * Sanitize user alert priority for saving
  *
  * @since 0.1.0
  *
- * @param array $priorities
+ * @param int $priority
  */
-function wp_user_alerts_sanitize_priorities( $priorities = array() ) {
-	return $priorities;
+function wp_user_alerts_sanitize_priority( $priority = 0 ) {
+	return $priority;
 }
 
 /**

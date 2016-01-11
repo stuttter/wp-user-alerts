@@ -105,6 +105,58 @@ function wp_user_alerts_metabox_preview() {
 <?php
 }
 
+/**
+ * Save alert meta data to parent post ID
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_save_alerts_metabox( $post_id = 0, $post = null ) {
+
+	// Bail on autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	// Bail if not supported
+	if ( ! post_type_supports( $post->post_type, 'alerts' ) ) {
+		return;
+	}
+
+	// Delete all relative meta data by matching key
+	delete_post_meta( $post_id, 'wp_user_alerts_user'     );
+	delete_post_meta( $post_id, 'wp_user_alerts_role'     );
+	delete_post_meta( $post_id, 'wp_user_alerts_method'   );
+	delete_post_meta( $post_id, 'wp_user_alerts_priority' );
+
+	// Users
+	if ( ! empty( $_POST['wp_user_alerts_users'] ) ) {
+		foreach ( $_POST['wp_user_alerts_users'] as $user_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_user', $user_id );
+		}
+	}
+
+	// Roles
+	if ( ! empty( $_POST['wp_user_alerts_roles'] ) ) {
+		foreach ( $_POST['wp_user_alerts_roles'] as $user_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_role', $user_id );
+		}
+	}
+
+	// Methods
+	if ( ! empty( $_POST['wp_user_alerts_methods'] ) ) {
+		foreach ( $_POST['wp_user_alerts_methods'] as $user_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_method', $user_id );
+		}
+	}
+
+	// Priorities
+	if ( ! empty( $_POST['wp_user_alerts_priorities'] ) ) {
+		foreach ( $_POST['wp_user_alerts_priorities'] as $user_id ) {
+			add_post_meta( $post_id, 'wp_user_alerts_priority', $user_id );
+		}
+	}
+}
+
 /** User Profiles *************************************************************/
 
 /**
@@ -269,10 +321,14 @@ function wp_user_alerts_users_picker( $args = array() ) {
 	$users = get_users( array(
 		'count_total' => false,
 		'orderby'     => 'display_name'
-	) ); ?>
+	) );
+
+	// Get meta data
+	$post  = get_post();
+	$_meta = wp_parse_id_list( get_post_meta( $post->ID, 'wp_user_alerts_user' ) ); ?>
 
 	<div id="alert-users" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
-		<select data-placeholder="<?php esc_html_e( 'Search for People', 'wp-user-alerts' );?>" name="user_alert[]" id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" multiple="multiple"><?php
+		<select data-placeholder="<?php esc_html_e( 'Search for People', 'wp-user-alerts' );?>" name="wp_user_alerts_users[]" id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" multiple="multiple"><?php
 
 			foreach ( $users as $user ) :
 				$user->filter = 'display';
@@ -284,7 +340,7 @@ function wp_user_alerts_users_picker( $args = array() ) {
 					$display_name = $user->display_name;
 				}
 
-				?><option value="<?php echo esc_attr( $user->ID ); ?>"><?php echo esc_html( $display_name ); ?></option><?php
+				?><option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( in_array( (int) $user->ID, $_meta, true ) ); ?>><?php echo esc_html( $display_name ); ?></option><?php
 
 			endforeach; ?>
 
@@ -302,7 +358,11 @@ function wp_user_alerts_users_picker( $args = array() ) {
 function wp_user_alerts_roles_picker( $args = array() ) {
 
 	// Query for users
-	$roles = $GLOBALS['wp_roles']->roles; ?>
+	$roles = $GLOBALS['wp_roles']->roles;
+
+	// Get meta data
+	$post  = get_post();
+	$_meta = wp_parse_id_list( get_post_meta( $post->ID, 'wp_user_alerts_role' ) ); ?>
 
 	<div id="alert-roles" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
 		<ul id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $args['post_type'] ); ?>" class="categorychecklist form-no-clear">
@@ -311,7 +371,7 @@ function wp_user_alerts_roles_picker( $args = array() ) {
 
 				<li class="alert-role-<?php echo esc_attr( $role ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $role ); ?>" type="checkbox" name="role_alert[]" id="" />
+						<input value="<?php echo esc_attr( $role ); ?>" type="checkbox" name="wp_user_alerts_roles[]" id="" <?php checked( in_array( $role, $_meta, true ) ); ?> />
 						<?php echo translate_user_role( $details['name'] ); ?>
 					</label>
 				</li>
@@ -359,7 +419,11 @@ function wp_user_alerts_methods_picker() {
 	$post_type = get_post_type();
 
 	// Query for users
-	$methods = wp_user_alerts_get_alert_methods(); ?>
+	$methods = wp_user_alerts_get_alert_methods();
+
+	// Get meta data
+	$post  = get_post();
+	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_method' ); ?>
 
 	<div id="alert-methods" class="tabs-panel alerts-picker">
 		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
@@ -368,7 +432,7 @@ function wp_user_alerts_methods_picker() {
 
 				<li class="alert-method-<?php echo esc_attr( $method_id ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="user_alert[]" id="" />
+						<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="wp_user_alerts_methods[]" id="" <?php checked( in_array( $method_id, $_meta, true ) ); ?> />
 						<?php echo esc_html( $method->name ); ?>
 					</label>
 				</li>
@@ -392,7 +456,11 @@ function wp_user_alerts_priority_picker() {
 	$post_type = get_post_type();
 
 	// Query for users
-	$priorities = wp_user_alerts_get_alert_priorities(); ?>
+	$priorities = wp_user_alerts_get_alert_priorities();
+
+	// Get meta data
+	$post  = get_post();
+	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_priority' ); ?>
 
 	<div id="alert-priorities" class="tabs-panel alerts-picker" style="display: none;">
 		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
@@ -401,7 +469,7 @@ function wp_user_alerts_priority_picker() {
 
 				<li class="alert-priority-<?php echo esc_attr( $priority_id ); ?>">
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $priority_id ); ?>" type="radio" name="alert_priority[]" class="alert-priority" data-priority="<?php echo esc_attr( $priority_id ); ?>" id="" <?php checked( $priority_id, 'info' ); ?> />
+						<input value="<?php echo esc_attr( $priority_id ); ?>" type="radio" name="wp_user_alerts_priorities[]" class="alert-priority" data-priority="<?php echo esc_attr( $priority_id ); ?>" id="" <?php checked( in_array( $priority_id, $_meta, true ) ); ?> />
 						<?php echo esc_html( $priority->name ); ?>
 					</label>
 				</li>
