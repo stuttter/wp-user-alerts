@@ -191,6 +191,37 @@ function wp_user_alerts_get_cellular_carriers() {
 }
 
 /**
+ * Return the SMS email address for a given user
+ *
+ * @since 0.1.0
+ *
+ * @param  id $user_id
+ *
+ * @return mixed
+ */
+function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
+
+	// Get all supported carriers
+	$carriers = wp_user_alerts_get_cellular_carriers();
+
+	// Get user data
+	$user    = get_userdata( $user_id );
+	$cell    = $user->cellular_number;
+	$carrier = $user->cellular_carrier;
+
+	// Bail if carrier not found
+	if ( ! isset( $carriers[ $carrier ] ) ) {
+		return false;
+	}
+
+	// Concatenate the cell address
+	$address = "{$cell}{$carriers[ $carrier ]->format}";
+
+	// Filter & return
+	return apply_filters( 'wp_user_alerts_get_user_cellular_address', $address, $user_id, $cell, $carrier );
+}
+
+/**
  * Send all of the alerts
  *
  * @since 0.1.0
@@ -229,14 +260,24 @@ function wp_user_alerts_maybe_do_all_alerts( $post_id = 0, $post = null ) {
 
 	// Strip the post for Email
 	$subject = '[Alert]' . wp_kses( $post->post_title, array() );
-	$message = 'This is a test.<br><br>' . wp_kses( $post->post_content, array() );
+	$message = wp_kses( $post->post_content, array() );
 
-	// Loop through users and send email
+	// Email
 	if ( in_array( 'email', $methods, true ) ) {
 		foreach ( $users as $user_id ) {
 			$user = get_userdata( $user_id );
-			if ( ! empty( $user->user_email ) ) {
+			if ( is_email( $user->user_email ) ) {
 				wp_mail( $user->user_email, $subject, $message );
+			}
+		}
+	}
+
+	// SMS
+	if ( in_array( 'sms', $methods, true ) ) {
+		foreach ( $users as $user_id ) {
+			$user_cell = wp_user_alerts_get_user_cellular_address( $user_id );
+			if ( is_email( $user_cell ) ) {
+				wp_mail( $user_cell, $subject, $message );
 			}
 		}
 	}
