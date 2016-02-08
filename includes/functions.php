@@ -243,23 +243,21 @@ function wp_user_alerts_maybe_do_all_alerts( $post_id = 0, $post = null ) {
 		return;
 	}
 
-	// Bespoke users
-	$users = ! empty( $_POST['wp_user_alerts_users'] )
-		? wp_parse_id_list( $_POST['wp_user_alerts_users'] )
-		: array();
+	// Get the users to alert
+	$users   = wp_user_alerts_get_users_to_alert( $post_id );
+	$methods = wp_user_alerts_get_user_alert_methods( $post_id );
 
-	// Bespoke users
-	$methods = ! empty( $_POST['wp_user_alerts_methods'] )
-		? array_map( 'sanitize_key', $_POST['wp_user_alerts_methods'] )
-		: array();
+	// Get Priorities
+	$priority       = get_post_meta( $post_id, 'wp_user_alerts_priority' );
+	$priorities     = wp_user_alerts_get_alert_priorities();
+	$priority_label = isset( $priorities->$priority )
+		? $priorities[ $priority ]->name
+		: esc_html__( 'Info', 'wp-user-alerts' );
 
-	// Roles to get users from
-	$roles = ! empty( $_POST['wp_user_alerts_roles'] )
-		? array_map( 'sanitize_key', $_POST['wp_user_alerts_roles'] )
-		: array();
+	// Append priority label to subject
+	$subject = "[{$priority_label}] " . wp_kses( $post->post_title, array() );
 
-	// Strip the post for Email
-	$subject = '[Alert]' . wp_kses( $post->post_title, array() );
+	// Strip tags from post content
 	$message = wp_kses( $post->post_content, array() );
 
 	// Email
@@ -281,4 +279,74 @@ function wp_user_alerts_maybe_do_all_alerts( $post_id = 0, $post = null ) {
 			}
 		}
 	}
+}
+
+/**
+ * Get array of user IDs to alert
+ *
+ * @since 0.1.0
+ *
+ * @param int $post_id
+ *
+ * @return array
+ */
+function wp_user_alerts_get_users_to_alert( $post_id = 0 ) {
+
+	// Allow everything to hook in and filter the user IDs
+	$all_user_ids = apply_filters( 'wp_user_alerts_get_users_to_alert', array(), $post_id );
+
+	// Remove duplicates
+	$deduped_user_ids = array_unique( $all_user_ids, SORT_NUMERIC );
+
+	// Return array
+	return $deduped_user_ids;
+}
+
+/**
+ * Filter user IDs to alert from registered roles
+ *
+ * @since 0.1.0
+ *
+ * @param  array  $all_user_ids
+ * @param  int    $post_id
+ *
+ * @return array
+ */
+function wp_user_alerts_get_role_user_ids( $all_user_ids = array(), $post_id = 0 ) {
+
+	// Get all roles
+	$role_ids = get_post_meta( $post_id, 'wp_user_alerts_role' );
+
+	// Bail if no roles
+	if ( empty( $role_ids ) ) {
+		return $all_user_ids;
+	}
+
+	// Get user IDs
+	$role_user_ids = get_users( array(
+		'role__in' => $role_ids,
+		'fields'   => 'ID'
+	) );
+
+	// Merge and return
+	return array_merge( $all_user_ids, $role_user_ids );
+}
+
+/**
+ * Filter user IDs to alert from registered roles
+ *
+ * @since 0.1.0
+ *
+ * @param  array  $all_user_ids
+ * @param  int    $post_id
+ *
+ * @return array
+ */
+function wp_user_alerts_get_user_ids( $all_user_ids = array(), $post_id = 0 ) {
+	$user_ids = get_post_meta( $post_id, 'wp_user_alerts_user' );
+	return array_merge( $all_user_ids, $user_ids );
+}
+
+function wp_user_alerts_get_user_alert_methods( $post_id = 0 ) {
+	return get_post_meta( $post_id, 'wp_user_alerts_method' );
 }

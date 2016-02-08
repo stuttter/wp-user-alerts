@@ -100,7 +100,7 @@ function wp_user_alerts_delete_user_groups_meta( $post_id = 0, $post = null ) {
 }
 
 /**
- * Delete User Groups meta
+ * Add User Groups meta
  *
  * @since 0.1.0
  *
@@ -120,4 +120,106 @@ function wp_user_alerts_add_user_groups_meta( $post_id = 0, $post = null ) {
 			add_post_meta( $post_id, 'wp_user_alerts_user_group', $group_id );
 		}
 	}
+}
+
+/**
+ * Get User Groups meta
+ *
+ * @since 0.1.0
+ *
+ * @param  int     $post_id
+ * @param  object  $post
+ */
+function wp_user_alerts_get_user_groups_meta( $post_id = 0 ) {
+
+	// Bail if User Groups is not active
+	if ( ! function_exists( '_wp_user_groups' ) ) {
+		return array();
+	}
+
+	// Get groups to alert
+	return get_post_meta( $post_id, 'wp_user_alerts_user_group' );
+}
+
+/**
+ * Get array of user IDs to alert based on group IDs saved to post ID
+ *
+ * @since 0.1.0
+ *
+ * @param int $post_id
+ *
+ * @return array
+ */
+function wp_user_alerts_get_user_group_member_ids( $post_id = 0 ) {
+
+	// Default empty arrays
+	$all_user_ids = $all_term_ids = $groups = array();
+
+	// Get groups to alert
+	$group_metas = wp_user_alerts_get_user_groups_meta( $post_id );
+
+	// Bail if no groups to alert
+	if ( empty( $group_metas ) ) {
+		return $all_user_ids;
+	}
+
+	// Loop through group IDs and get user IDs
+	foreach ( $group_metas as $group ) {
+
+		// Get the last hyphen
+		$last_pos = strrpos( $group, '-' );
+
+		// Blow the parts up
+		$taxonomy = substr( $group, 0, $last_pos );
+		$group_id = substr( $group, $last_pos + 1 );
+
+		// Skip missing or empty taxonomies
+		if ( empty( $taxonomy ) || ! taxonomy_exists( $taxonomy ) ) {
+			continue;
+		}
+
+		// Setup a new array
+		if ( ! isset( $groups[ $taxonomy ] ) ) {
+			$groups[ $taxonomy ] = array();
+		}
+
+		// Avoid duplicates
+		if ( in_array( $group_id, $groups[ $taxonomy ], true ) ) {
+			continue;
+		}
+
+		// Put them back together like: $groups[taxonomy][term_id]
+		array_push( $groups[ $taxonomy ], $group_id );
+	}
+
+	// Assemble the term IDs
+	foreach ( $groups as $taxonomy => $term_ids ) {
+		$all_term_ids = array_merge( $all_term_ids, $term_ids );
+	}
+
+	// Get all user IDs in 1 swoop
+	$all_term_ids = array_unique( $all_term_ids, SORT_NUMERIC );
+	$all_user_ids = get_objects_in_term( $term_ids, array_keys( $groups ) );
+
+	// Avoid duplicate user IDs and sort numerically
+	return array_unique( $all_user_ids, SORT_NUMERIC );
+}
+
+/**
+ * Filter user IDs to alert from registered user groups
+ *
+ * @since 0.1.0
+ *
+ * @param  array  $all_user_ids
+ * @param  int    $post_id
+ *
+ * @return array
+ */
+function wp_user_alerts_get_group_user_ids( $all_user_ids = array(), $post_id = 0 ) {
+
+	// Get user IDs from group
+	$group_user_ids = wp_user_alerts_get_user_group_member_ids( $post_id );
+
+	// Merge and return
+	return array_merge( $all_user_ids, $group_user_ids );
 }

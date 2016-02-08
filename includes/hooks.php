@@ -26,8 +26,8 @@ add_action( 'admin_head', 'wp_user_alerts_admin_assets' );
 add_action( 'add_meta_boxes', 'wp_user_alerts_admin_metaboxes' );
 
 // Maybe save metabox contents
-add_action( 'save_post', 'wp_user_alerts_save_alerts_metabox', 10, 2 );
-add_action( 'save_post', 'wp_user_alerts_maybe_do_all_alerts', 10, 2 );
+add_action( 'save_post', 'wp_user_alerts_save_alerts_metabox', 8,  2 );
+add_action( 'save_post', 'wp_user_alerts_maybe_do_all_alerts', 12, 2 );
 
 // User Profiles metabox
 add_action( 'wp_user_profiles_add_profile_meta_boxes', 'wp_user_alerts_add_sms_metabox', 10, 2 );
@@ -64,3 +64,8 @@ if ( is_admin() ) {
 	add_filter( 'pre_get_posts', 'wp_user_alerts_maybe_sort_by_fields'   );
 	add_filter( 'pre_get_posts', 'wp_user_alerts_maybe_filter_by_fields' );
 }
+
+// Users to alert
+add_filter( 'wp_user_alerts_get_users_to_alert', 'wp_user_alerts_get_user_ids',       77, 2 );
+add_filter( 'wp_user_alerts_get_users_to_alert', 'wp_user_alerts_get_role_user_ids',  88, 2 );
+add_filter( 'wp_user_alerts_get_users_to_alert', 'wp_user_alerts_get_group_user_ids', 99, 2 );
