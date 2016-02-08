@@ -364,7 +364,7 @@ function wp_user_alerts_roles_picker( $args = array() ) {
 
 	// Get meta data
 	$post  = get_post();
-	$_meta = wp_parse_id_list( get_post_meta( $post->ID, 'wp_user_alerts_role' ) ); ?>
+	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_role' ); ?>
 
 	<div id="alert-roles" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
 		<ul id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $args['post_type'] ); ?>" class="categorychecklist form-no-clear">
