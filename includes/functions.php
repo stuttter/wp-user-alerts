@@ -344,9 +344,19 @@ function wp_user_alerts_get_role_user_ids( $all_user_ids = array(), $post_id = 0
  */
 function wp_user_alerts_get_user_ids( $all_user_ids = array(), $post_id = 0 ) {
 	$user_ids = get_post_meta( $post_id, 'wp_user_alerts_user' );
+
 	return array_merge( $all_user_ids, $user_ids );
 }
 
+/**
+ * Get user alert methods for a post
+ *
+ * @since 0.1.0
+ *
+ * @param int $post_id
+ *
+ * @return array
+ */
 function wp_user_alerts_get_user_alert_methods( $post_id = 0 ) {
 	return get_post_meta( $post_id, 'wp_user_alerts_method' );
 }
