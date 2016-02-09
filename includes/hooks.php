@@ -43,7 +43,7 @@ add_filter( 'wp_user_alerts_add_metas',       'wp_user_alerts_add_user_groups_me
 
 // Default rows
 add_action( 'wp_user_alerts_metabox_rows', 'wp_user_alerts_metabox_who_and_how' );
-add_action( 'wp_user_alerts_metabox_rows', 'wp_user_alerts_metabox_preview'     );
+//add_action( 'wp_user_alerts_metabox_rows', 'wp_user_alerts_metabox_preview'     );
 
 // Quick edit
 add_filter( 'page_row_actions',        'wp_user_alerts_disable_quick_edit_link', 10, 2 );
