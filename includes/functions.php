@@ -275,13 +275,16 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 	$user = get_userdata( $user_id );
 
 	if ( ! empty( $user->cellular_number ) ) {
-		$cell    = preg_replace( '/[^0-9+]/', '', $user->cellular_number );
+		$cell    = $user->cellular_number;
 		$carrier = $user->cellular_carrier;
 
 		// Bail if carrier not found
 		if ( ! isset( $carriers[ $carrier ] ) ) {
 			return false;
 		}
+
+		// Format number for email address usage
+		preg_replace( '/[^0-9+]/', '', $cell );
 
 		// Concatenate the cell address
 		$address = "{$cell}{$carriers[ $carrier ]->format}";
