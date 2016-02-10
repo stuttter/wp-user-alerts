@@ -83,10 +83,11 @@ function wp_user_alerts_metabox_new_post() {
  * @since 0.1.0
  */
 function wp_user_alerts_metabox_existing_post() {
-	$post     = get_post();
-	$user_ids = get_post_meta( $post->ID, 'wp_user_alerts_user_ids', true );
+	$post       = get_post();
+	$user_ids   = get_post_meta( $post->ID, 'wp_user_alerts_user_ids', true );
+	$user_count = count( $user_ids );
 
-	printf( esc_html__( '%s people were alerted at the time this was published.', 'wp-user-alerts' ), '<strong>' . number_format( count( $user_ids ) ) . '</strong>' );
+	printf( _n( '%s person was alerted at the time this was published.', '%s people were alerted at the time this was published.', $user_count, 'wp-user-alerts' ), '<strong>' . number_format( $user_count ) . '</strong>' );
 }
 
 /**
