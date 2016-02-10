@@ -412,7 +412,31 @@ function wp_user_alerts_get_alert_message_subject( $post = 0 ) {
  * @param mixed $post
  */
 function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
-	return wp_kses( $post->post_content, array() );
+
+	// Excerpt
+	$content = wp_kses( $post->post_content, array() );
+	$excerpt = wp_html_excerpt( $post->post_content, 100 );
+	$axcerpt = get_post_meta( $post->ID, 'wp_user_alerts_excerpt', true );
+
+	// Override the excerpt
+	if ( ! empty( $axcerpt ) ) {
+		$excerpt = $axcerpt;
+	}
+
+	// Get methods to check for override
+	$methods = wp_user_alerts_get_alert_methods();
+
+	// Use excerpt
+	$use_excerpt = isset( $methods[ $method ]['excerpt'] )
+		? (bool) $methods[ $method ]['excerpt']
+		: false;
+
+	// Force the excerpt
+	if ( ! empty( $axcerpt ) && ( true === $use_excerpt ) ) {
+		$content = $axcerpt;
+	}
+
+	return $content;
 }
 
 /**
