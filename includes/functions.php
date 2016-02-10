@@ -284,7 +284,7 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 		}
 
 		// Format number for email address usage
-		preg_replace( '/[^0-9+]/', '', $cell );
+		$cell = preg_replace( '/[^0-9+]/', '', $cell );
 
 		// Concatenate the cell address
 		$address = "{$cell}{$carriers[ $carrier ]->format}";
@@ -347,21 +347,20 @@ function wp_user_alerts_maybe_do_all_alerts( $post = null ) {
 	}
 
 	// Get the priority, methods, and user IDs
-	$priority = wp_user_alerts_get_post_priority( $post->ID )->name;
 	$user_ids = wp_user_alerts_get_post_user_ids( $post->ID );
 	$methods  = wp_user_alerts_get_post_methods( $post->ID );
 
 	// Append priority label to subject
-	$subject = "[{$priority}] " . wp_kses( $post->post_title, array() );
-
-	// Strip tags from post content
-	$message = wp_kses( $post->post_content, array() );
+	$subject = wp_user_alerts_get_alert_message_subject( $post );
 
 	// Save user IDs to postmeta
 	update_post_meta( $post->ID, 'wp_user_alerts_user_ids', $user_ids );
 
 	// Do the alerts
 	foreach ( $methods as $method ) {
+
+		// Strip tags from post content
+		$message = wp_user_alerts_get_alert_message_body( $post, $method );
 
 		// Standard action
 		do_action( 'wp_user_alerts_send_alerts', $method, $user_ids, $subject, $message );
@@ -373,6 +372,30 @@ function wp_user_alerts_maybe_do_all_alerts( $post = null ) {
 			'message'  => $message
 		) );
 	}
+}
+
+/**
+ * Return text to use as the message body, based on the alert priority
+ *
+ * @since 0.1.0
+ *
+ * @param mixed $post
+ */
+function wp_user_alerts_get_alert_message_subject( $post = 0 ) {
+	$priority = wp_user_alerts_get_post_priority( $post->ID )->name;
+	$subject  = "[{$priority}] " . wp_kses( $post->post_title, array() );
+	return $subject;
+}
+
+/**
+ * Return text to use as the message body, based on the alert method
+ *
+ * @since 0.1.0
+ *
+ * @param mixed $post
+ */
+function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
+	return wp_kses( $post->post_content, array() );
 }
 
 /**
