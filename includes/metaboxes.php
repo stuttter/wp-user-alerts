@@ -480,36 +480,59 @@ function wp_user_alerts_methods() {
  */
 function wp_user_alerts_methods_picker() {
 
-	// Get the post type
-	$post_type = get_post_type();
-
 	// Query for users
 	$methods = wp_user_alerts_get_alert_methods();
+	$full    = wp_filter_object_list( $methods, array( 'excerpt' => false ) );
+	$excerpt = wp_filter_object_list( $methods, array( 'excerpt' => true  ) );
 
-	// Get meta data
-	$post  = get_post();
-	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_method' ); ?>
+	?><div id="alert-methods" class="tabs-panel alerts-picker"><?php
 
-	<div id="alert-methods" class="tabs-panel alerts-picker">
-		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+		// Full
+		if ( ! empty( $full ) ) :
+			?><div><h4><?php esc_html_e( 'Full Text', 'wp-user-alerts' ); ?></h4><?php
 
-			<?php foreach ( $methods as $method_id => $method ) : ?>
+			wp_user_alert_methods_items( $full );
 
-				<li class="alert-method-<?php echo esc_attr( $method_id ); ?>">
-					<label class="selectit">
-						<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="wp_user_alerts_methods[]" id="" <?php checked( in_array( $method_id, $_meta, true ) ); ?> />
-						<?php echo esc_html( $method->name ); ?>
-					</label>
-				</li>
+			?></div><?php
+		endif;
 
-			<?php endforeach; ?>
+		// Excerpts
+		if ( ! empty( $excerpt ) ) :
+			?><h4><?php esc_html_e( 'Uses Excerpt', 'wp-user-alerts' ); ?></h4><?php
 
-		</ul>
-	</div>
+			wp_user_alert_methods_items( $excerpt );
+
+			?></div><?php
+		endif;
+
+	?></div>
 
 	<?php
 }
 
+function wp_user_alert_methods_items( $items = array() ) {
+
+	// Get the post type
+	$post_type = get_post_type();
+	$_meta = get_post_meta( get_the_ID(), 'wp_user_alerts_method' ); ?>
+
+	<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+
+		<?php foreach ( $items as $method_id => $method ) : ?>
+
+			<li class="alert-method-<?php echo esc_attr( $method_id ); ?>">
+				<label class="selectit">
+					<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="wp_user_alerts_methods[]" id="" <?php checked( in_array( $method_id, $_meta, true ) ); ?> />
+					<?php echo esc_html( $method->name ); ?>
+				</label>
+			</li>
+
+		<?php endforeach; ?>
+
+	</ul>
+
+<?php
+}
 /**
  * Display a list of possible alert types
  *

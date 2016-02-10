@@ -149,3 +149,17 @@ table.wp-user-alerts #alert-excerpt textarea.alert-excerpt {
 	padding: 0 8px;
 	margin: -1px 0 0 0;
 }
+
+#alert-methods div {
+	float: left;
+	width: 50%;
+}
+
+#alert-methods h4 {
+	line-height: 1em;
+	margin-bottom: 0;
+}
+
+#alert-methods ul {
+	margin-top: 10px;
+}
