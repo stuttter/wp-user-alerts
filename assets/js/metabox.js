@@ -52,11 +52,11 @@ jQuery( document ).ready( function ( $ ) {
 		if ( the_content.length ) {
 			the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
 		}
+
 		the_preview.html( the_content );
 		the_length.html( the_content.length );
 
-		the_height  = $( the_excerpt ).height() + $( the_preview ).height() + 94;
-		console.log( $( the_excerpt ).height() + $( the_preview ).height() );
+		the_height = $( the_excerpt ).height() + $( the_preview ).height() + 94;
 		the_pickers.height( the_height );
 	}
 } );
