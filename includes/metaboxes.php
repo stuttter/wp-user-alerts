@@ -457,7 +457,7 @@ function wp_user_alerts_methods() {
 
 	<ul id="user-alert-how-tabs" class="category-tabs">
 		<li class="tabs"><a href="#alert-methods"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></a></li>
-		<li class="hide-if-no-js"><a href="#alert-priorities"><?php esc_html_e( 'Priorities', 'wp-user-alerts' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#alert-priorities"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></a></li>
 		<li class="hide-if-no-js"><a href="#alert-excerpt"><?php esc_html_e( 'Excerpt', 'wp-user-alerts' ); ?></a></li>
 	</ul>
 
