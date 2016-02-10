@@ -30,7 +30,30 @@ jQuery( document ).ready( function ( $ ) {
 		panel.attr( 'data-priority', priority );
 	} );
 
-	$( 'textarea.wp-editor-area' ).bind( 'input propertychange', function() {
-		$( '.alert-post-content' ).html( $( this ).val() );
+	var the_editor  = $( 'textarea.wp-editor-area' ),
+		the_excerpt = $( 'textarea.alert-excerpt'  ),
+		the_preview = $( '.alert-post-content'     ),
+		the_pickers = $( '.alerts-picker'          ),
+		the_length  = $( '.alert-excerpt-length'   ),
+		the_height  = 200,
+		the_content = '';
+
+	the_editor.bind( 'input propertychange', function() {
+		if ( 0 === the_excerpt.val().length ) {
+			the_preview.html( do_preview( the_editor.val() ) );
+		}
 	} );
+
+	the_excerpt.bind( 'input propertychange', function() {
+		the_preview.html( do_preview( the_excerpt.val() ) );
+	} );
+
+	function do_preview( the_content ) {
+		the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
+		the_preview.html( the_content );
+		the_length.html( the_content.length );
+
+		the_height  = $( the_editor ).height() + $( the_preview ).height();
+		the_pickers.height( the_height + 34 );
+	}
 } );

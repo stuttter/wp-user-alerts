@@ -86,6 +86,22 @@ function wp_user_alerts_metabox_who_and_how() {
 }
 
 /**
+ * Output the textarea that's used for the alert excerpt
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_metabox_excerpt() {
+?>
+
+	<div class="alert-excerpt textarea-wrap">
+		<textarea class="alert-excerpt" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"></textarea>
+		<span class="alert-excerpt-length">0</span>
+	</div>
+
+<?php
+}
+
+/**
  * Default user-alerts preview metabox row
  *
  * @since 0.1.0
@@ -94,7 +110,7 @@ function wp_user_alerts_metabox_preview() {
 ?>
 
 	<div class="panel" data-priority="info">
-		<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y g:i a:' ); ?></div>
+		<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y - g:i a:' ); ?></div>
 		<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
 	</div>
 
@@ -511,7 +527,9 @@ function wp_user_alerts_excerpt_picker() {
 ?>
 
 	<div id="alert-excerpt" class="tabs-panel alerts-picker" style="display: none;">
-		
+
+		<?php wp_user_alerts_metabox_excerpt(); ?>
+
 		<?php wp_user_alerts_metabox_preview(); ?>
 
 	</div>
