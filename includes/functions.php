@@ -427,8 +427,8 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 	$methods = wp_user_alerts_get_alert_methods();
 
 	// Use excerpt
-	$use_excerpt = isset( $methods[ $method ]['excerpt'] )
-		? (bool) $methods[ $method ]['excerpt']
+	$use_excerpt = isset( $methods[ $method ]->excerpt )
+		? (bool) $methods[ $method ]->excerpt
 		: false;
 
 	// Force the excerpt
