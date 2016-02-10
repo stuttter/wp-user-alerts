@@ -269,19 +269,23 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 
 	// Get all supported carriers
 	$carriers = wp_user_alerts_get_cellular_carriers();
+	$address  = '';
 
 	// Get user data
-	$user    = get_userdata( $user_id );
-	$cell    = $user->cellular_number;
-	$carrier = $user->cellular_carrier;
+	$user = get_userdata( $user_id );
 
-	// Bail if carrier not found
-	if ( ! isset( $carriers[ $carrier ] ) ) {
-		return false;
+	if ( ! empty( $user->cellular_number ) ) {
+		$cell    = preg_replace( '/[^0-9+]/', '', $user->cellular_number );
+		$carrier = $user->cellular_carrier;
+
+		// Bail if carrier not found
+		if ( ! isset( $carriers[ $carrier ] ) ) {
+			return false;
+		}
+
+		// Concatenate the cell address
+		$address = "{$cell}{$carriers[ $carrier ]->format}";
 	}
-
-	// Concatenate the cell address
-	$address = "{$cell}{$carriers[ $carrier ]->format}";
 
 	// Filter & return
 	return apply_filters( 'wp_user_alerts_get_user_cellular_address', $address, $user_id, $cell, $carrier );
