@@ -225,6 +225,18 @@ function wp_user_alerts_get_cellular_carriers() {
 			'name'   => 'AT&T',
 			'format' => '@txt.att.net'
 		),
+		'alltel' => (object) array(
+			'name'   => 'AllTel',
+			'format' => '@message.alltel.com'
+		),
+		'boost' => (object) array(
+			'name'   => 'Boost',
+			'format' => '@myboostmobile.com'
+		),
+		'cricket' => (object) array(
+			'name'   => 'Cricket',
+			'format' => '@sms.mycricket.com'
+		),
 		'comcast' => (object) array(
 			'name'   => 'Comcast',
 			'format' => '@comcastpcs.textmsg.com'
