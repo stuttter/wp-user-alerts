@@ -433,7 +433,7 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 
 	// Force the excerpt
 	if ( ! empty( $axcerpt ) && ( true === $use_excerpt ) ) {
-		$content = $axcerpt;
+		$content = $excerpt;
 	}
 
 	return $content;
