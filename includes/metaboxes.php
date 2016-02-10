@@ -111,7 +111,7 @@ function wp_user_alerts_metabox_preview() {
 
 	<div class="panel" data-priority="info">
 		<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y - g:i a:' ); ?></div>
-		<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
+		<div class="alert-post-content"></div>
 	</div>
 
 <?php

@@ -40,20 +40,23 @@ jQuery( document ).ready( function ( $ ) {
 
 	the_editor.bind( 'input propertychange', function() {
 		if ( 0 === the_excerpt.val().length ) {
-			the_preview.html( do_preview( the_editor.val() ) );
+			do_preview( the_editor.val() );
 		}
 	} );
 
 	the_excerpt.bind( 'input propertychange', function() {
-		the_preview.html( do_preview( the_excerpt.val() ) );
+		do_preview( the_excerpt.val() );
 	} );
 
 	function do_preview( the_content ) {
-		the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
+		if ( the_content.length ) {
+			the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
+		}
 		the_preview.html( the_content );
 		the_length.html( the_content.length );
 
-		the_height  = $( the_excerpt ).height() + $( the_preview ).height();
-		the_pickers.height( the_height + 34 );
+		the_height  = $( the_excerpt ).height() + $( the_preview ).height() + 94;
+		console.log( $( the_excerpt ).height() + $( the_preview ).height() );
+		the_pickers.height( the_height );
 	}
 } );

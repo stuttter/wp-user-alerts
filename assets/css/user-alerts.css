@@ -41,7 +41,7 @@ table.wp-user-alerts tr:not(.broadcast) td {
 table.wp-user-alerts .alerts-picker {
 	height: 150px;
 	min-height: 150px;
-	max-height: 250px;
+	max-height: 350px;
 	overflow: auto;
 	padding: 0 0.9em;
 	border: solid 1px #dfdfdf;
