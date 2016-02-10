@@ -53,7 +53,7 @@ jQuery( document ).ready( function ( $ ) {
 		the_preview.html( the_content );
 		the_length.html( the_content.length );
 
-		the_height  = $( the_editor ).height() + $( the_preview ).height();
+		the_height  = $( the_excerpt ).height() + $( the_preview ).height();
 		the_pickers.height( the_height + 34 );
 	}
 } );
