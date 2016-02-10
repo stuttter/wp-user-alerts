@@ -1,4 +1,4 @@
-#post-body #wp-user-alerts .inside {
+body.post-new-php #post-body #wp-user-alerts .inside {
 	margin: 0;
 	padding: 0;
 }

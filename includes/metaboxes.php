@@ -40,7 +40,26 @@ function wp_user_alerts_metabox() {
 	ob_start();
 
 	// Before
-	do_action( 'wp_user_alerts_metabox_before' ); ?>
+	do_action( 'wp_user_alerts_metabox_before' );
+
+	'publish' === get_post_status()
+		? wp_user_alerts_metabox_existing_post()
+		: wp_user_alerts_metabox_new_post();
+
+	// After
+	do_action( 'wp_user_alerts_metabox_after' );
+
+	// End & flush the output buffer
+	ob_end_flush();
+}
+
+/**
+ * The metabox contents for a new post
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_metabox_new_post() {
+?>
 
 	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 	<table class="form-table rowfat wp-user-alerts">
@@ -48,20 +67,26 @@ function wp_user_alerts_metabox() {
 			<th><?php esc_html_e( 'People',   'wp-user-alerts' ); ?></th>
 			<th><?php esc_html_e( 'Delivery', 'wp-user-alerts' ); ?></th>
 		</thead>
-		<tbody>
+		<tbody><?php
 
-			<?php do_action( 'wp_user_alerts_metabox_rows' ); ?>
+			do_action( 'wp_user_alerts_metabox_rows' );
 
-		</tbody>
+		?></tbody>
 	</table>
 
-	<?php
+<?php
+}
 
-	// After
-	do_action( 'wp_user_alerts_metabox_after' );
+/**
+ * The metabox contents for an existing post
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_metabox_existing_post() {
+	$post     = get_post();
+	$user_ids = get_post_meta( $post->ID, 'wp_user_alerts_user_ids', true );
 
-	// End & flush the output buffer
-	ob_end_flush();
+	printf( esc_html__( '%s people were alerted at the time this was published.', 'wp-user-alerts' ), '<strong>' . number_format( count( $user_ids ) ) . '</strong>' );
 }
 
 /**
