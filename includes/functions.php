@@ -284,11 +284,41 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 }
 
 /**
+ * Only save & send alerts when a post transitions into 'publish' status that
+ * wasn't previously published.
+ *
+ * @since 0.1.0
+ *
+ * @param  string   $new_status
+ * @param  string   $old_status
+ * @param  WP_Post  $post
+ *
+ * @return void
+ */
+function wp_user_alerts_do_alerts( $new_status, $old_status, $post ) {
+
+	// Bail if already published
+	if ( 'publish' === $old_status ) {
+		return;
+	}
+
+	// Bail if new status is not publish
+	if ( 'publish' !== $new_status ) {
+		return;
+	}
+
+	// Maybe do the alerts
+	do_action( 'wp_user_alerts_do_alerts', $post );
+}
+
+/**
  * Send all of the alerts
  *
  * @since 0.1.0
+ *
+ * @param WP_Post $post The post object
  */
-function wp_user_alerts_maybe_do_all_alerts( $post_id = 0, $post = null ) {
+function wp_user_alerts_maybe_do_all_alerts( $post = null ) {
 
 	// Bail on autosave
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -301,20 +331,23 @@ function wp_user_alerts_maybe_do_all_alerts( $post_id = 0, $post = null ) {
 	}
 
 	// Bail if not publishing
-	if ( 'publish' !== get_post_status( $post_id ) ) {
+	if ( 'publish' !== get_post_status( $post->ID ) ) {
 		return;
 	}
 
 	// Get the priority, methods, and user IDs
-	$priority = wp_user_alerts_get_post_priority( $post_id )->name;
-	$user_ids = wp_user_alerts_get_post_user_ids( $post_id );
-	$methods  = wp_user_alerts_get_post_methods( $post_id );
+	$priority = wp_user_alerts_get_post_priority( $post->ID )->name;
+	$user_ids = wp_user_alerts_get_post_user_ids( $post->ID );
+	$methods  = wp_user_alerts_get_post_methods( $post->ID );
 
 	// Append priority label to subject
 	$subject = "[{$priority}] " . wp_kses( $post->post_title, array() );
 
 	// Strip tags from post content
 	$message = wp_kses( $post->post_content, array() );
+
+	// Save user IDs to postmeta
+	update_post_meta( $post->ID, 'wp_user_alerts_user_ids', $user_ids );
 
 	// Do the alerts
 	foreach ( $methods as $method ) {

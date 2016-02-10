@@ -122,7 +122,7 @@ function wp_user_alerts_metabox_preview() {
  *
  * @since 0.1.0
  */
-function wp_user_alerts_save_alerts_metabox( $post_id = 0, $post = null ) {
+function wp_user_alerts_save_alerts_metabox( $post = null ) {
 
 	// Bail on autosave
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -135,44 +135,44 @@ function wp_user_alerts_save_alerts_metabox( $post_id = 0, $post = null ) {
 	}
 
 	// Delete all relative meta data by matching key
-	delete_post_meta( $post_id, 'wp_user_alerts_user'     );
-	delete_post_meta( $post_id, 'wp_user_alerts_role'     );
-	delete_post_meta( $post_id, 'wp_user_alerts_method'   );
-	delete_post_meta( $post_id, 'wp_user_alerts_priority' );
+	delete_post_meta( $post->ID, 'wp_user_alerts_user'     );
+	delete_post_meta( $post->ID, 'wp_user_alerts_role'     );
+	delete_post_meta( $post->ID, 'wp_user_alerts_method'   );
+	delete_post_meta( $post->ID, 'wp_user_alerts_priority' );
 
 	// Delete any other metas
-	do_action( 'wp_user_alerts_delete_metas', $post_id );
+	do_action( 'wp_user_alerts_delete_metas', $post->ID );
 
 	// Users
 	if ( ! empty( $_POST['wp_user_alerts_users'] ) ) {
 		foreach ( $_POST['wp_user_alerts_users'] as $user_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_user', $user_id );
+			add_post_meta( $post->ID, 'wp_user_alerts_user', $user_id );
 		}
 	}
 
 	// Roles
 	if ( ! empty( $_POST['wp_user_alerts_roles'] ) ) {
 		foreach ( $_POST['wp_user_alerts_roles'] as $role_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_role', $role_id );
+			add_post_meta( $post->ID, 'wp_user_alerts_role', $role_id );
 		}
 	}
 
 	// Methods
 	if ( ! empty( $_POST['wp_user_alerts_methods'] ) ) {
 		foreach ( $_POST['wp_user_alerts_methods'] as $method_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_method', $method_id );
+			add_post_meta( $post->ID, 'wp_user_alerts_method', $method_id );
 		}
 	}
 
 	// Priorities
 	if ( ! empty( $_POST['wp_user_alerts_priorities'] ) ) {
 		foreach ( $_POST['wp_user_alerts_priorities'] as $priority_id ) {
-			add_post_meta( $post_id, 'wp_user_alerts_priority', $priority_id );
+			add_post_meta( $post->ID, 'wp_user_alerts_priority', $priority_id );
 		}
 	}
 
 	// Add any other metas
-	do_action( 'wp_user_alerts_add_metas', $post_id, $post );
+	do_action( 'wp_user_alerts_add_metas', $post->ID, $post );
 }
 
 /** User Profiles *************************************************************/
