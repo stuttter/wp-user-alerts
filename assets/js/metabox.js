@@ -1,6 +1,6 @@
 jQuery( document ).ready( function ( $ ) {
 
-	/* Who tabs */
+	/* People tabs */
 	$( 'a', '#user-alert-who-tabs' ).click( function () {
 		var t = $( this ).attr( 'href' );
 
@@ -11,7 +11,7 @@ jQuery( document ).ready( function ( $ ) {
 		return false;
 	} );
 
-	/* How tabs */
+	/* Delivery tabs */
 	$( 'a', '#user-alert-how-tabs' ).click( function () {
 		var t = $( this ).attr( 'href' );
 
@@ -25,7 +25,7 @@ jQuery( document ).ready( function ( $ ) {
 	/* Preview */
 	$( 'input[type=radio].alert-priority' ).change( function () {
 		var priority = $( this ).data( 'priority' ),
-			panel    = $( '.alert-preview .panel' );
+			panel    = $( '#alert-excerpt .panel' );
 
 		panel.attr( 'data-priority', priority );
 	} );

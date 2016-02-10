@@ -44,6 +44,10 @@ function wp_user_alerts_metabox() {
 
 	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 	<table class="form-table rowfat wp-user-alerts">
+		<thead>
+			<th><?php esc_html_e( 'People',   'wp-user-alerts' ); ?></th>
+			<th><?php esc_html_e( 'Delivery', 'wp-user-alerts' ); ?></th>
+		</thead>
 		<tbody>
 
 			<?php do_action( 'wp_user_alerts_metabox_rows' ); ?>
@@ -89,14 +93,10 @@ function wp_user_alerts_metabox_who_and_how() {
 function wp_user_alerts_metabox_preview() {
 ?>
 
-	<tr class="alert-preview">
-		<td colspan="2">
-			<div class="panel" data-priority="info">
-				<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y g:i a:' ); ?></div>
-				<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
-			</div>
-		</td>
-	</tr>
+	<div class="panel" data-priority="info">
+		<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y g:i a:' ); ?></div>
+		<div class="alert-post-content"><?php echo wpautop( wp_kses( get_post_field( 'post_content', get_the_ID() ), array() ) ); ?></div>
+	</div>
 
 <?php
 }
@@ -399,6 +399,7 @@ function wp_user_alerts_methods() {
 	<ul id="user-alert-how-tabs" class="category-tabs">
 		<li class="tabs"><a href="#alert-methods"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></a></li>
 		<li class="hide-if-no-js"><a href="#alert-priorities"><?php esc_html_e( 'Priorities', 'wp-user-alerts' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#alert-excerpt"><?php esc_html_e( 'Excerpt', 'wp-user-alerts' ); ?></a></li>
 	</ul>
 
 <?php
@@ -408,6 +409,9 @@ function wp_user_alerts_methods() {
 
 	// Priorities
 	wp_user_alerts_priority_picker();
+
+	// Excerpt
+	wp_user_alerts_excerpt_picker();
 }
 
 /**
@@ -482,6 +486,37 @@ function wp_user_alerts_priority_picker() {
 	</div>
 
 	<?php
+}
+
+/**
+ * Display textarea and preview for excerpt methods
+ *
+ * @since 0.1.0
+ *
+ * @param WP_Post $post Post object.
+ * @param array   $box {
+ *     Categories meta box arguments.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callback $callback Meta box display callback.
+ *     @type array    $args {
+ *         Extra meta box arguments.
+ *
+ *         @type string $taxonomy Taxonomy. Default 'category'.
+ *     }
+ * }
+ */
+function wp_user_alerts_excerpt_picker() {
+?>
+
+	<div id="alert-excerpt" class="tabs-panel alerts-picker" style="display: none;">
+		
+		<?php wp_user_alerts_metabox_preview(); ?>
+
+	</div>
+
+<?php
 }
 
 /**
