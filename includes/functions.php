@@ -432,7 +432,7 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 		: false;
 
 	// Force the excerpt
-	if ( ! empty( $axcerpt ) && ( true === $use_excerpt ) ) {
+	if ( ! empty( $excerpt ) && ( true === $use_excerpt ) ) {
 		$content = $excerpt;
 	}
 
