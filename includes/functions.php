@@ -50,27 +50,27 @@ function wp_user_alerts_get_alert_methods() {
 	   'feed' => (object) array(
 		   'name'     => esc_html__( 'Feed', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_feed',
-		   'excerpt'  => false
+		   'message'  => false
 	   ),
 	   'email' => (object) array(
 		   'name'     => esc_html__( 'Email', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_email',
-		   'excerpt'  => false
+		   'message'  => false
 	   ),
 	   'sms' => (object) array(
 		   'name'     => esc_html__( 'SMS (Text)', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_sms',
-		   'excerpt'  => true
+		   'message'  => true
 	   ),
 	   'notice' => (object) array(
 		   'name'     => esc_html__( 'Notice', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_notice',
-		   'excerpt'  => true
+		   'message'  => true
 	   ),
 	   'popup' => (object) array(
 		   'name'     => esc_html__( 'Pop-Up', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_modal',
-		   'excerpt'  => true
+		   'message'  => true
 	   )
 	) );
 }
@@ -403,27 +403,27 @@ function wp_user_alerts_get_alert_message_subject( $post = 0 ) {
  */
 function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 
-	// Excerpt
+	// Message
 	$content = wp_kses( $post->post_content, array() );
-	$excerpt = wp_html_excerpt( $post->post_content, 100 );
-	$axcerpt = get_post_meta( $post->ID, 'wp_user_alerts_excerpt', true );
+	$message = wp_html_message( $post->post_content, 100 );
+	$axcerpt = get_post_meta( $post->ID, 'wp_user_alerts_message', true );
 
-	// Override the excerpt
+	// Override the message
 	if ( ! empty( $axcerpt ) ) {
-		$excerpt = $axcerpt;
+		$message = $axcerpt;
 	}
 
 	// Get methods to check for override
 	$methods = wp_user_alerts_get_alert_methods();
 
-	// Use excerpt
-	$use_excerpt = isset( $methods[ $method ]->excerpt )
-		? (bool) $methods[ $method ]->excerpt
+	// Use message
+	$use_message = isset( $methods[ $method ]->message )
+		? (bool) $methods[ $method ]->message
 		: false;
 
-	// Force the excerpt
-	if ( ! empty( $excerpt ) && ( true === $use_excerpt ) ) {
-		$content = $excerpt;
+	// Force the message
+	if ( ! empty( $message ) && ( true === $use_message ) ) {
+		$content = $message;
 	}
 
 	return $content;

@@ -25,27 +25,31 @@ jQuery( document ).ready( function ( $ ) {
 	/* Preview */
 	$( 'input[type=radio].alert-priority' ).change( function () {
 		var priority = $( this ).data( 'priority' ),
-			panel    = $( '#alert-excerpt .panel' );
+			panel    = $( '#alert-message .panel' );
 
 		panel.attr( 'data-priority', priority );
 	} );
 
 	var the_editor  = $( 'textarea.wp-editor-area' ),
-		the_excerpt = $( 'textarea.alert-excerpt'  ),
+		the_message = $( 'textarea.alert-message'  ),
 		the_preview = $( '.alert-post-content'     ),
 		the_pickers = $( '.alerts-picker'          ),
-		the_length  = $( '.alert-excerpt-length'   ),
+		the_length  = $( '.alert-message-length'   ),
 		the_height  = 200,
 		the_content = '';
 
 	the_editor.bind( 'input propertychange', function() {
-		if ( 0 === the_excerpt.val().length ) {
+		if ( 0 === the_message.val().length ) {
 			do_preview( the_editor.val() );
 		}
 	} );
 
-	the_excerpt.bind( 'input propertychange', function() {
-		do_preview( the_excerpt.val() );
+	the_message.bind( 'input propertychange', function() {
+		do_preview( the_message.val() );
+	} );
+
+	$( '#user-alert-message' ).on( 'click', function() {
+		do_preview();
 	} );
 
 	function do_preview( the_content ) {
@@ -56,7 +60,7 @@ jQuery( document ).ready( function ( $ ) {
 		the_preview.html( the_content );
 		the_length.html( the_content.length );
 
-		the_height = $( the_excerpt ).height() + $( the_preview ).height() + 94;
+		the_height = $( the_message ).height() + $( the_preview ).height() + 94;
 		the_pickers.height( the_height );
 	}
 } );

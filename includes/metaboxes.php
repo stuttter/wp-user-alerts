@@ -117,16 +117,16 @@ function wp_user_alerts_metabox_who_and_how() {
 }
 
 /**
- * Output the textarea that's used for the alert excerpt
+ * Output the textarea that's used for the alert message
  *
  * @since 0.1.0
  */
-function wp_user_alerts_metabox_excerpt() {
+function wp_user_alerts_metabox_message() {
 ?>
 
-	<div class="alert-excerpt textarea-wrap">
-		<textarea class="alert-excerpt" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"></textarea>
-		<span class="alert-excerpt-length">0</span>
+	<div class="alert-message textarea-wrap">
+		<textarea class="alert-message" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"></textarea>
+		<span class="alert-message-length">0</span>
 	</div>
 
 <?php
@@ -179,7 +179,7 @@ function wp_user_alerts_save_alerts_metabox( $new_status, $old_status, $post = n
 	delete_post_meta( $post->ID, 'wp_user_alerts_role'     );
 	delete_post_meta( $post->ID, 'wp_user_alerts_method'   );
 	delete_post_meta( $post->ID, 'wp_user_alerts_priority' );
-	delete_post_meta( $post->ID, 'wp_user_alerts_excerpt'  );
+	delete_post_meta( $post->ID, 'wp_user_alerts_message'  );
 
 	// Delete any other metas
 	do_action( 'wp_user_alerts_delete_metas', $post->ID );
@@ -220,11 +220,11 @@ function wp_user_alerts_save_alerts_metabox( $new_status, $old_status, $post = n
 		}
 	}
 
-	// Excerpt
-	if ( ! empty( $_POST['wp_user_alerts_excerpt'] ) ) {
-		$excerpt = wp_kses( $_POST['wp_user_alerts_users'], array() );
-		if ( ! empty( $excerpt ) ) {
-			add_post_meta( $post->ID, 'wp_user_alerts_excerpt',$excerpt );
+	// Message
+	if ( ! empty( $_POST['wp_user_alerts_message'] ) ) {
+		$message = wp_kses( $_POST['wp_user_alerts_users'], array() );
+		if ( ! empty( $message ) ) {
+			add_post_meta( $post->ID, 'wp_user_alerts_message',$message );
 		}
 	}
 
@@ -472,7 +472,7 @@ function wp_user_alerts_methods() {
 	<ul id="user-alert-how-tabs" class="category-tabs">
 		<li class="tabs"><a href="#alert-methods"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></a></li>
 		<li class="hide-if-no-js"><a href="#alert-priorities"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></a></li>
-		<li class="hide-if-no-js"><a href="#alert-excerpt"><?php esc_html_e( 'Excerpt', 'wp-user-alerts' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#alert-message"><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></a></li>
 	</ul>
 
 <?php
@@ -483,8 +483,8 @@ function wp_user_alerts_methods() {
 	// Priorities
 	wp_user_alerts_priority_picker();
 
-	// Excerpt
-	wp_user_alerts_excerpt_picker();
+	// Message
+	wp_user_alerts_message_picker();
 }
 
 /**
@@ -496,8 +496,8 @@ function wp_user_alerts_methods_picker() {
 
 	// Query for users
 	$methods = wp_user_alerts_get_alert_methods();
-	$full    = wp_filter_object_list( $methods, array( 'excerpt' => false ) );
-	$excerpt = wp_filter_object_list( $methods, array( 'excerpt' => true  ) );
+	$full    = wp_filter_object_list( $methods, array( 'message' => false ) );
+	$message = wp_filter_object_list( $methods, array( 'message' => true  ) );
 
 	?><div id="alert-methods" class="tabs-panel alerts-picker"><?php
 
@@ -510,11 +510,11 @@ function wp_user_alerts_methods_picker() {
 			?></div><?php
 		endif;
 
-		// Excerpts
-		if ( ! empty( $excerpt ) ) :
-			?><h4><?php esc_html_e( 'Uses Excerpt', 'wp-user-alerts' ); ?></h4><?php
+		// Messages
+		if ( ! empty( $message ) ) :
+			?><h4><?php esc_html_e( 'Uses Message', 'wp-user-alerts' ); ?></h4><?php
 
-			wp_user_alert_methods_items( $excerpt );
+			wp_user_alert_methods_items( $message );
 
 			?></div><?php
 		endif;
@@ -585,7 +585,7 @@ function wp_user_alerts_priority_picker() {
 }
 
 /**
- * Display textarea and preview for excerpt methods
+ * Display textarea and preview for message methods
  *
  * @since 0.1.0
  *
@@ -603,12 +603,12 @@ function wp_user_alerts_priority_picker() {
  *     }
  * }
  */
-function wp_user_alerts_excerpt_picker() {
+function wp_user_alerts_message_picker() {
 ?>
 
-	<div id="alert-excerpt" class="tabs-panel alerts-picker" style="display: none;">
+	<div id="alert-message" class="tabs-panel alerts-picker" style="display: none;">
 
-		<?php wp_user_alerts_metabox_excerpt(); ?>
+		<?php wp_user_alerts_metabox_message(); ?>
 
 		<?php wp_user_alerts_metabox_preview(); ?>
 
