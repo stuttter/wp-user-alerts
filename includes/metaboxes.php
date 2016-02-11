@@ -89,7 +89,8 @@ function wp_user_alerts_metabox_new_post() {
  */
 function wp_user_alerts_metabox_existing_post() {
 	$post       = get_post();
-	$user_ids   = get_post_meta( $post->ID, 'wp_user_alerts_user_ids', true );
+	$user_ids   = get_post_meta( $post->ID, 'wp_user_alerts_user_ids', false );
+	var_dump( $user_ids );
 	$user_count = count( $user_ids );
 
 	printf( _n( '%s person was alerted at the time this was published.', '%s people were alerted at the time this was published.', $user_count, 'wp-user-alerts' ), '<strong>' . number_format( $user_count ) . '</strong>' );
@@ -496,25 +497,25 @@ function wp_user_alerts_methods_picker() {
 
 	// Query for users
 	$methods = wp_user_alerts_get_alert_methods();
-	$full    = wp_filter_object_list( $methods, array( 'message' => false ) );
-	$message = wp_filter_object_list( $methods, array( 'message' => true  ) );
+	$web    = wp_filter_object_list( $methods, array( 'type' => 'web'    ) );
+	$direct = wp_filter_object_list( $methods, array( 'type' => 'direct' ) );
 
 	?><div id="alert-methods" class="tabs-panel alerts-picker"><?php
 
-		// Full
-		if ( ! empty( $full ) ) :
-			?><div><h4><?php esc_html_e( 'Full Text', 'wp-user-alerts' ); ?></h4><?php
+		// Web
+		if ( ! empty( $web ) ) :
+			?><div><h4><?php esc_html_e( 'Website', 'wp-user-alerts' ); ?></h4><?php
 
-			wp_user_alert_methods_items( $full );
+			wp_user_alert_methods_items( $web );
 
 			?></div><?php
 		endif;
 
-		// Messages
-		if ( ! empty( $message ) ) :
-			?><h4><?php esc_html_e( 'Uses Message', 'wp-user-alerts' ); ?></h4><?php
+		// Direct
+		if ( ! empty( $direct ) ) :
+			?><h4><?php esc_html_e( 'Direct', 'wp-user-alerts' ); ?></h4><?php
 
-			wp_user_alert_methods_items( $message );
+			wp_user_alert_methods_items( $direct );
 
 			?></div><?php
 		endif;
@@ -524,29 +525,52 @@ function wp_user_alerts_methods_picker() {
 	<?php
 }
 
+/**
+ * Output alert methods based on plucked items
+ *
+ * @since 0.1.0
+ *
+ * @param array $items
+ */
 function wp_user_alert_methods_items( $items = array() ) {
 
 	// Get the post type
-	$post_type = get_post_type();
-	$_meta = get_post_meta( get_the_ID(), 'wp_user_alerts_method' ); ?>
+	$post    = get_post();
+	$_meta   = get_post_meta( $post->ID, 'wp_user_alerts_method' );
+	$checked = false;
 
-	<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
+	// Start an output buffer
+	ob_start();
 
-		<?php foreach ( $items as $method_id => $method ) : ?>
+	// Output the list
+	?><ul id="<?php echo esc_attr( $post->post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post->post_type ); ?>" class="categorychecklist form-no-clear"><?php
 
-			<li class="alert-method-<?php echo esc_attr( $method_id ); ?>">
+		// Loop through methods
+		foreach ( $items as $method_id => $method ) :
+
+			// Is method checked
+			if ( 'auto-draft' === $post->post_status ) {
+				$checked = (bool) $method->checked;
+			} elseif ( in_array( $method_id, $_meta, true ) ) {
+				$checked = true;
+			}
+
+			// Output the method item
+			?><li class="alert-method-<?php echo esc_attr( $method_id ); ?>">
 				<label class="selectit">
-					<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="wp_user_alerts_methods[]" id="" <?php checked( in_array( $method_id, $_meta, true ) ); ?> />
-					<?php echo esc_html( $method->name ); ?>
+					<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="wp_user_alerts_methods[]" id="" <?php checked( $checked ); ?>>
+					<span><?php echo esc_html( $method->name ); ?></span>
 				</label>
 			</li>
 
 		<?php endforeach; ?>
 
-	</ul>
+	</ul><?php
 
-<?php
+	// Put out the buffer
+	ob_end_flush();
 }
+
 /**
  * Display a list of possible alert types
  *
