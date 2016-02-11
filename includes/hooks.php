@@ -27,7 +27,7 @@ add_action( 'add_meta_boxes', 'wp_user_alerts_admin_metaboxes' );
 
 // Maybe save & send metabox contents
 add_action( 'transition_post_status', 'wp_user_alerts_save_alerts_metabox', 6,  3 );
-add_action( 'transition_post_status', 'wp_user_alerts_maybe_do_all_alerts', 88, 3 );
+add_action( 'transition_post_status', 'wp_user_alerts_maybe_do_all_alerts', 10, 3 );
 
 // User Profiles metabox
 add_action( 'wp_user_profiles_add_profile_meta_boxes', 'wp_user_alerts_add_sms_metabox', 10, 2 );

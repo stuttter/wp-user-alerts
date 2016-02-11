@@ -300,11 +300,12 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 	$address  = '';
 
 	// Get user data
-	$user = get_userdata( $user_id );
+	$user    = get_userdata( $user_id );
+	$cell    = $user->cellular_number;
+	$carrier = $user->cellular_carrier;
 
+	// Format address
 	if ( ! empty( $user->cellular_number ) ) {
-		$cell    = $user->cellular_number;
-		$carrier = $user->cellular_carrier;
 
 		// Bail if carrier not found
 		if ( ! isset( $carriers[ $carrier ] ) ) {
@@ -410,7 +411,7 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 
 	// Message
 	$content = wp_kses( $post->post_content, array() );
-	$message = wp_html_message( $post->post_content, 100 );
+	$message = wp_html_excerpt( $post->post_content, 100 );
 	$axcerpt = get_post_meta( $post->ID, 'wp_user_alerts_message', true );
 
 	// Override the message
