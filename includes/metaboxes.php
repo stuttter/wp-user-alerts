@@ -403,7 +403,7 @@ function wp_user_alerts_users_picker( $args = array() ) {
 	$_meta = wp_parse_id_list( get_post_meta( $post->ID, 'wp_user_alerts_user' ) ); ?>
 
 	<div id="alert-users" class="tabs-panel alerts-picker"<?php echo $args['visible']; ?>>
-		<select data-placeholder="<?php esc_html_e( 'Search for People', 'wp-user-alerts' );?>" name="wp_user_alerts_users[]" id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" multiple="multiple"><?php
+		<select data-placeholder="<?php esc_html_e( 'Search...', 'wp-user-alerts' );?>" name="wp_user_alerts_users[]" id="<?php echo esc_attr( $args['post_type'] ); ?>-checklist" multiple="multiple"><?php
 
 			foreach ( $users as $user ) :
 				$user->filter = 'display';
