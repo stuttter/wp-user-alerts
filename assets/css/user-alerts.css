@@ -1,10 +1,5 @@
-body.post-new-php #post-body #wp-user-alerts .inside {
-	margin: 0;
-	padding: 0;
-}
-
 table.wp-user-alerts {
-	margin-top: 0;
+	margin: -6px -12px -6px;
 }
 
 table.wp-user-alerts th {
