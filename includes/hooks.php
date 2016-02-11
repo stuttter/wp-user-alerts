@@ -25,10 +25,9 @@ add_action( 'admin_head', 'wp_user_alerts_admin_assets' );
 // Maybe add a metabox
 add_action( 'add_meta_boxes', 'wp_user_alerts_admin_metaboxes' );
 
-// Maybe save metabox contents
-add_action( 'transition_post_status',   'wp_user_alerts_do_alerts',           10, 3 );
-add_action( 'wp_user_alerts_do_alerts', 'wp_user_alerts_save_alerts_metabox', 8     );
-add_action( 'wp_user_alerts_do_alerts', 'wp_user_alerts_maybe_do_all_alerts', 12    );
+// Maybe save & send metabox contents
+add_action( 'transition_post_status', 'wp_user_alerts_save_alerts_metabox', 6,  3 );
+add_action( 'transition_post_status', 'wp_user_alerts_maybe_do_all_alerts', 88, 3 );
 
 // User Profiles metabox
 add_action( 'wp_user_profiles_add_profile_meta_boxes', 'wp_user_alerts_add_sms_metabox', 10, 2 );

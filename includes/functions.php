@@ -318,18 +318,15 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 }
 
 /**
- * Only save & send alerts when a post transitions into 'publish' status that
- * wasn't previously published.
+ * Send all of the alerts
  *
  * @since 0.1.0
  *
  * @param  string   $new_status
  * @param  string   $old_status
  * @param  WP_Post  $post
- *
- * @return void
  */
-function wp_user_alerts_do_alerts( $new_status, $old_status, $post ) {
+function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = null ) {
 
 	// Bail if already published
 	if ( 'publish' === $old_status ) {
@@ -340,19 +337,6 @@ function wp_user_alerts_do_alerts( $new_status, $old_status, $post ) {
 	if ( 'publish' !== $new_status ) {
 		return;
 	}
-
-	// Maybe do the alerts
-	do_action( 'wp_user_alerts_do_alerts', $post );
-}
-
-/**
- * Send all of the alerts
- *
- * @since 0.1.0
- *
- * @param WP_Post $post The post object
- */
-function wp_user_alerts_maybe_do_all_alerts( $post = null ) {
 
 	// Bail on autosave
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {

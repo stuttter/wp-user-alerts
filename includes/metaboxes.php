@@ -67,7 +67,7 @@ function wp_user_alerts_metabox_new_post() {
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Recipients', 'wp-user-alerts' ); ?></th>
-					<th><?php esc_html_e( 'Delivery',   'wp-user-alerts' ); ?></th>					
+					<th><?php esc_html_e( 'Delivery',   'wp-user-alerts' ); ?></th>
 				</tr>
 			</thead>
 			<tbody><?php
@@ -152,8 +152,17 @@ function wp_user_alerts_metabox_preview() {
  * Save alert meta data to parent post ID
  *
  * @since 0.1.0
+ *
+ * @param  string   $new_status
+ * @param  string   $old_status
+ * @param  WP_Post  $post
  */
-function wp_user_alerts_save_alerts_metabox( $post = null ) {
+function wp_user_alerts_save_alerts_metabox( $new_status, $old_status, $post = null ) {
+
+	// Bail if already published
+	if ( 'publish' === $old_status ) {
+		return;
+	}
 
 	// Bail on autosave
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
