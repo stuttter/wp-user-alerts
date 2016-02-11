@@ -65,8 +65,10 @@ function wp_user_alerts_metabox_new_post() {
 		<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 		<table class="form-table rowfat wp-user-alerts">
 			<thead>
-				<th><?php esc_html_e( 'Recipients', 'wp-user-alerts' ); ?></th>
-				<th><?php esc_html_e( 'Delivery',   'wp-user-alerts' ); ?></th>
+				<tr>
+					<th><?php esc_html_e( 'Recipients', 'wp-user-alerts' ); ?></th>
+					<th><?php esc_html_e( 'Delivery',   'wp-user-alerts' ); ?></th>					
+				</tr>
 			</thead>
 			<tbody><?php
 
@@ -75,6 +77,7 @@ function wp_user_alerts_metabox_new_post() {
 			?></tbody>
 		</table>
 	</div>
+	<p class="description"><?php esc_html_e( 'Alerts are optional, and can be sent to many recipients when this post is published. (Some methods depend on recipient profile information.)', 'wp-user-alerts' ); ?></p>
 
 <?php
 }
