@@ -251,7 +251,7 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 	// Get cellular carriers
 	$carriers = wp_user_alerts_get_cellular_carriers(); ?>
 
-	<table class="form-table">
+	<div class="user-alerts-wrap"><table class="form-table">
 		<tr class="user-cellular-number-wrap">
 			<th><label for="cellular_number"><?php esc_html_e( 'Number', 'wp-user-alerts' ); ?></label></th>
 			<td><input type="tel" name="cellular_number" id="cellular_number" value="<?php echo esc_attr( $user->cellular_number ); ?>" class="regular-text"></td>
@@ -273,7 +273,7 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 				<p class="description"><?php esc_html_e( 'Usage charges may apply to incoming messages. Please check with your cellular carrier for more information.', 'wp-user-alerts' ); ?></p>
 			</td>
 		</tr>
-	</table>
+	</table></div>
 
 	<?php
 }
