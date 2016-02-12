@@ -2,6 +2,10 @@
 	margin: -7px -12px 0px;
 }
 
+.user-cellular-preferences .chosen-container.chosen-container-multi {
+	width: 25em !important;
+}
+
 table.wp-user-alerts th {
 	background: #fafafa;
 	border-bottom: 1px solid #eee;
