@@ -320,18 +320,19 @@ function wp_user_alerts_save_sms_metabox( $user_id = 0 ) {
 	}
 
 	// Number
-	! empty( $_POST['cellular_number'] )
-		? update_user_meta( $user_id, 'cellular_number', $_POST['cellular_number'] )
+	$number = wp_user_alerts_sanizite_cellular_number( $_POST['cellular_number'] );
+	! empty( $number )
+		? update_user_meta( $user_id, 'cellular_number', $number )
 		: delete_user_meta( $user_id, 'cellular_number' );
 
 	// Carrier
-	! empty( $_POST['cellular_carrier'] )
+	in_array( $_POST['cellular_carrier'], array_keys( wp_user_alerts_get_cellular_carriers() ) )
 		? update_user_meta( $user_id, 'cellular_carrier', $_POST['cellular_carrier'] )
 		: delete_user_meta( $user_id, 'cellular_carrier' );
 
 	// Privacy
 	! empty( $_POST['cellular_privacy'] )
-		? update_user_meta( $user_id, 'cellular_privacy', $_POST['cellular_privacy'] )
+		? update_user_meta( $user_id, 'cellular_privacy', array_intersect( array( 'block_calls', 'block_texts' ), $_POST['cellular_privacy'] ) )
 		: delete_user_meta( $user_id, 'cellular_privacy' );
 }
 

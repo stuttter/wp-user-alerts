@@ -313,7 +313,7 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 		}
 
 		// Format number for email address usage
-		$cell = preg_replace( '/[^0-9+]/', '', $cell );
+		$cell = wp_user_alerts_sanizite_cellular_number( $cell );
 
 		// Concatenate the cell address
 		$address = "{$cell}{$carriers[ $carrier ]->format}";
@@ -321,6 +321,19 @@ function wp_user_alerts_get_user_cellular_address( $user_id = 0 ) {
 
 	// Filter & return
 	return apply_filters( 'wp_user_alerts_get_user_cellular_address', $address, $user_id, $cell, $carrier );
+}
+
+/**
+ * Only allow numbers and traditional cellular characters
+ *
+ * @since 0.1.0
+ *
+ * @param  string $number
+ *
+ * @return string
+ */
+function wp_user_alerts_sanizite_cellular_number( $number = '' ) {
+	return preg_replace( '/[^0-9+]/', '', $number );
 }
 
 /**
