@@ -286,7 +286,18 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 				<?php endforeach; ?>
 
 				</select>
-				<p class="description"><?php esc_html_e( 'Usage charges may apply to incoming messages. Please check with your cellular carrier for more information.', 'wp-user-alerts' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Usage charges may apply to incoming messages. Check with your cellular carrier.', 'wp-user-alerts' ); ?></p>
+			</td>
+		</tr>
+
+		<tr class="user-cellular-preferences">
+			<th><label for="cellular_privacy"><?php esc_html_e( 'Privacy', 'wp-user-alerts' ); ?></label></th>
+			<td>
+				<select data-placeholder="<?php esc_html_e( 'Preferences...', 'wp-user-alerts' ); ?>" name="cellular_privacy[]" multiple>
+					<option value="block_calls" <?php selected( in_array( 'block_calls', (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not call', 'wp-user-alerts' ); ?></option>
+					<option value="block_texts" <?php selected( in_array( 'block_texts', (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not text', 'wp-user-alerts' ); ?></option>
+				</select>
+				<p class="description"><?php esc_html_e( 'We will always do our best to respect your privacy wishes.', 'wp-user-alerts' ); ?></p>
 			</td>
 		</tr>
 	</table>
@@ -303,15 +314,25 @@ function wp_user_alerts_sms_metabox( $user = null ) {
  */
 function wp_user_alerts_save_sms_metabox( $user_id = 0 ) {
 
-	// Number
-	if ( isset( $_POST['cellular_number'] ) ) {
-		update_user_meta( $user_id, 'cellular_number', $_POST['cellular_number'] );
+	// Bail if no number field was posted
+	if ( ! isset( $_POST['cellular_number'] ) ) {
+		return;
 	}
 
+	// Number
+	! empty( $_POST['cellular_number'] )
+		? update_user_meta( $user_id, 'cellular_number', $_POST['cellular_number'] )
+		: delete_user_meta( $user_id, 'cellular_number' );
+
 	// Carrier
-	if ( isset( $_POST['cellular_carrier'] ) ) {
-		update_user_meta( $user_id, 'cellular_carrier', $_POST['cellular_carrier'] );
-	}
+	! empty( $_POST['cellular_carrier'] )
+		? update_user_meta( $user_id, 'cellular_carrier', $_POST['cellular_carrier'] )
+		: delete_user_meta( $user_id, 'cellular_carrier' );
+
+	// Privacy
+	! empty( $_POST['cellular_privacy'] )
+		? update_user_meta( $user_id, 'cellular_privacy', $_POST['cellular_privacy'] )
+		: delete_user_meta( $user_id, 'cellular_privacy' );
 }
 
 /** Types *********************************************************************/
