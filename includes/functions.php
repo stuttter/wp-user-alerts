@@ -169,6 +169,11 @@ function wp_user_alerts_users_by_sms( $args = array() ) {
 	// Loop through user IDs
 	foreach ( $r['user_ids'] as $user_id ) {
 
+		// Skip if blocked
+		if ( in_array( 'block_texts', (array) get_user_meta( $user_id, 'cellular_privacy', true ), true ) ) {
+			continue;
+		}
+
 		// Get cellular address
 		$user_cell = wp_user_alerts_get_user_cellular_address( $user_id );
 
