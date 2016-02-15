@@ -3,11 +3,14 @@
 /**
  * Plugin Name: WP User Alerts
  * Plugin URI:  https://wordpress.org/plugins/wp-user-alerts/
- * Description: Alert users of goings-on when posting new content
- * Version:     0.1.0
  * Author:      John James Jacoby
- * Author URI:  http://jjj.me
+ * Author URI:  https://profiles.wordpress.org/johnjamesjacoby/
  * License:     GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Description: Alert registered users when new content is published
+ * Version:     0.1.0
+ * Text Domain: wp-user-alerts
+ * Domain Path: /assets/lang/
  */
 
 // Exit if accessed directly
