@@ -588,7 +588,7 @@ function wp_user_alerts_filter_post_user_ids( $all_user_ids = array(), $post_id 
  *
  * @param array $args
  */
-function wp_user_alerts_get_alerts( $args = array() ) {
+function wp_user_alerts_get_posts( $args = array() ) {
 
 	// Parse arguments
 	$r = wp_parse_args( $args, array(
