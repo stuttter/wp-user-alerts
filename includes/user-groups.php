@@ -42,6 +42,7 @@ function wp_user_alerts_add_user_groups_to_types( $types = array() ) {
 }
 
 /**
+ * Output a series of checkboxes to allow users to pick groups
  *
  * @since 0.1.0
  *
