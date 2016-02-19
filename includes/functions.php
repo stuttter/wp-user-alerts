@@ -465,7 +465,7 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 function wp_user_alerts_get_post_priority( $post_id = 0 ) {
 
 	// Get priority for alert
-	$priority   = get_post_meta( $post_id, 'wp_user_alerts_priority' );
+	$priority   = get_post_meta( $post_id, 'wp_user_alerts_priority', true );
 	$priorities = wp_user_alerts_get_alert_priorities();
 
 	// Use priority
