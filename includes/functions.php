@@ -669,6 +669,9 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 	// Empty query array
 	$queries = array();
 
+	$queries['or']  = $or  = array( 'relation' => 'OR'  );
+	$queries['and'] = $and = array( 'relation' => 'AND' );
+
 	// Single users
 	if ( ! empty( $r['user'] ) ) {
 		$queries['or'][] = array(
@@ -691,7 +694,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	// Methods
 	if ( ! empty( $r['method'] ) ) {
-		$queries['or'][] = array(
+		$queries['and'][] = array(
 			'key'     => 'wp_user_alerts_method',
 			'value'   => implode( ',', (array) $r['method'] ),
 			'compare' => 'IN',
@@ -713,25 +716,19 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 	$queries = apply_filters( 'wp_user_alerts_get_meta_query', $queries, $r, $args );
 
 	// Default relation
-	$meta_query = array(
+	$meta_query_args = array(
 		'relation' => 'AND'
 	);
 
 	// OR queries
-	if ( isset( $queries['or'] ) ) {
-		$meta_query[] = array(
-			'relation' => 'OR',
-			$queries['or']
-		);
+	if ( $queries['or'] !== $or ) {
+		array_push( $meta_query_args, $queries['or'] );
 	}
 
 	// AND queries
-	if ( isset( $queries['and'] ) ) {
-		$meta_query[] = array(
-			'relation' => 'AND',
-			$queries['and']
-		);
+	if ( $queries['and'] !== $and ) {
+		array_push( $meta_query_args, $queries['and'] );
 	}
 
-	return new WP_Meta_Query( $meta_query );
+	return $meta_query_args;
 }
