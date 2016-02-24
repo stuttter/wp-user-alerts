@@ -582,6 +582,49 @@ function wp_user_alerts_filter_post_user_ids( $all_user_ids = array(), $post_id 
 }
 
 /**
+ * Return array of possible user IDs to query for
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_dashboard_get_meta_query_user() {
+	$users = (array) get_current_user_id();
+	return apply_filters( 'wp_user_dashboard_get_meta_query_user', array_filter( $users ) );
+}
+
+/**
+ * Return array of possible user roles to query for
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_dashboard_get_meta_query_role() {
+	$roles = wp_get_displayed_user_field( 'roles' );
+	return apply_filters( 'wp_user_dashboard_get_meta_query_user', array_filter( $roles ) );
+}
+
+/**
+ * Return array of news alerts
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_alerts_get_news_alerts() {
+	return wp_user_alerts_get_posts( array(
+		'numberposts' => 10,
+		'post_type'   => 'post',
+		'meta_query' => wp_user_alerts_get_meta_query( array(
+			'user'   => wp_user_dashboard_get_meta_query_user(),
+			'role'   => wp_user_dashboard_get_meta_query_role(),
+			'method' => 'feed'
+		) )
+	) );
+}
+
+/**
  * Get all alerts
  *
  * @since 0.1.0
@@ -594,11 +637,7 @@ function wp_user_alerts_get_posts( $args = array() ) {
 	$r = wp_parse_args( $args, array(
 		'post_type'   => 'post',
 		'post_status' => 'publish',
-		'meta_query'  => wp_user_alerts_get_meta_query( array(
-			'user'     => 1,
-			'role'     => 'administrator',
-			'priority' => 'alert'
-		) )
+		'meta_query'  => array( array() )
 	) );
 
 	// Filter the alert arguments
@@ -632,7 +671,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	// Single users
 	if ( ! empty( $r['user'] ) ) {
-		$queries['or'] = array(
+		$queries['or'][] = array(
 			'key'     => 'wp_user_alerts_user',
 			'value'   => implode( ',', (array) $r['user'] ),
 			'compare' => 'IN',
@@ -642,7 +681,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	// User Roles
 	if ( ! empty( $r['role'] ) ) {
-		$queries['or'] = array(
+		$queries['or'][] = array(
 			'key'     => 'wp_user_alerts_role',
 			'value'   => implode( ',', (array) $r['role'] ),
 			'compare' => 'IN',
@@ -652,7 +691,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	// Methods
 	if ( ! empty( $r['method'] ) ) {
-		$queries['and'] = array(
+		$queries['or'][] = array(
 			'key'     => 'wp_user_alerts_method',
 			'value'   => implode( ',', (array) $r['method'] ),
 			'compare' => 'IN',
@@ -662,7 +701,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	// Priorities
 	if ( ! empty( $r['priority'] ) ) {
-		$queries['and'] = array(
+		$queries['and'][] = array(
 			'key'     => 'wp_user_alerts_priority',
 			'value'   => implode( ',', (array) $r['priority'] ),
 			'compare' => 'IN',
@@ -694,5 +733,5 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 		);
 	}
 
-	return $meta_query;
+	return new WP_Meta_Query( $meta_query );
 }
