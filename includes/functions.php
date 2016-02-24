@@ -589,9 +589,7 @@ function wp_user_alerts_filter_post_user_ids( $all_user_ids = array(), $post_id 
  * @return array
  */
 function wp_user_dashboard_get_meta_query_user() {
-	$users = ! empty( $_GET['user_id'] )
-		? (array) $_GET['user_id']
-		: (array) get_current_user_id();
+	$users = (array) wp_get_displayed_user_field( 'ID' );
 	return apply_filters( 'wp_user_dashboard_get_meta_query_user', array_filter( $users ) );
 }
 
@@ -603,7 +601,7 @@ function wp_user_dashboard_get_meta_query_user() {
  * @return array
  */
 function wp_user_dashboard_get_meta_query_role() {
-	$roles = wp_get_displayed_user_field( 'roles' );
+	$roles = (array) wp_get_displayed_user_field( 'roles' );
 	return apply_filters( 'wp_user_dashboard_get_meta_query_user', array_filter( $roles ) );
 }
 
