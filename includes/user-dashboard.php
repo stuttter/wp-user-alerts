@@ -204,3 +204,12 @@ function wp_user_alerts_add_sections( $sections = array() ) {
 	// Return sections
 	return $sections;
 }
+
+/**
+ * Do popups on all pages of a User Dashboard powered site
+ *
+ * @since 0.1.0
+ */
+function wp_user_alerts_do_popups() {
+	wp_user_dashboard_get_template_part( 'popups' );
+}
