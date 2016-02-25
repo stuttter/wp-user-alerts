@@ -35,6 +35,7 @@ function _wp_user_alerts() {
 	require_once $plugin_path . 'includes/post-types.php';
 	require_once $plugin_path . 'includes/metadata.php';
 	require_once $plugin_path . 'includes/metaboxes.php';
+	require_once $plugin_path . 'includes/notices.php';
 	require_once $plugin_path . 'includes/user-groups.php';
 	require_once $plugin_path . 'includes/hooks.php';
 }
