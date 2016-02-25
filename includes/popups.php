@@ -44,7 +44,7 @@ function wp_user_alerts_get_popups() {
  *
  * @return bool
  */
-function wp_user_alerts_dismiss_notice( $id = 0 ) {
+function wp_user_alerts_dismiss_popup( $id = 0 ) {
 
 	// Get dismissed alerts
 	$user_id = get_current_user_id();
