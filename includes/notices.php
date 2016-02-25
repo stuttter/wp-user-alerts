@@ -28,8 +28,8 @@ function wp_user_alerts_get_notices() {
 		'exclude'     => $exclude,
 		'post_type'   => 'any',
 		'meta_query' => wp_user_alerts_get_meta_query( array(
-			'user'   => wp_user_dashboard_get_meta_query_user(),
-			'role'   => wp_user_dashboard_get_meta_query_role(),
+			'user'   => wp_user_alerts_get_meta_query_user(),
+			'role'   => wp_user_alerts_get_meta_query_role(),
 			'method' => 'notice'
 		) )
 	) );
