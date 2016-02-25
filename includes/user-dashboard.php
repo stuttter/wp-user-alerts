@@ -171,3 +171,36 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	return $meta_query_args;
 }
+
+/**
+ * Filter sections and add "Home" section
+ *
+ * @since 0.1.0
+ *
+ * @param array $sections
+ */
+function wp_user_alerts_add_sections( $sections = array() ) {
+
+	// News
+	$sections[] = array(
+		'id'         => 'news',
+		'slug'       => 'news',
+		'url'        => '',
+		'label'      => esc_html__( 'News', 'wp-user-alerts' ),
+		'visibility' => 'visible',
+		'order'      => 10
+	);
+
+	// Dismissed
+	$sections[] =  array(
+		'id'         => 'dismissed',
+		'slug'       => 'dismissed',
+		'url'        => '',
+		'label'      => esc_html__( 'Dismissed', 'wp-user-alerts' ),
+		'visibility' => 'visible',
+		'order'      => 100
+	);
+
+	// Return sections
+	return $sections;
+}

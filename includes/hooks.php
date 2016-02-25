@@ -73,3 +73,6 @@ add_filter( 'wp_user_alerts_get_alert_user_ids', 'wp_user_alerts_filter_alert_gr
 // Send alerts by method
 add_action( 'wp_user_alerts_send_email', 'wp_user_alerts_users_by_email', 10 );
 add_action( 'wp_user_alerts_send_sms',   'wp_user_alerts_users_by_sms',   10 );
+
+// User dashboard
+add_filter( 'wp_user_dashboard_get_sections', 'wp_user_alerts_add_sections' );
