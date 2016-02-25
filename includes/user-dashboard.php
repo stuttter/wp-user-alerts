@@ -183,22 +183,22 @@ function wp_user_alerts_add_sections( $sections = array() ) {
 
 	// News
 	$sections[] = array(
-		'id'         => 'news',
-		'slug'       => 'news',
-		'url'        => '',
-		'label'      => esc_html__( 'News', 'wp-user-alerts' ),
-		'visibility' => 'visible',
-		'order'      => 10
+		'id'           => 'news',
+		'slug'         => 'news',
+		'url'          => '',
+		'label'        => esc_html__( 'News', 'wp-user-alerts' ),
+		'show_in_menu' => true,
+		'order'        => 10
 	);
 
 	// Dismissed
 	$sections[] =  array(
-		'id'         => 'dismissed',
-		'slug'       => 'dismissed',
-		'url'        => '',
-		'label'      => esc_html__( 'Dismissed', 'wp-user-alerts' ),
-		'visibility' => 'visible',
-		'order'      => 100
+		'id'           => 'dismissed',
+		'slug'         => 'dismissed',
+		'url'          => '',
+		'label'        => esc_html__( 'Dismissed', 'wp-user-alerts' ),
+		'show_in_menu' => 'visible',
+		'order'        => 100
 	);
 
 	// Return sections
