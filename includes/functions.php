@@ -639,7 +639,7 @@ function wp_user_alerts_get_notices() {
  *
  * @return array
  */
-function wp_user_alerts_get_modals() {
+function wp_user_alerts_get_popups() {
 
 	// Get dismissed alerts
 	$user_id = get_current_user_id();
@@ -653,7 +653,7 @@ function wp_user_alerts_get_modals() {
 		'meta_query' => wp_user_alerts_get_meta_query( array(
 			'user'   => wp_user_dashboard_get_meta_query_user(),
 			'role'   => wp_user_dashboard_get_meta_query_role(),
-			'method' => 'modal'
+			'method' => 'popup'
 		) )
 	) );
 }
