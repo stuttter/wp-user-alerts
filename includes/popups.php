@@ -37,9 +37,19 @@ function wp_user_alerts_get_popups() {
  * @return array
  */
 function wp_user_alerts_get_dismissed_popups() {
+
+	// Get popups
+	$popups = get_user_option( 'dismissed_popup_ids', get_current_user_id() );
+
+	// Bail if no popups
+	if ( empty( $popups ) ) {
+		return array();
+	}
+
+	// Query for popups
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => -1,
-		'include'     => get_user_option( 'dismissed_popup_ids', get_current_user_id() ),
+		'include'     => $popups,
 		'post_type'   => 'any'
 	) );
 }

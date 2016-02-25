@@ -37,9 +37,19 @@ function wp_user_alerts_get_notices() {
  * @return array
  */
 function wp_user_alerts_get_dismissed_notices() {
+
+	// Get notices
+	$notices = get_user_option( 'dismissed_notice_ids', get_current_user_id() );
+
+	// Bail if no notices
+	if ( empty( $notices ) ) {
+		return array();
+	}
+
+	// Query for notices
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => -1,
-		'include'     => get_user_option( 'dismissed_notice_ids', get_current_user_id() ),
+		'include'     => $notices,
 		'post_type'   => 'any'
 	) );
 }
