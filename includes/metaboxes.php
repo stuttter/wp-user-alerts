@@ -523,9 +523,13 @@ function wp_user_alerts_methods_picker() {
 	$web    = wp_filter_object_list( $methods, array( 'type' => 'web'    ) );
 	$direct = wp_filter_object_list( $methods, array( 'type' => 'direct' ) );
 
+	// Start a buffer
+	ob_start();
+
+	// Output methods
 	?><div id="alert-methods" class="tabs-panel alerts-picker"><?php
 
-		// Web
+		// User Dashboard
 		if ( ! empty( $web ) ) :
 			?><div><h4><?php esc_html_e( 'Website', 'wp-user-alerts' ); ?></h4><?php
 
@@ -543,9 +547,10 @@ function wp_user_alerts_methods_picker() {
 			?></div><?php
 		endif;
 
-	?></div>
+	?></div><?php
 
-	<?php
+	// Send the buffer
+	ob_flush();
 }
 
 /**

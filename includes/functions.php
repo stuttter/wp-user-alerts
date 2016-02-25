@@ -46,25 +46,9 @@ function wp_user_alerts_get_alert_types() {
  * @return array
  */
 function wp_user_alerts_get_alert_methods() {
-	return apply_filters( 'wp_user_alerts_get_alert_methods', array(
-	   'feed' => (object) array(
-		   'name'     => esc_html__( 'Feed', 'wp-user-alerts' ),
-		   'callback' => 'wp_user_alerts_users_by_feed',
-		   'type'     => 'web',
-		   'checked'  => true
-	   ),
-	   'notice' => (object) array(
-		   'name'     => esc_html__( 'Notice', 'wp-user-alerts' ),
-		   'callback' => 'wp_user_alerts_users_by_notice',
-		   'type'     => 'web',
-		   'checked'  => false
-	   ),
-	   'popup' => (object) array(
-		   'name'     => esc_html__( 'Pop-Up', 'wp-user-alerts' ),
-		   'callback' => 'wp_user_alerts_users_by_modal',
-		   'type'     => 'web',
-		   'checked'  => false
-	   ),
+
+	// Default methods array
+	$methods = array(
 	   'email' => (object) array(
 		   'name'     => esc_html__( 'Email', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_email',
@@ -76,8 +60,32 @@ function wp_user_alerts_get_alert_methods() {
 		   'callback' => 'wp_user_alerts_users_by_sms',
 		   'type'     => 'direct',
 		   'checked'  => false
-	   ),
-	) );
+	   )
+	);
+
+	// User dashboard methods
+	if ( function_exists( '_wp_user_dashboard' ) ) {
+		$methods['feed'] = (object) array(
+		   'name'     => esc_html__( 'Feed', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_users_by_feed',
+		   'type'     => 'web',
+		   'checked'  => true
+	   );
+	   $methods['notice'] = (object) array(
+		   'name'     => esc_html__( 'Notice', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_users_by_notice',
+		   'type'     => 'web',
+		   'checked'  => false
+	   );
+	   $methods['popup'] = (object) array(
+		   'name'     => esc_html__( 'Pop-Up', 'wp-user-alerts' ),
+		   'callback' => 'wp_user_alerts_users_by_modal',
+		   'type'     => 'web',
+		   'checked'  => false
+	   );
+	}
+
+	return apply_filters( 'wp_user_alerts_get_alert_methods', $methods );
 }
 
 /**
