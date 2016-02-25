@@ -216,7 +216,7 @@ function wp_user_alerts_get_user_group_member_ids( $post_id = 0 ) {
  *
  * @return array
  */
-function wp_user_alerts_filter_post_group_user_ids( $all_user_ids = array(), $post_id = 0 ) {
+function wp_user_alerts_filter_alert_group_user_ids( $all_user_ids = array(), $post_id = 0 ) {
 
 	// Get user IDs from group
 	$group_user_ids = wp_user_alerts_get_user_group_member_ids( $post_id );

@@ -378,7 +378,7 @@ function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = n
 	}
 
 	// Get the priority, methods, and user IDs
-	$user_ids = wp_user_alerts_get_post_user_ids( $post->ID );
+	$user_ids = wp_user_alerts_get_alert_user_ids( $post->ID );
 	$methods  = wp_user_alerts_get_post_methods( $post->ID );
 
 	// Append priority label to subject
@@ -413,7 +413,7 @@ function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = n
  * @param mixed $post
  */
 function wp_user_alerts_get_alert_message_subject( $post = 0 ) {
-	$priority = wp_user_alerts_get_post_priority( $post->ID )->name;
+	$priority = wp_user_alerts_get_alert_priority( $post->ID )->name;
 	$subject  = "[{$priority}] " . wp_kses( $post->post_title, array() );
 	return $subject;
 }
@@ -462,7 +462,7 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
  *
  * @return object
  */
-function wp_user_alerts_get_post_priority( $post_id = 0 ) {
+function wp_user_alerts_get_alert_priority( $post_id = 0 ) {
 
 	// Get priority for alert
 	$priority   = get_post_meta( $post_id, 'wp_user_alerts_priority', true );
@@ -502,7 +502,7 @@ function wp_user_alerts_get_post_methods( $post_id = 0 ) {
  * Get array of user IDs to alert
  *
  * To add or remove user IDs to this function, you'll need to add a filter hook
- * to `wp_user_alerts_get_post_user_ids`, and merge your results with the rest
+ * to `wp_user_alerts_get_alert_user_ids`, and merge your results with the rest
  * of the other functions that are filtering it.
  *
  * Failure to run `array_merge()` in your filter will clobber the existing
@@ -515,10 +515,10 @@ function wp_user_alerts_get_post_methods( $post_id = 0 ) {
  *
  * @return array
  */
-function wp_user_alerts_get_post_user_ids( $post_id = 0 ) {
+function wp_user_alerts_get_alert_user_ids( $post_id = 0 ) {
 
 	// Allow everything to hook in and filter the user IDs
-	$all_user_ids = apply_filters( 'wp_user_alerts_get_post_user_ids', array(), $post_id );
+	$all_user_ids = apply_filters( 'wp_user_alerts_get_alert_user_ids', array(), $post_id );
 
 	// Remove duplicates
 	$deduped_user_ids = array_unique( $all_user_ids, SORT_NUMERIC );
@@ -537,7 +537,7 @@ function wp_user_alerts_get_post_user_ids( $post_id = 0 ) {
  *
  * @return array
  */
-function wp_user_alerts_filter_post_role_user_ids( $all_user_ids = array(), $post_id = 0 ) {
+function wp_user_alerts_filter_alert_role_user_ids( $all_user_ids = array(), $post_id = 0 ) {
 
 	// Get all roles
 	$role_ids = get_post_meta( $post_id, 'wp_user_alerts_role' );
@@ -567,7 +567,7 @@ function wp_user_alerts_filter_post_role_user_ids( $all_user_ids = array(), $pos
  *
  * @return array
  */
-function wp_user_alerts_filter_post_user_ids( $all_user_ids = array(), $post_id = 0 ) {
+function wp_user_alerts_filter_alert_user_ids( $all_user_ids = array(), $post_id = 0 ) {
 
 	// Get all single users
 	$user_ids = get_post_meta( $post_id, 'wp_user_alerts_user' );

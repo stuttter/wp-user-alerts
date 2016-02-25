@@ -66,9 +66,9 @@ if ( is_admin() ) {
 }
 
 // Users to alert
-add_filter( 'wp_user_alerts_get_post_user_ids', 'wp_user_alerts_filter_post_user_ids',       77, 2 );
-add_filter( 'wp_user_alerts_get_post_user_ids', 'wp_user_alerts_filter_post_role_user_ids',  88, 2 );
-add_filter( 'wp_user_alerts_get_post_user_ids', 'wp_user_alerts_filter_post_group_user_ids', 99, 2 );
+add_filter( 'wp_user_alerts_get_alert_user_ids', 'wp_user_alerts_filter_alert_user_ids',       77, 2 );
+add_filter( 'wp_user_alerts_get_alert_user_ids', 'wp_user_alerts_filter_alert_role_user_ids',  88, 2 );
+add_filter( 'wp_user_alerts_get_alert_user_ids', 'wp_user_alerts_filter_alert_group_user_ids', 99, 2 );
 
 // Send alerts by method
 add_action( 'wp_user_alerts_send_email', 'wp_user_alerts_users_by_email', 10 );
