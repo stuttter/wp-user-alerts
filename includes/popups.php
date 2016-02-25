@@ -20,7 +20,7 @@ function wp_user_alerts_get_popups() {
 
 	// Get dismissed alerts
 	$user_id = get_current_user_id();
-	$exclude = get_user_option( 'dismissed_modal_ids', $user_id );
+	$exclude = get_user_option( 'dismissed_popup_ids', $user_id );
 
 	// Get posts
 	return wp_user_alerts_get_posts( array(
