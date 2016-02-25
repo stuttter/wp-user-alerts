@@ -48,7 +48,7 @@ function wp_user_alerts_dismiss_notice( $id = 0 ) {
 
 	// Get dismissed alerts
 	$user_id = get_current_user_id();
-	$exclude = get_user_option( 'dismissed_notice_ids', $user_id );
+	$exclude = (array) get_user_option( 'dismissed_notice_ids', $user_id );
 
 	// Add item to array and sort
 	array_push( $exclude, $id );
