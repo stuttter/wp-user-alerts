@@ -588,3 +588,25 @@ function wp_user_alerts_filter_alert_user_ids( $all_user_ids = array(), $post_id
 	// Merge and return
 	return array_merge( $all_user_ids, $user_ids );
 }
+
+/**
+ * Dismiss an alert for a user
+ *
+ * @since 0.1.0
+ *
+ * @param int $post_id
+ *
+ * @return bool
+ */
+function wp_user_alerts_dismiss_alert( $post_id = 0 ) {
+	$user_id   = get_current_user_id();
+	$dismissed = get_post_meta( $post_id, 'wp_user_alerts_dismissed' );
+	$already   = in_array( $user_id, $dismissed, true );
+
+	// Add the meta
+	if ( false === $already ) {
+		return add_post_meta( $post_id, 'wp_user_alerts_dismissed', $user_id );
+	}
+
+	return (bool) $already;
+}
