@@ -638,27 +638,100 @@ function wp_user_alerts_get_posts( $args = array() ) {
 }
 
 /**
- * Get an array of posts the user
+ * Get the meta query for querying for alerts
  *
  * @since 0.1.0
  *
- * @param arary $args
- *s
+ * @param  array  $args
+ *
  * @return array
  */
-function wp_user_alerts_get_dismissed_alerts( $args = array() ) {
+function wp_user_alerts_get_meta_query( $args = array() ) {
 
-	// Parse arguments
+	// Parse args
 	$r = wp_parse_args( $args, array(
-		'post_type'   => 'any',
-		'meta_query'  => array( array(
-			'key'   => 'wp_user_alerts_dismissed',
-			'value' => get_current_user_id(),
-			'type'  => 'NUMERIC'
-		) )
+		'user'      => array( 1 ),
+		'role'      => array(),
+		'priority'  => array(),
+		'method'    => array(),
+		'dismissed' => array()
 	) );
 
-	return wp_user_alerts_get_posts( $r );
+	// Empty query array
+	$queries = array();
+
+	$queries['or']  = $or  = array( 'relation' => 'OR'  );
+	$queries['and'] = $and = array( 'relation' => 'AND' );
+
+	// Single users
+	if ( ! empty( $r['user'] ) ) {
+		$queries['or'][] = array(
+			'key'     => 'wp_user_alerts_user',
+			'value'   => implode( ',', (array) $r['user'] ),
+			'compare' => 'IN',
+			'type'    => 'NUMERIC'
+		);
+	}
+
+	// User Roles
+	if ( ! empty( $r['role'] ) ) {
+		$queries['or'][] = array(
+			'key'     => 'wp_user_alerts_role',
+			'value'   => implode( ',', (array) $r['role'] ),
+			'compare' => 'IN',
+			'type'    => 'CHAR'
+		);
+	}
+
+	// Methods
+	if ( ! empty( $r['method'] ) ) {
+		$queries['and'][] = array(
+			'key'     => 'wp_user_alerts_method',
+			'value'   => implode( ',', (array) $r['method'] ),
+			'compare' => 'IN',
+			'type'    => 'CHAR'
+		);
+	}
+
+	// Priorities
+	if ( ! empty( $r['priority'] ) ) {
+		$queries['and'][] = array(
+			'key'     => 'wp_user_alerts_priority',
+			'value'   => implode( ',', (array) $r['priority'] ),
+			'compare' => 'IN',
+			'type'    => 'CHAR'
+		);
+	}
+
+	// Dismissed
+	if ( ! empty( $r['dismissed'] ) ) {
+		$queries['and'][] = array(
+			'key'     => 'wp_user_alerts_dismissed',
+			'value'   => implode( ',', (array) $r['dismissed'] ),
+			'compare' => 'IN',
+			'type'    => 'NUMERIC'
+		);
+	}
+
+	// Filter the queries
+	$queries = apply_filters( 'wp_user_alerts_get_meta_query', $queries, $r, $args );
+
+	// Default relation
+	$meta_query_args = array(
+		'relation' => 'AND'
+	);
+
+	// OR queries
+	if ( $queries['or'] !== $or ) {
+		array_push( $meta_query_args, $queries['or'] );
+	}
+
+	// AND queries
+	if ( $queries['and'] !== $and ) {
+		array_push( $meta_query_args, $queries['and'] );
+	}
+
+	return $meta_query_args;
 }
 
 /**

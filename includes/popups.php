@@ -37,26 +37,21 @@ function wp_user_alerts_get_popups() {
 }
 
 /**
- * Return array of modal alerts
+ * Get an array of posts the user
  *
  * @since 0.1.0
+ *
+ * @param arary $args
  *
  * @return array
  */
 function wp_user_alerts_get_dismissed_popups() {
-
-	// Get popups
-	$popups = get_user_option( 'dismissed_popup_ids', get_current_user_id() );
-
-	// Bail if no popups
-	if ( empty( $popups ) ) {
-		return array();
-	}
-
-	// Query for popups
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => -1,
-		'include'     => $popups,
-		'post_type'   => 'any'
+		'post_type'   => 'any',
+		'meta_query' => wp_user_alerts_get_meta_query( array(
+			'dismissed' => wp_user_alerts_get_meta_query_dismissed(),
+			'method'    => 'popup'
+		) )
 	) );
 }
