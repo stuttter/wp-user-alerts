@@ -42,7 +42,7 @@ function wp_user_alerts_metabox() {
 	// Before
 	do_action( 'wp_user_alerts_metabox_before' );
 
-	'publish' === get_post_status()
+	in_array( get_post_status(), wp_user_alerts_get_allowed_post_statuses(), true )
 		? wp_user_alerts_metabox_existing_post()
 		: wp_user_alerts_metabox_new_post();
 
@@ -162,7 +162,7 @@ function wp_user_alerts_metabox_preview() {
 function wp_user_alerts_save_alerts_metabox( $new_status, $old_status, $post = null ) {
 
 	// Bail if already published
-	if ( 'publish' === $old_status ) {
+	if ( in_array( $old_status, wp_user_alerts_get_allowed_post_statuses(), true ) ) {
 		return;
 	}
 

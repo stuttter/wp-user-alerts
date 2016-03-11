@@ -19,6 +19,17 @@ function wp_register_default_user_alert_post_types() {
 }
 
 /**
+ * Return array of allowed post statuses
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_alerts_get_allowed_post_statuses() {
+	return array( 'publish', 'private' );
+}
+
+/**
  * Return an array of registered alert types
  *
  * @since 0.1.0
@@ -360,13 +371,16 @@ function wp_user_alerts_sanizite_cellular_number( $number = '' ) {
  */
 function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = null ) {
 
+	// Allowed Statuses
+	$allowed_statuses = wp_user_alerts_get_allowed_post_statuses();
+
 	// Bail if already published
-	if ( 'publish' === $old_status ) {
+	if ( in_array( $old_status, $allowed_statuses, true ) ) {
 		return;
 	}
 
 	// Bail if new status is not publish
-	if ( 'publish' !== $new_status ) {
+	if ( ! in_array( $new_status, $allowed_statuses, true ) ) {
 		return;
 	}
 
@@ -381,7 +395,7 @@ function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = n
 	}
 
 	// Bail if not publishing
-	if ( 'publish' !== get_post_status( $post->ID ) ) {
+	if ( ! in_array( get_post_status( $post->ID ), $allowed_statuses, true ) ) {
 		return;
 	}
 
@@ -625,7 +639,7 @@ function wp_user_alerts_get_posts( $args = array() ) {
 	// Parse arguments
 	$r = wp_parse_args( $args, array(
 		'post_type'   => 'post',
-		'post_status' => 'publish',
+		'post_status' => wp_user_alerts_get_allowed_post_statuses(),
 		'meta_query'  => array( array() )
 	) );
 
