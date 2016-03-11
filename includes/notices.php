@@ -50,32 +50,9 @@ function wp_user_alerts_get_dismissed_notices() {
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => -1,
 		'include'     => $notices,
-		'post_type'   => 'any'
+		'post_type'   => 'any',
+		'meta_query' => array( array(
+			'key' => 'wp_user_alerts_dismissed'
+		) )
 	) );
-}
-
-/**
- * Dismiss a notice for a user
- *
- * @since 0.1.0
- *
- * @param int $id
- *
- * @return bool
- */
-function wp_user_alerts_dismiss_notice( $id = 0 ) {
-
-	// Get dismissed alerts
-	$user_id = get_current_user_id();
-	$exclude = (array) get_user_option( 'dismissed_notice_ids', $user_id );
-
-	// Add item to array and sort
-	array_push( $exclude, $id );
-	ksort( $exclude );
-
-	// Remove duplicates and empties
-	$exclude = array_unique( array_filter( $exclude ) );
-
-	// Update option
-	return update_user_option( $user_id, 'dismissed_notice_ids', $exclude );
 }

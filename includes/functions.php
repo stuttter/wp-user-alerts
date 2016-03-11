@@ -613,3 +613,73 @@ function wp_user_alerts_dismiss_alert( $post_id = 0 ) {
 	// Return if dismissed
 	return (bool) $already;
 }
+
+/**
+ * Get all alerts
+ *
+ * @since 0.1.0
+ *
+ * @param array $args
+ */
+function wp_user_alerts_get_posts( $args = array() ) {
+
+	// Parse arguments
+	$r = wp_parse_args( $args, array(
+		'post_type'   => 'post',
+		'post_status' => 'publish',
+		'meta_query'  => array( array() )
+	) );
+
+	// Filter the alert arguments
+	$posts = apply_filters( 'wp_user_alerts_get_alerts', $r, $args );
+
+	// Get the posts
+	return get_posts( $posts );
+}
+
+/**
+ * Get an array of posts the user
+ *
+ * @since 0.1.0
+ *
+ * @param arary $args
+ *s
+ * @return array
+ */
+function wp_user_alerts_get_dismissed_alerts( $args = array() ) {
+
+	// Parse arguments
+	$r = wp_parse_args( $args, array(
+		'post_type'   => 'any',
+		'meta_query'  => array( array(
+			'key'   => 'wp_user_alerts_dismissed',
+			'value' => get_current_user_id(),
+			'type'  => 'NUMERIC'
+		) )
+	) );
+
+	return wp_user_alerts_get_posts( $r );
+}
+
+/**
+ * Dismiss an alert for a user
+ *
+ * @since 0.1.0
+ *
+ * @param int $user_id
+ *
+ * @return bool
+ */
+function wp_user_alerts_delete_user( $user_id = 0 ) {
+
+	// Get dismissed alerts
+	$posts   = wp_user_alerts_get_dismissed_alerts( array( 'user_id' => $user_id ) );
+	$deleted = 0;
+
+	// Loop through and delete the meta data
+	foreach ( $posts as $post ) {
+		$deleted = delete_post_meta( $post->ID, 'wp_user_alerts_dismissed', $user_id );
+	}
+
+	return $deleted;
+}

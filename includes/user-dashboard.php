@@ -64,29 +64,6 @@ function wp_user_alerts_get_events_alerts() {
 }
 
 /**
- * Get all alerts
- *
- * @since 0.1.0
- *
- * @param array $args
- */
-function wp_user_alerts_get_posts( $args = array() ) {
-
-	// Parse arguments
-	$r = wp_parse_args( $args, array(
-		'post_type'   => 'post',
-		'post_status' => 'publish',
-		'meta_query'  => array( array() )
-	) );
-
-	// Filter the alert arguments
-	$posts = apply_filters( 'wp_user_alerts_get_alerts', $r, $args );
-
-	// Get the posts
-	return get_posts( $posts );
-}
-
-/**
  * Get the meta query for querying for alerts
  *
  * @since 0.1.0

@@ -77,3 +77,6 @@ add_action( 'wp_user_alerts_send_sms',   'wp_user_alerts_users_by_sms',   10 );
 // User dashboard
 add_filter( 'wp_user_dashboard_get_sections', 'wp_user_alerts_add_sections' );
 add_action( 'wp_user_dashboard_footer',       'wp_user_alerts_do_popups'    );
+
+// Delete dismissed alerts
+add_action( 'deleted_user', 'wp_user_alerts_delete_user' );
