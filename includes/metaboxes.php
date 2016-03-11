@@ -127,7 +127,7 @@ function wp_user_alerts_metabox_message() {
 ?>
 
 	<div class="alert-message textarea-wrap">
-		<textarea name="wp_user_alerts_message" class="alert-message" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"></textarea>
+		<textarea name="wp_user_alerts_message" class="alert-message" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"><?php echo esc_textarea( get_post_meta( get_the_ID(), 'wp_user_alerts_message' ) ); ?></textarea>
 		<span class="alert-message-length">0</span>
 	</div>
 
@@ -226,7 +226,7 @@ function wp_user_alerts_save_alerts_metabox( $new_status, $old_status, $post = n
 	if ( ! empty( $_POST['wp_user_alerts_message'] ) ) {
 		$message = wp_kses( $_POST['wp_user_alerts_message'], array() );
 		if ( ! empty( $message ) ) {
-			add_post_meta( $post->ID, 'wp_user_alerts_message',$message );
+			add_post_meta( $post->ID, 'wp_user_alerts_message', $message );
 		}
 	}
 
