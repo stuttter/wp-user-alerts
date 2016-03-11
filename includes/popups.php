@@ -23,10 +23,13 @@ function wp_user_alerts_get_popups() {
 		return false;
 	}
 
-	// Maybe return popups
+	// Dismissed notices are excluded
+	$dismissed = wp_list_pluck( wp_user_alerts_get_dismissed_popups(), 'ID' );
+
+	// Get alerts
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => 10,
-		'exclude'     => get_user_option( 'dismissed_popup_ids', get_current_user_id() ),
+		'exclude'     => $dismissed,
 		'post_type'   => 'any',
 		'meta_query' => wp_user_alerts_get_meta_query( array(
 			'user'   => wp_user_alerts_get_meta_query_user(),

@@ -598,10 +598,9 @@ function wp_user_alerts_filter_alert_user_ids( $all_user_ids = array(), $post_id
  *
  * @return bool
  */
-function wp_user_alerts_dismiss_alert( $post_id = 0 ) {
+function wp_user_alerts_dismiss_alert( $post_id = 0, $user_id = 0 ) {
 
 	// Get user & look in meta
-	$user_id   = get_current_user_id();
 	$dismissed = get_post_meta( $post_id, 'wp_user_alerts_dismissed' );
 	$already   = in_array( $user_id, $dismissed, true );
 
