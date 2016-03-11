@@ -127,7 +127,7 @@ function wp_user_alerts_metabox_message() {
 ?>
 
 	<div class="alert-message textarea-wrap">
-		<textarea name="wp_user_alerts_message" class="alert-message" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"><?php echo esc_textarea( get_post_meta( get_the_ID(), 'wp_user_alerts_message' ) ); ?></textarea>
+		<textarea name="wp_user_alerts_message" class="alert-message" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"><?php echo esc_textarea( get_post_meta( get_the_ID(), 'wp_user_alerts_message', true ) ); ?></textarea>
 		<span class="alert-message-length">0</span>
 	</div>
 
