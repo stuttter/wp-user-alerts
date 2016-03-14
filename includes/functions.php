@@ -758,13 +758,14 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
  */
 function wp_user_alerts_delete_user( $user_id = 0 ) {
 
-	// Get dismissed alerts
-	$posts   = wp_user_alerts_get_dismissed_alerts( array( 'user_id' => $user_id ) );
-	$deleted = 0;
+	// Get dismissed meta
+	$notices   = wp_list_pluck( wp_user_alerts_get_dismissed_notices(), 'ID' );
+	$popups    = wp_list_pluck( wp_user_alerts_get_dismissed_popups(),  'ID' );
+	$dismissed = array_merge( $notices, $popups );
 
 	// Loop through and delete the meta data
-	foreach ( $posts as $post ) {
-		$deleted = delete_post_meta( $post->ID, 'wp_user_alerts_dismissed', $user_id );
+	foreach ( $dismissed as $post_id ) {
+		$deleted = delete_post_meta( $post_id, 'wp_user_alerts_dismissed', $user_id );
 	}
 
 	return $deleted;
