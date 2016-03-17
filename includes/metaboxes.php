@@ -563,9 +563,8 @@ function wp_user_alerts_methods_picker() {
 function wp_user_alert_methods_items( $items = array() ) {
 
 	// Get the post type
-	$post    = get_post();
-	$_meta   = get_post_meta( $post->ID, 'wp_user_alerts_method' );
-	$checked = false;
+	$post  = get_post();
+	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_method' );
 
 	// Start an output buffer
 	ob_start();
@@ -576,8 +575,11 @@ function wp_user_alert_methods_items( $items = array() ) {
 		// Loop through methods
 		foreach ( $items as $method_id => $method ) :
 
+			// Reset checked status
+			$checked = false;
+
 			// Is method checked
-			if ( 'auto-draft' === $post->post_status ) {
+			if ( ( 'feed' === $method ) && ( 'auto-draft' === $post->post_status ) ) {
 				$checked = (bool) $method->checked;
 			} elseif ( in_array( $method_id, $_meta, true ) ) {
 				$checked = true;
