@@ -49,7 +49,7 @@ function wp_user_alerts_get_dismissed_notices() {
 		'post_type'   => 'any',
 		'meta_query' => wp_user_alerts_get_meta_query( array(
 			'dismissed' => wp_user_alerts_get_meta_query_dismissed(),
-			'method'    => 'feed'
+			'method'    => 'notice'
 		) )
 	) );
 }
