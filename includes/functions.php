@@ -495,8 +495,8 @@ function wp_user_alerts_get_alert_priority( $post_id = 0 ) {
 		return $priorities[ $priority ];
 
 	// Fallback to "Info"
-	} elseif ( isset( $priorities->info ) ) {
-		return $priorities->info;
+	} elseif ( isset( $priorities['info'] ) ) {
+		return $priorities['info'];
 
 	// "Info" is broken, so force it
 	} else {
