@@ -616,7 +616,7 @@ function wp_user_alerts_dismiss_alert( $post_id = 0, $user_id = 0 ) {
 
 	// Get user & look in meta
 	$dismissed = get_post_meta( $post_id, 'wp_user_alerts_dismissed' );
-	$already   = in_array( $user_id, $dismissed, true );
+	$already   = in_array( $user_id, $dismissed );
 
 	// Add the meta
 	if ( false === $already ) {
