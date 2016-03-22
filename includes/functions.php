@@ -620,11 +620,13 @@ function wp_user_alerts_dismiss_alert( $post_id = 0, $user_id = 0 ) {
 
 	// Add the meta
 	if ( false === $already ) {
-		return add_post_meta( $post_id, 'wp_user_alerts_dismissed', $user_id );
+		add_post_meta( $post_id, 'wp_user_alerts_dismissed', $user_id );
+		clean_post_cache( $post_id );
+		return true;
 	}
 
 	// Return if dismissed
-	return (bool) $already;
+	return $already;
 }
 
 /**
