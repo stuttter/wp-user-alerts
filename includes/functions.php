@@ -491,7 +491,7 @@ function wp_user_alerts_get_alert_priority( $post_id = 0 ) {
 	$priorities = wp_user_alerts_get_alert_priorities();
 
 	// Use priority
-	if ( isset( $priorities->{$priority} ) ) {
+	if ( isset( $priorities[ $priority ] ) ) {
 		return $priorities[ $priority ];
 
 	// Fallback to "Info"
