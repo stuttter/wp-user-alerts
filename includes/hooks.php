@@ -61,8 +61,8 @@ add_filter( 'list_table_primary_column',          'wp_user_alerts_list_table_pri
 
 // Admin only filter for list-table sorting
 if ( is_admin() ) {
-	add_filter( 'pre_get_posts', 'wp_user_alerts_maybe_sort_by_fields'   );
-	add_filter( 'pre_get_posts', 'wp_user_alerts_maybe_filter_by_fields' );
+	add_action( 'pre_get_posts', 'wp_user_alerts_maybe_sort_by_fields'   );
+	add_action( 'pre_get_posts', 'wp_user_alerts_maybe_filter_by_fields' );
 }
 
 // Users to alert
