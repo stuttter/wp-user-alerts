@@ -55,6 +55,7 @@ jQuery( document ).ready( function ( $ ) {
 	function do_preview( the_content ) {
 		if ( the_content.length ) {
 			the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
+			the_content = the_content.substring( 0, 100 );
 		}
 
 		the_preview.html( the_content );
