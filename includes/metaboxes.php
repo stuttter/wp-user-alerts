@@ -171,7 +171,7 @@ function wp_user_alerts_metabox_preview() {
 ?>
 
 	<h4><?php esc_html_e( 'Alert Preview', 'wp-user-alerts' ); ?></h4>
-	<p><?php esc_html_e( 'Here is a mocked preview of what your methods, message, and priority might look like to your members.', 'wp-user-alerts' ); ?></p>
+	<p><?php esc_html_e( 'Here is a mocked preview of what your methods, message, and priority might look like to your members. You can change these alert properties anytime before hitting "Publish".', 'wp-user-alerts' ); ?></p>
 	<div class="panel" data-priority="info">
 		<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y - g:i a:' ); ?></div>
 		<div class="alert-post-content"></div>
