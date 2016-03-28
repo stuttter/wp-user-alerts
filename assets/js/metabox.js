@@ -1,6 +1,5 @@
 jQuery( document ).ready( function ( $ ) {
 
-
 	// Hides the tab content.
 	jQuery( '.wp-vertical-tabs .tab-content' ).hide();
 
@@ -65,7 +64,7 @@ jQuery( document ).ready( function ( $ ) {
 	/* Preview */
 	$( 'input[type=radio].alert-priority' ).change( function () {
 		var priority = $( this ).data( 'priority' ),
-			panel    = $( '#alert-message .panel' );
+			panel    = $( '.tab-content .panel' );
 
 		panel.attr( 'data-priority', priority );
 	} );
