@@ -61,24 +61,50 @@ function wp_user_alerts_metabox() {
 function wp_user_alerts_metabox_new_post() {
 ?>
 
+	<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
 	<div class="user-alerts-wrap">
-		<input type="hidden" name="wp_user_alerts_metabox_nonce" value="<?php echo wp_create_nonce( 'wp_user_alerts' ); ?>" />
-		<table class="form-table rowfat wp-user-alerts">
-			<thead>
-				<tr>
-					<th><?php esc_html_e( 'Recipients', 'wp-user-alerts' ); ?></th>
-					<th><?php esc_html_e( 'Delivery',   'wp-user-alerts' ); ?></th>
-				</tr>
-			</thead>
-			<tbody><?php
+		<span class="members-which-tab"></span>
+		<div class="wp-vertical-tabs">
+			<ul class="tab-nav">
+				<li class="tab-title" aria-selected="true">
+					<a href="#methods"><i class="dashicons dashicons-smartphone"></i> <span class="label"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></span></a>
+				</li>
+				<li class="tab-title">
+					<a href="#message"><i class="dashicons dashicons-admin-comments"></i> <span class="label"><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></span></a>
+				</li>
+				<li class="tab-title">
+					<a href="#priority"><i class="dashicons dashicons-info"></i> <span class="label"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></span></a>
+				</li>
+				<li class="tab-title">
+					<a href="#people"><i class="dashicons dashicons-admin-users"></i> <span class="label"><?php esc_html_e( 'People', 'wp-user-alerts' ); ?></span></a>
+				</li>
+				<li class="tab-title">
+					<a href="#preview"><i class="dashicons dashicons-desktop"></i> <span class="label"><?php esc_html_e( 'Preview', 'wp-user-alerts' ); ?></span></a>
+				</li>
+			</ul>
 
-				do_action( 'wp_user_alerts_metabox_rows' );
-
-			?></tbody>
-		</table>
+			<div class="tab-wrap wp-user-alerts">
+				<div id="methods" class="tab-content">
+					<?php wp_user_alerts_methods_picker(); ?>
+				</div>
+				<div id="message" class="tab-content" style="display: none;">
+					<?php wp_user_alerts_metabox_message(); ?>
+				</div>
+				<div id="priority" class="tab-content" style="display: none;">
+					<?php wp_user_alerts_priority_picker(); ?>
+				</div>
+				<div id="people" class="tab-content" style="display: none;">
+					<?php wp_user_alerts_types(); ?>
+				</div>
+				<div id="preview" class="tab-content" style="display: none;">
+					<?php wp_user_alerts_metabox_preview(); ?>
+				</div>
+			</div>
+		</div>
+		<div class="wp-user-alerts-preview">
+			
+		</div>
 	</div>
-	<p class="description"><?php esc_html_e( 'Alerts are optional, and can be sent to many recipients when this post is published. (Some methods depend on recipient profile information.)', 'wp-user-alerts' ); ?></p>
-
 <?php
 }
 
@@ -126,6 +152,8 @@ function wp_user_alerts_metabox_who_and_how() {
 function wp_user_alerts_metabox_message() {
 ?>
 
+	<h4><?php esc_html_e( 'Delivery Message', 'wp-user-alerts' ); ?></h4>
+	<p><?php esc_html_e( 'Some alert methods, like SMS, have limited available space. Type a short message here to use in place of the primary one, which may be much longer.', 'wp-user-alerts' ); ?></p>
 	<div class="alert-message textarea-wrap">
 		<textarea name="wp_user_alerts_message" class="alert-message" maxlength="100" placeholder="<?php esc_attr_e( 'Maximum Length: 100', 'wp-user-alerts' ); ?>"><?php echo esc_textarea( get_post_meta( get_the_ID(), 'wp_user_alerts_message', true ) ); ?></textarea>
 		<span class="alert-message-length">0</span>
@@ -142,6 +170,8 @@ function wp_user_alerts_metabox_message() {
 function wp_user_alerts_metabox_preview() {
 ?>
 
+	<h4><?php esc_html_e( 'Alert Preview', 'wp-user-alerts' ); ?></h4>
+	<p><?php esc_html_e( 'Here is a mocked preview of what your methods, message, and priority might look like to your members.', 'wp-user-alerts' ); ?></p>
 	<div class="panel" data-priority="info">
 		<div class="alert-timestamp"><?php echo get_the_date( 'F j, Y - g:i a:' ); ?></div>
 		<div class="alert-post-content"></div>
@@ -375,6 +405,8 @@ function wp_user_alerts_types() {
 		}
 	?></ul>
 
+	<p><?php esc_html_e( 'You can pick who to alert in a variety of ways. Each person will be alerted as soon as you hit "Publish".', 'wp-user-alerts' ); ?></p>
+
 	<?php
 
 	// Reset position
@@ -520,34 +552,36 @@ function wp_user_alerts_methods_picker() {
 
 	// Query for users
 	$methods = wp_user_alerts_get_alert_methods();
-	$web    = wp_filter_object_list( $methods, array( 'type' => 'web'    ) );
-	$direct = wp_filter_object_list( $methods, array( 'type' => 'direct' ) );
+	$long    = wp_filter_object_list( $methods, array( 'type' => 'long'  ) );
+	$short   = wp_filter_object_list( $methods, array( 'type' => 'short' ) );
 
 	// Start a buffer
 	ob_start();
 
 	// Output methods
-	?><div id="alert-methods" class="tabs-panel alerts-picker"><?php
+	?><h4><?php esc_html_e( 'Delivery Methods', 'wp-user-alerts' ); ?></h4>
+	<p><?php esc_html_e( 'You may pick several different delivery methods for this alert.', 'wp-user-alerts' ); ?></p>
+	<div id="alert-methods" class="tabs-panel"><?php
 
 		// User Dashboard
-		if ( ! empty( $web ) ) :
-			?><div><h4><?php esc_html_e( 'Website', 'wp-user-alerts' ); ?></h4><?php
+		if ( ! empty( $long ) ) :
+			?><div><h4><?php esc_html_e( 'Full Text', 'wp-user-alerts' ); ?></h4><?php
 
-			wp_user_alert_methods_items( $web );
+			wp_user_alert_methods_items( $long );
 
 			?></div><?php
 		endif;
 
 		// Direct
-		if ( ! empty( $direct ) ) :
-			?><h4><?php esc_html_e( 'Direct', 'wp-user-alerts' ); ?></h4><?php
+		if ( ! empty( $short ) ) :
+			?><div><h4><?php esc_html_e( 'Short Message (100 characters)', 'wp-user-alerts' ); ?></h4><?php
 
-			wp_user_alert_methods_items( $direct );
+			wp_user_alert_methods_items( $short );
 
 			?></div><?php
 		endif;
 
-	?></div><?php
+	?></div><div class="clear"></div><?php
 
 	// Send the buffer
 	ob_flush();
@@ -618,7 +652,9 @@ function wp_user_alerts_priority_picker() {
 	$post  = get_post();
 	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_priority' ); ?>
 
-	<div id="alert-priorities" class="tabs-panel alerts-picker" style="display: none;">
+	<h4><?php esc_html_e( 'Delivery Priority', 'wp-user-alerts' ); ?></h4>
+	<p><?php esc_html_e( 'The color of each priority will be used to convey urgency to your members. It will also be prefixed on email subjects so your members can filter them appropriately.', 'wp-user-alerts' ); ?></p>
+	<div id="alert-priorities" class="tabs-panel">
 		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
 
 			<?php foreach ( $priorities as $priority_id => $priority ) : ?>
@@ -660,7 +696,7 @@ function wp_user_alerts_priority_picker() {
 function wp_user_alerts_message_picker() {
 ?>
 
-	<div id="alert-message" class="tabs-panel alerts-picker" style="display: none;">
+	<div id="alert-message" class="tabs-panel">
 
 		<?php wp_user_alerts_metabox_message(); ?>
 

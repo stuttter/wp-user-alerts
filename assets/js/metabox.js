@@ -1,5 +1,45 @@
 jQuery( document ).ready( function ( $ ) {
 
+
+	// Hides the tab content.
+	jQuery( '.wp-vertical-tabs .tab-content' ).hide();
+
+	// Shows the first tab's content.
+	jQuery( '.wp-vertical-tabs .tab-content:first-child' ).show();
+
+	// Makes the 'aria-selected' attribute true for the first tab nav item.
+	jQuery( '.tab-nav :first-child' ).attr( 'aria-selected', 'true' );
+
+	// Copies the current tab item title to the box header.
+	jQuery( '.which-tab' ).text( jQuery( '.tab-nav :first-child a' ).text() );
+
+	// When a tab nav item is clicked.
+	jQuery( '.tab-nav li a' ).click(
+		function( j ) {
+
+			// Prevent the default browser action when a link is clicked.
+			j.preventDefault();
+
+			// Get the `href` attribute of the item.
+			var href = jQuery( this ).attr( 'href' );
+
+			// Hide all tab content.
+			jQuery( this ).parents( '.wp-vertical-tabs' ).find( '.tab-content' ).hide();
+
+			// Find the tab content that matches the tab nav item and show it.
+			jQuery( this ).parents( '.wp-vertical-tabs' ).find( href ).show();
+
+			// Set the `aria-selected` attribute to false for all tab nav items.
+			jQuery( this ).parents( '.wp-vertical-tabs' ).find( '.tab-title' ).attr( 'aria-selected', 'false' );
+
+			// Set the `aria-selected` attribute to true for this tab nav item.
+			jQuery( this ).parent().attr( 'aria-selected', 'true' );
+
+			// Copy the current tab item title to the box header.
+			jQuery( '.which-tab' ).text( jQuery( this ).text() );
+		}
+	); // click()
+
 	/* People tabs */
 	$( 'a', '#user-alert-who-tabs' ).click( function () {
 		var t = $( this ).attr( 'href' );
