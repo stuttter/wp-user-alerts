@@ -1,44 +1,36 @@
 <?php
 
 /**
- * Plugin Name: Cut Time - Post Sections
- * Plugin URI:  https://cuttime.net
- * Description: Customize WP Post Suctions, for Events and more
- * Author:      The Flox Team
- * Author URI:  https://flox.io
- * Version:     0.1.0
- * Text Domain: ct-post-protect
- * Domain Path: /lang
+ * User Alert Post Sections
+ *
+ * @package User/Alert/Post/Sections
  */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Add section support to events
- *
- * @since 0.1.0
- */
-function ct_post_sections_add_event_support() {
-	add_post_type_support( 'event', 'sections' );
-}
-add_action( 'init', 'ct_post_sections_add_event_support' );
-
-/**
- * Filter sections, and unset "featured" in events
+ * Add dashboard section
  *
  * @since 0.1.0
  *
  * @param array $sections
+ *
+ * @return array
  */
-function ct_post_sections_filter_sections( $sections = array() ) {
+function wp_user_alerts_add_post_section( $sections = array() ) {
 
-	// Remove "featured" section
-	if ( 'event' === get_current_screen()->post_type ) {
-		unset( $sections['featured'] );
+	// Bail if no User Dashboard
+	if ( ! function_exists( '_wp_user_dashboard' ) ) {
+		return $sections;
 	}
+
+	// Add dashboard section
+	$sections['dashboard'] = array(
+		'label' => _x( 'Alerted Only', 'Post section', 'wp-user-alerts' ),
+		'icon'  => 'hidden'
+	);
 
 	// Return modified sections
 	return $sections;
 }
-add_filter( 'wp_get_post_sections', 'ct_post_sections_filter_sections' );
