@@ -28,7 +28,7 @@ function wp_user_alerts_add_post_section( $sections = array() ) {
 	// Add dashboard section
 	$sections['dashboard'] = array(
 		'label' => _x( 'Only Recipients', 'Post section', 'wp-user-alerts' ),
-		'icon'  => 'admin-users'
+		'icon'  => 'hidden'
 	);
 
 	// Return modified sections
