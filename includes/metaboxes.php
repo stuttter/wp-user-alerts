@@ -73,7 +73,7 @@ function wp_user_alerts_metabox_new_post() {
 					<a href="#message"><i class="dashicons dashicons-admin-comments"></i> <span class="label"><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></span></a>
 				</li>
 				<li class="tab-title">
-					<a href="#priority"><i class="dashicons dashicons-info"></i> <span class="label"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></span></a>
+					<a href="#priority"><i class="dashicons dashicons-megaphone"></i> <span class="label"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></span></a>
 				</li>
 				<li class="tab-title">
 					<a href="#people"><i class="dashicons dashicons-admin-users"></i> <span class="label"><?php esc_html_e( 'People', 'wp-user-alerts' ); ?></span></a>
