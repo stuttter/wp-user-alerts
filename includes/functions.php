@@ -83,7 +83,7 @@ function wp_user_alerts_get_alert_methods() {
 		   'checked'  => true
 	   );
 	   $methods['notice'] = (object) array(
-		   'name'     => esc_html__( 'Notice', 'wp-user-alerts' ),
+		   'name'     => esc_html__( 'Alert Bar', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_by_notice',
 		   'type'     => 'short',
 		   'checked'  => false
