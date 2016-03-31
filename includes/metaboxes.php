@@ -24,7 +24,7 @@ function wp_user_alerts_admin_metaboxes( $post_type ) {
 	}
 
 	// Add the metabox
-	add_meta_box( 'wp-user-alerts', esc_html__( 'Alerts', 'wp-user-alerts' ), 'wp_user_alerts_metabox', $post_type, 'normal', 'high' );
+	add_meta_box( 'wp-user-alerts', esc_html__( 'Member Communications', 'wp-user-alerts' ), 'wp_user_alerts_metabox', $post_type, 'normal', 'high' );
 }
 
 /**
