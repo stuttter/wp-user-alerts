@@ -405,7 +405,7 @@ function wp_user_alerts_types() {
 		}
 	?></ul>
 
-	<p><?php esc_html_e( 'You can pick who to alert in a variety of ways. Each person will be alerted as soon as you hit "Publish".', 'wp-user-alerts' ); ?></p>
+	<p><?php esc_html_e( 'You can pick who to include in a variety of ways. Each person will be alerted as soon as you hit "Publish".', 'wp-user-alerts' ); ?></p>
 
 	<?php
 
@@ -560,7 +560,7 @@ function wp_user_alerts_methods_picker() {
 
 	// Output methods
 	?><h4><?php esc_html_e( 'Delivery Methods', 'wp-user-alerts' ); ?></h4>
-	<p><?php esc_html_e( 'You may pick several different delivery methods for this alert.', 'wp-user-alerts' ); ?></p>
+	<p><?php esc_html_e( 'You may pick from several different communication methods. If you do not choose a method, nobody will be alerted.', 'wp-user-alerts' ); ?></p>
 	<div id="alert-methods" class="tabs-panel"><?php
 
 		// User Dashboard
@@ -653,7 +653,7 @@ function wp_user_alerts_priority_picker() {
 	$_meta = get_post_meta( $post->ID, 'wp_user_alerts_priority' ); ?>
 
 	<h4><?php esc_html_e( 'Delivery Priority', 'wp-user-alerts' ); ?></h4>
-	<p><?php esc_html_e( 'The color of each priority will be used to convey urgency to your members. It will also be prefixed on email subjects so your members can filter them appropriately.', 'wp-user-alerts' ); ?></p>
+	<p><?php esc_html_e( 'The color of each priority will be used to convey urgency to your members. It will also be prefixed on email subjects so your members can filter their inboxes appropriately.', 'wp-user-alerts' ); ?></p>
 	<div id="alert-priorities" class="tabs-panel">
 		<ul id="<?php echo esc_attr( $post_type ); ?>-checklist" data-wp-lists="list:<?php echo esc_attr( $post_type ); ?>" class="categorychecklist form-no-clear">
 
