@@ -39,7 +39,7 @@ function wp_user_alerts_get_allowed_post_statuses() {
 function wp_user_alerts_get_alert_types() {
 	return apply_filters( 'wp_user_alerts_get_alert_types', array(
 	   'users' => (object) array(
-		   'name'     => esc_html__( 'Users', 'wp-user-alerts' ),
+		   'name'     => esc_html__( 'Individuals', 'wp-user-alerts' ),
 		   'callback' => 'wp_user_alerts_users_picker'
 	   ),
 	   'roles' => (object) array(

@@ -67,6 +67,9 @@ function wp_user_alerts_metabox_new_post() {
 		<div class="wp-vertical-tabs">
 			<ul class="tab-nav">
 				<li class="tab-title" aria-selected="true">
+					<a href="#people"><i class="dashicons dashicons-admin-users"></i> <span class="label"><?php esc_html_e( 'People', 'wp-user-alerts' ); ?></span></a>
+				</li>
+				<li class="tab-title">
 					<a href="#methods"><i class="dashicons dashicons-smartphone"></i> <span class="label"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></span></a>
 				</li>
 				<li class="tab-title">
@@ -76,14 +79,14 @@ function wp_user_alerts_metabox_new_post() {
 					<a href="#priority"><i class="dashicons dashicons-megaphone"></i> <span class="label"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></span></a>
 				</li>
 				<li class="tab-title">
-					<a href="#people"><i class="dashicons dashicons-admin-users"></i> <span class="label"><?php esc_html_e( 'People', 'wp-user-alerts' ); ?></span></a>
-				</li>
-				<li class="tab-title">
 					<a href="#preview"><i class="dashicons dashicons-desktop"></i> <span class="label"><?php esc_html_e( 'Preview', 'wp-user-alerts' ); ?></span></a>
 				</li>
 			</ul>
 
 			<div class="tab-wrap wp-user-alerts">
+				<div id="people" class="tab-content" style="display: none;">
+					<?php wp_user_alerts_types(); ?>
+				</div>
 				<div id="methods" class="tab-content">
 					<?php wp_user_alerts_methods_picker(); ?>
 				</div>
@@ -92,9 +95,6 @@ function wp_user_alerts_metabox_new_post() {
 				</div>
 				<div id="priority" class="tab-content" style="display: none;">
 					<?php wp_user_alerts_priority_picker(); ?>
-				</div>
-				<div id="people" class="tab-content" style="display: none;">
-					<?php wp_user_alerts_types(); ?>
 				</div>
 				<div id="preview" class="tab-content" style="display: none;">
 					<?php wp_user_alerts_metabox_preview(); ?>
