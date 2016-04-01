@@ -560,7 +560,7 @@ function wp_user_alerts_methods_picker() {
 
 	// Output methods
 	?><h4><?php esc_html_e( 'Delivery Methods', 'wp-user-alerts' ); ?></h4>
-	<p><?php esc_html_e( 'You may pick from several different communication methods. If you do not choose a method, nobody will be alerted.', 'wp-user-alerts' ); ?></p>
+	<p><?php esc_html_e( 'Pick from several different communication methods, or leave empty to not alert anyone.', 'wp-user-alerts' ); ?></p>
 	<div id="alert-methods" class="tabs-panel"><?php
 
 		// User Dashboard
