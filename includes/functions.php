@@ -30,6 +30,17 @@ function wp_user_alerts_get_allowed_post_statuses() {
 }
 
 /**
+ * Return array of allowed post statuses
+ *
+ * @since 0.1.0
+ *
+ * @return array
+ */
+function wp_user_alerts_get_allowed_post_types() {
+	return get_post_types_by_support( 'alerts' );
+}
+
+/**
  * Return an array of registered alert types
  *
  * @since 0.1.0
@@ -626,7 +637,7 @@ function wp_user_alerts_get_posts( $args = array() ) {
 
 	// Parse arguments
 	$r = wp_parse_args( $args, array(
-		'post_type'   => 'any',
+		'post_type'   => wp_user_alerts_get_allowed_post_types(),
 		'post_status' => wp_user_alerts_get_allowed_post_statuses(),
 		'meta_query'  => array( array() )
 	) );
