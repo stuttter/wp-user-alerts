@@ -212,28 +212,6 @@ function wp_user_alerts_users_by_sms( $args = array() ) {
 }
 
 /**
- * Alert users about a post via the theme
- *
- * @since 0.1.0
- *
- * @param  array  $args
- */
-function wp_user_alerts_users_by_web( $args = array() ) {
-
-	// Parse args
-	$r = wp_parse_args( $args, array(
-		'user_ids' => array(),
-		'subject'  => '',
-		'message'  => ''
-	) );
-
-	// Loop through user IDs
-	foreach ( $r['user_ids'] as $user_id ) {
-
-	}
-}
-
-/**
  * Insert an alert
  *
  * @todo everything
