@@ -16,15 +16,20 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param  string  $post_type
  */
-function wp_user_alerts_admin_metaboxes( $post_type ) {
+function wp_user_alerts_admin_metaboxes( $post_type = '' ) {
 
 	// Bail if post type does not support alerts
 	if ( ! post_type_supports( $post_type, 'alerts' ) ) {
 		return;
 	}
 
+	// Metabox title
+	$title = in_array( get_post_status(), wp_user_alerts_get_allowed_post_statuses(), true )
+		? esc_html__( 'Who can see this?', 'wp-user-alerts' )
+		: esc_html__( 'Who is this for?',  'wp-user-alerts' );
+
 	// Add the metabox
-	add_meta_box( 'wp-user-alerts', esc_html__( 'Who is this for?', 'wp-user-alerts' ), 'wp_user_alerts_metabox', $post_type, 'normal', 'high' );
+	add_meta_box( 'wp-user-alerts', $title, 'wp_user_alerts_metabox', $post_type, 'normal', 'high' );
 }
 
 /**
