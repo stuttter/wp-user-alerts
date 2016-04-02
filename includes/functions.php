@@ -623,16 +623,18 @@ function wp_user_alerts_filter_alert_user_ids( $all_user_ids = array(), $post_id
  */
 function wp_user_alerts_dismiss_alert( $post_id = 0, $user_id = 0 ) {
 
+	// Is dismissed?
+	$is_dismissed = wp_user_alert_is_dismissed( $post_id, $user_id );
 
 	// Add the meta
-	if ( false === $already ) {
+	if ( false === $is_dismissed ) {
 		add_post_meta( $post_id, 'wp_user_alerts_dismissed', $user_id );
 		clean_post_cache( $post_id );
-		return true;
+		$is_dismissed = true;
 	}
 
 	// Return if dismissed
-	return $already;
+	return $is_dismissed;
 }
 
 /**
