@@ -178,7 +178,17 @@ function wp_user_alerts_metabox_existing_post() {
 				</table>
 			</div>
 
-			<table class="wp-list-table widefat fixed striped users"><tbody><?php
+			<table class="wp-list-table widefat fixed striped users">
+				<thead>
+					<tr class="wp-user-alerts-post-header">
+						<th class="column-primary"><?php esc_html_e( 'People', 'wp-user-alerts' ); ?></th>
+						<th><?php esc_html_e( 'Name',      'wp-user-alerts' ); ?></th>
+						<th><?php esc_html_e( 'Email',     'wp-user-alerts' ); ?></th>
+						<th><?php esc_html_e( 'Dismissed', 'wp-user-alerts' ); ?></th>
+					</tr>
+				</thead>
+
+				<tbody><?php
 
 			// Loop through users
 			foreach ( $users as $user ) :

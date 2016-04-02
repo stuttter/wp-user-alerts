@@ -130,6 +130,10 @@ div.wp-user-alerts-properties table td {
 	padding: 5px;
 }
 
+tr.wp-user-alerts-post-header th {
+	font-weight: 600;
+}
+
 .alert-message-length {
 	position: absolute;
 	right: 0px;
