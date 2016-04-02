@@ -626,7 +626,7 @@ function wp_user_alerts_get_posts( $args = array() ) {
 
 	// Parse arguments
 	$r = wp_parse_args( $args, array(
-		'post_type'   => 'post',
+		'post_type'   => 'any',
 		'post_status' => wp_user_alerts_get_allowed_post_statuses(),
 		'meta_query'  => array( array() )
 	) );
