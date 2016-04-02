@@ -750,7 +750,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 }
 
 /**
- * Dismiss an alert for a user
+ * Delete all alerts for a user, when that user is being deleted
  *
  * @since 0.1.0
  *
