@@ -102,7 +102,7 @@ function wp_user_alerts_metabox_new_post() {
 			</div>
 		</div>
 		<div class="wp-user-alerts-preview">
-			
+
 		</div>
 	</div>
 <?php
@@ -111,16 +111,108 @@ function wp_user_alerts_metabox_new_post() {
 /**
  * The metabox contents for an existing post
  *
+ * This should probably use WP_Users_List_Table eventually
+ *
  * @since 0.1.0
  */
 function wp_user_alerts_metabox_existing_post() {
-	$post       = get_post();
-	$user_ids   = get_post_meta( $post->ID, 'wp_user_alerts_user_ids', true );
-	$user_count = ! empty( $user_ids )
-		? count( $user_ids )
-		: 0;
 
-	printf( _n( '%s person was alerted at the time this was published.', '%s people were alerted at the time this was published.', $user_count, 'wp-user-alerts' ), '<strong>' . number_format( $user_count ) . '</strong>' );
+	// Get users
+	$user_ids = wp_user_alerts_get_user_ids();
+	$users    = get_users( array(
+		'include' => $user_ids
+	) );
+
+	// Users were alerted
+	if ( empty( $user_ids ) || empty( $users ) ) :
+
+		?><p><?php esc_html_e( 'No users were alerted at the time this was published.', 'wp-user-alerts' ); ?></p><?php
+
+	// Users were alerted
+	else :
+
+		// Get post alert properties
+		$post_id       = get_the_ID();
+		$post_priority = wp_user_alerts_get_alert_priority( $post_id );
+
+		// Methods
+		$post_methods = wp_user_alerts_get_post_methods( $post_id );
+		if ( ! empty( $post_methods ) ) {
+			$all_methods = wp_user_alerts_get_alert_methods();
+			$method_keys = array_keys( $all_methods );
+			$methods     = array();
+
+			foreach ( $post_methods as $post_method ) {
+				if ( in_array( $post_method, $method_keys, true ) ) {
+					$methods[] = $all_methods[ $post_method ]->name;
+				}
+			}
+
+			$methods = implode( ', ', $methods );
+
+		} else {
+			$methods = esc_html__( 'None', 'wp-user-alerts' );
+		}
+
+		// Message
+		$post_message  = wp_user_alerts_get_alert_message_body( $post_id, 'sms' );
+		$post_message  = ! empty( $post_message )
+			? $post_message
+			: esc_html__( 'No message', 'wp-user-alerts' );
+
+		?><div class="wp-user-alerts-alerted">
+			<div class="wp-user-alerts-properties">
+				<table>
+					<tr>
+						<th><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></th>
+						<td><span class="alert-priority-<?php echo $post_priority->id;?>"><?php echo esc_html( $post_priority->name ); ?></td>
+						<th><?php esc_html_e( 'Users', 'wp-user-alerts' ); ?></th>
+						<td><?php echo number_format_i18n( count( $user_ids ) ); ?></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Alert Methods', 'wp-user-alerts' ); ?></th>
+						<td><?php echo $methods; ?></td>
+						<th><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></th>
+						<td><?php echo $post_message; ?></td>
+					</tr>
+				</table>
+			</div>
+
+			<table class="wp-list-table widefat fixed striped users"><tbody><?php
+
+			// Loop through users
+			foreach ( $users as $user ) :
+
+				// Dismissed
+				$dismissed = wp_user_alert_is_dismissed()
+					? esc_html__( 'Acknowledged',   'wp-user-alerts' )
+					: esc_html__( 'Unacknowledged', 'wp-user-alerts' );
+
+				// Output some basic user info
+				?><tr id="user-1">
+					<td class="username column-username has-row-actions column-primary" data-colname="<?php esc_html_e( 'Username', 'wp-user-alerts' ); ?>"><?php
+
+						echo get_avatar( $user->ID, 36 );
+
+						?><strong><?php echo esc_html( $user->user_login ); ?></strong>
+						<div class="row-actions"><?php
+
+							if ( current_user_can( 'edit_user', $user->ID ) ) :
+								?><a href="<?php echo get_edit_user_link( $user->ID ); ?>"><?php esc_html_e( 'Edit', 'wp-user-alerts' ); ?></a><?php
+							endif;
+
+						?></div>
+					</td>
+					<td class="name column-name" data-colname="<?php esc_html_e( 'Name', 'wp-user-alerts' ); ?>"><?php printf( '%s %s', $user->first_name, $user->last_name ); ?></td>
+					<td class="email column-email" data-colname="<?php esc_html_e( 'Email', 'wp-user-alerts' ); ?>"><?php echo make_clickable( $user->user_email ); ?></td>
+					<td class="dismissed column-dismissed" data-colname="<?php esc_html_e( 'Dismissed', 'wp-user-alerts' ); ?>"><?php echo esc_html( $dismissed ); ?></td>
+				</tr><?php
+
+			endforeach;
+
+		?></tbody></table></div><?php
+
+	endif;
 }
 
 /**
@@ -475,7 +567,7 @@ function wp_user_alerts_users_picker( $args = array() ) {
 
 			endforeach; ?>
 
-		</select>			
+		</select>
 	</div>
 
 	<?php

@@ -37,19 +37,19 @@ div.wp-user-alerts .alerts-picker label {
 	font-size: 13px;
 }
 
-div.wp-user-alerts .alert-priority-info {
+.alert-priority-info {
 	color: #2185d0;
 }
-div.wp-user-alerts .alert-priority-reminder {
+.alert-priority-reminder {
 	color: #1ebc30;
 }
-div.wp-user-alerts .alert-priority-important {
+.alert-priority-important {
 	color: #6435c9;
 }
-div.wp-user-alerts .alert-priority-alert {
+.alert-priority-alert {
 	color: #f2711c;
 }
-div.wp-user-alerts .alert-priority-emergency {
+.alert-priority-emergency {
 	color: #db2828;
 }
 
@@ -99,6 +99,35 @@ div.wp-user-alerts textarea.alert-message {
 	margin-bottom: 10px;
 	height: 55px;
 	resize: none;
+}
+
+div.wp-user-alerts-alerted {
+	margin: -8px -12px -12px -12px;
+}
+
+div.wp-user-alerts-alerted table {
+	border: none;
+}
+
+div.wp-user-alerts-properties {
+	padding: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+div.wp-user-alerts-properties table {
+	width: 100%;
+}
+div.wp-user-alerts-properties table th {
+	text-align: right;
+	width: 20%;
+}
+div.wp-user-alerts-properties table td {
+	text-align: left;
+	width: 30%;
+}
+div.wp-user-alerts-properties table th,
+div.wp-user-alerts-properties table td {
+	padding: 5px;
 }
 
 .alert-message-length {

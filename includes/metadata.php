@@ -10,6 +10,57 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Return array of user IDs that were alerted
+ *
+ * @since 0.1.0
+ *
+ * @param mixed $post
+ *
+ * @return array
+ */
+function wp_user_alerts_get_user_ids( $post = null ) {
+	$_post    = get_post( $post );
+	$user_ids = ! empty( $_post )
+		? get_post_meta( $_post->ID, 'wp_user_alerts_user_ids', true )
+		: array();
+
+	return (array) apply_filters( 'wp_user_alerts_get_user_ids', $user_ids, $_post, $post );
+}
+
+/**
+ * @since 0.1.0
+ *
+ * @param int $post_id
+ * @param int $user_id
+ * @return type
+ */
+function wp_user_alert_is_dismissed( $post_id = 0, $user_id = 0 ) {
+
+	// Get post ID
+	if ( empty( $post_id ) ) {
+		$post_id = get_the_ID();
+	}
+
+	// Get user ID
+	if ( empty( $user_id ) ) {
+		$user_id = get_current_user_id();
+	}
+
+	// Defaults
+	$already   = false;
+	$dismissed = array();
+
+	// Get user & look in meta
+	if ( ! empty( $post_id ) && ! empty( $user_id ) ) {
+		$dismissed = get_post_meta( $post_id, 'wp_user_alerts_dismissed' );
+		$already   = in_array( $user_id, $dismissed );
+	}
+
+	// Filter and return
+	return apply_filters( 'wp_user_alert_is_dismissed', $already, $dismissed, $post_id, $user_id );
+}
+
+/**
  * Register alert metadata keys & sanitization callbacks
  *
  * @since 0.1.0

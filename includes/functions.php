@@ -109,22 +109,27 @@ function wp_user_alerts_get_alert_methods() {
 function wp_user_alerts_get_alert_priorities() {
 	return apply_filters( 'wp_user_alerts_get_alert_priorities', array(
 	   'info' => (object) array(
+		   'id'       => 'info',
 		   'name'     => esc_html__( 'Info', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
 	   'reminder' => (object) array(
+		   'id'       => 'reminder',
 		   'name'     => esc_html__( 'Reminder', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
 	   'important' => (object) array(
+		   'id'       => 'important',
 		   'name'     => esc_html__( 'Important', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
 	   'alert' => (object) array(
+		   'id'       => 'alert',
 		   'name'     => esc_html__( 'Alert', 'wp-user-alerts' ),
 		   'callback' => ''
 	   ),
 	   'emergency' => (object) array(
+		   'id'       => 'emergency',
 		   'name'     => esc_html__( 'Emergency', 'wp-user-alerts' ),
 		   'callback' => ''
 	   )
@@ -449,6 +454,9 @@ function wp_user_alerts_get_alert_message_subject( $post = 0 ) {
  */
 function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 
+	// Get the post
+	$post = get_post( $post );
+
 	// Message
 	$content = wp_kses( $post->post_content, array() );
 	$message = wp_html_excerpt( $post->post_content, 100 );
@@ -501,8 +509,9 @@ function wp_user_alerts_get_alert_priority( $post_id = 0 ) {
 	// "Info" is broken, so force it
 	} else {
 		return (object) array(
-		   'name'     => esc_html__( 'Info', 'wp-user-alerts' ),
-		   'callback' => ''
+			'id'       => 'info',
+			'name'     => esc_html__( 'Info', 'wp-user-alerts' ),
+			'callback' => ''
 		);
 	}
 }
@@ -614,9 +623,6 @@ function wp_user_alerts_filter_alert_user_ids( $all_user_ids = array(), $post_id
  */
 function wp_user_alerts_dismiss_alert( $post_id = 0, $user_id = 0 ) {
 
-	// Get user & look in meta
-	$dismissed = get_post_meta( $post_id, 'wp_user_alerts_dismissed' );
-	$already   = in_array( $user_id, $dismissed );
 
 	// Add the meta
 	if ( false === $already ) {
