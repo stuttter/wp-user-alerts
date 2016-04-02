@@ -63,5 +63,5 @@ function wp_user_alerts_get_plugin_url() {
  * @return int
  */
 function wp_user_alerts_get_asset_version() {
-	return 201604020001;
+	return 201604020002;
 }

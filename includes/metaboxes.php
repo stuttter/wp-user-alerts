@@ -105,9 +105,7 @@ function wp_user_alerts_metabox_new_post() {
 					<?php wp_user_alerts_metabox_preview(); ?>
 				</div>
 			</div>
-		</div>
-		<div class="wp-user-alerts-preview">
-
+			<br class="clear" />
 		</div>
 	</div>
 <?php

@@ -200,7 +200,7 @@ tr.wp-user-alerts-post-header th {
 }
 
 .wp-vertical-tabs {
-	overflow:   hidden;
+	overflow:   visible;
 	background: #fdfdfd;
 	background: linear-gradient( 90deg, #fdfdfd 0%, #fdfdfd 20%, #fff 20%, #fff 100% );
 }
@@ -254,10 +254,6 @@ tr.wp-user-alerts-post-header th {
 	background-color: #fff;
 	border-right:     none;
 	margin-right:     -1px;
-}
-
-.wp-vertical-tabs .tab-nav li:last-child a {
-	border-bottom: none;
 }
 
 @media only screen and ( max-width: 782px ) {
