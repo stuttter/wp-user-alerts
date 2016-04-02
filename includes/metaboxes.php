@@ -718,7 +718,7 @@ function wp_user_alert_methods_items( $items = array() ) {
 			$checked = false;
 
 			// Is method checked
-			if ( ( 'feed' === $method ) && ( 'auto-draft' === $post->post_status ) ) {
+			if ( 'auto-draft' === $post->post_status ) {
 				$checked = (bool) $method->checked;
 			} elseif ( in_array( $method_id, $_meta, true ) ) {
 				$checked = true;
@@ -730,11 +730,11 @@ function wp_user_alert_methods_items( $items = array() ) {
 					<input value="<?php echo esc_attr( $method_id ); ?>" type="checkbox" name="wp_user_alerts_methods[]" id="" <?php checked( $checked ); ?>>
 					<span><?php echo esc_html( $method->name ); ?></span>
 				</label>
-			</li>
+			</li><?php
 
-		<?php endforeach; ?>
+		endforeach;
 
-	</ul><?php
+	?></ul><?php
 
 	// Put out the buffer
 	ob_end_flush();
