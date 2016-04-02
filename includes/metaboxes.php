@@ -195,8 +195,8 @@ function wp_user_alerts_metabox_existing_post() {
 
 				// Dismissed
 				$dismissed = wp_user_alert_is_dismissed()
-					? esc_html__( 'Acknowledged',   'wp-user-alerts' )
-					: esc_html__( 'Unacknowledged', 'wp-user-alerts' );
+					? esc_html__( 'Yes', 'wp-user-alerts' )
+					: esc_html__( 'No',  'wp-user-alerts' );
 
 				// Output some basic user info
 				?><tr id="user-1">
