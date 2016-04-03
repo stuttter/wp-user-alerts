@@ -81,3 +81,6 @@ add_filter( 'wp_get_post_sections',           'wp_user_alerts_add_post_section' 
 
 // Delete dismissed alerts
 add_action( 'deleted_user', 'wp_user_alerts_delete_user' );
+
+// Titles
+add_filter( 'private_title_format', 'wp_private_title_format', 10, 2 );

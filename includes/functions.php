@@ -769,3 +769,23 @@ function wp_user_alerts_delete_user( $user_id = 0 ) {
 
 	return $deleted;
 }
+
+/**
+ * Remove "Private: " from private post titles that are alerts
+ *
+ * @since 0.1.0
+ *
+ * @param string $title
+ *
+ * @return string
+ */
+function wp_private_title_format( $title = '', $post = '' ) {
+
+	// Modify title if an alert
+	if ( in_array( $post->post_type, wp_user_alerts_get_allowed_post_types(), true ) ) {
+		$title = str_replace( __( 'Private: ' ), '', $title );
+	}
+
+	// Return maybe modified title
+	return $title;
+}
