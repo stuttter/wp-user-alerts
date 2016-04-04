@@ -78,7 +78,7 @@ function wp_user_alerts_metabox_new_post() {
 					<a href="#methods"><i class="dashicons dashicons-smartphone"></i> <span class="label"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></span></a>
 				</li>
 				<li class="tab-title">
-					<a href="#message"><i class="dashicons dashicons-admin-comments"></i> <span class="label"><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></span></a>
+					<a href="#message"><i class="dashicons dashicons-admin-comments"></i> <span class="label"><?php esc_html_e( 'Short Message', 'wp-user-alerts' ); ?></span></a>
 				</li>
 				<li class="tab-title">
 					<a href="#priority"><i class="dashicons dashicons-megaphone"></i> <span class="label"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></span></a>
@@ -175,7 +175,7 @@ function wp_user_alerts_metabox_existing_post() {
 					<tr>
 						<th><?php esc_html_e( 'Alert Methods', 'wp-user-alerts' ); ?></th>
 						<td><?php echo $methods; ?></td>
-						<th><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></th>
+						<th><?php esc_html_e( 'Short Message', 'wp-user-alerts' ); ?></th>
 						<td><?php echo $post_message; ?></td>
 					</tr>
 				</table>
@@ -633,7 +633,7 @@ function wp_user_alerts_methods() {
 	<ul id="user-alert-how-tabs" class="category-tabs">
 		<li class="tabs"><a href="#alert-methods"><?php esc_html_e( 'Methods', 'wp-user-alerts' ); ?></a></li>
 		<li class="hide-if-no-js"><a href="#alert-priorities"><?php esc_html_e( 'Priority', 'wp-user-alerts' ); ?></a></li>
-		<li class="hide-if-no-js"><a href="#alert-message"><?php esc_html_e( 'Message', 'wp-user-alerts' ); ?></a></li>
+		<li class="hide-if-no-js"><a href="#alert-message"><?php esc_html_e( 'Short Message', 'wp-user-alerts' ); ?></a></li>
 	</ul>
 
 <?php
