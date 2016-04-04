@@ -449,20 +449,18 @@ function wp_user_alerts_get_alert_message_body( $post = 0, $method = '' ) {
 	// Message
 	$content = wp_kses( $post->post_content, array() );
 	$message = wp_html_excerpt( $post->post_content, 100 );
-	$axcerpt = get_post_meta( $post->ID, 'wp_user_alerts_message', true );
+	$excerpt = get_post_meta( $post->ID, 'wp_user_alerts_message', true );
 
 	// Override the message
-	if ( ! empty( $axcerpt ) ) {
-		$message = $axcerpt;
+	if ( ! empty( $excerpt ) ) {
+		$message = $excerpt;
 	}
 
 	// Get methods to check for override
 	$methods = wp_user_alerts_get_alert_methods();
 
 	// Use message
-	$use_message = isset( $methods[ $method ]->message )
-		? (bool) $methods[ $method ]->message
-		: false;
+	$use_message = isset( $methods[ $method ]->type ) && ( 'short' === $methods[ $method ]->type );
 
 	// Force the message
 	if ( ! empty( $message ) && ( true === $use_message ) ) {
