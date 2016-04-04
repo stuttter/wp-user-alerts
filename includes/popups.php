@@ -30,7 +30,6 @@ function wp_user_alerts_get_popups() {
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => 10,
 		'exclude'     => $dismissed,
-		'post_type'   => wp_user_alerts_get_allowed_post_types(),
 		'meta_query' => wp_user_alerts_get_meta_query( array(
 			'user'   => wp_user_alerts_get_meta_query_user(),
 			'role'   => wp_user_alerts_get_meta_query_role(),
@@ -51,7 +50,6 @@ function wp_user_alerts_get_popups() {
 function wp_user_alerts_get_dismissed_popups() {
 	return wp_user_alerts_get_posts( array(
 		'numberposts' => -1,
-		'post_type'   => wp_user_alerts_get_allowed_post_types(),
 		'meta_query' => wp_user_alerts_get_meta_query( array(
 			'user'      => wp_user_alerts_get_meta_query_user(),
 			'dismissed' => wp_user_alerts_get_meta_query_dismissed(),

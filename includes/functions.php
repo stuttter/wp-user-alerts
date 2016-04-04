@@ -662,7 +662,7 @@ function wp_user_alerts_get_meta_query( $args = array() ) {
 
 	// Parse args
 	$r = wp_parse_args( $args, array(
-		'user'      => array( 1 ),
+		'user'      => array( get_current_user_id() ),
 		'role'      => array(),
 		'priority'  => array(),
 		'method'    => array(),
