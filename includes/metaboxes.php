@@ -197,7 +197,7 @@ function wp_user_alerts_metabox_existing_post() {
 			foreach ( $users as $user ) :
 
 				// Dismissed
-				$dismissed = wp_user_alert_is_dismissed()
+				$dismissed = wp_user_alert_is_dismissed( get_the_ID(), $user->ID )
 					? esc_html__( 'Yes', 'wp-user-alerts' )
 					: esc_html__( 'No',  'wp-user-alerts' );
 
