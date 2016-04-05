@@ -429,8 +429,9 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 			<th><label for="cellular_privacy"><?php esc_html_e( 'Privacy', 'wp-user-alerts' ); ?></label></th>
 			<td>
 				<select data-placeholder="<?php esc_html_e( 'Preferences...', 'wp-user-alerts' ); ?>" name="cellular_privacy[]" multiple>
-					<option value="block_calls" <?php selected( in_array( 'block_calls', (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not call', 'wp-user-alerts' ); ?></option>
-					<option value="block_texts" <?php selected( in_array( 'block_texts', (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not text', 'wp-user-alerts' ); ?></option>
+					<option value="block_calls"   <?php selected( in_array( 'block_calls',   (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not call',    'wp-user-alerts' ); ?></option>
+					<option value="block_texts"   <?php selected( in_array( 'block_texts',   (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not text',    'wp-user-alerts' ); ?></option>
+					<option value="block_display" <?php selected( in_array( 'block_display', (array) $user->cellular_privacy ) ); ?>><?php esc_html_e( 'Do not display', 'wp-user-alerts' ); ?></option>
 				</select>
 				<p class="description"><?php esc_html_e( 'We will always do our best to respect your privacy wishes.', 'wp-user-alerts' ); ?></p>
 			</td>
