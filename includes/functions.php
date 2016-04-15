@@ -166,6 +166,10 @@ function wp_user_alerts_users_by_email( $args = array() ) {
 	// Setup the From header
 	$headers = array( 'From: ' . get_bloginfo( 'name' ) . ' <' . get_option( 'admin_email' ) . '>' );
 
+	// Properly encode subject & plain-text message
+	$subject = wp_specialchars_decode( $r['subject'], ENT_QUOTES );
+	$message = wp_specialchars_decode( $r['message'], ENT_QUOTES );
+
 	// Loop through user IDs
 	foreach ( $r['user_ids'] as $user_id ) {
 
@@ -178,7 +182,7 @@ function wp_user_alerts_users_by_email( $args = array() ) {
 		}
 
 		// Send email
-		wp_mail( $user_email, $r['subject'], $r['message'], $headers );
+		wp_mail( $user_email, $subject, $message, $headers );
 	}
 }
 
@@ -201,6 +205,10 @@ function wp_user_alerts_users_by_sms( $args = array() ) {
 	// Setup the From header
 	$headers = array( 'From: ' . get_bloginfo( 'name' ) . ' <' . get_option( 'admin_email' ) . '>' );
 
+	// Properly encode subject & plain-text message
+	$subject = wp_specialchars_decode( $r['subject'], ENT_QUOTES );
+	$message = wp_specialchars_decode( $r['message'], ENT_QUOTES );
+
 	// Loop through user IDs
 	foreach ( $r['user_ids'] as $user_id ) {
 
@@ -218,7 +226,7 @@ function wp_user_alerts_users_by_sms( $args = array() ) {
 		}
 
 		// Send email
-		wp_mail( $user_cell, $r['subject'], $r['message'], $headers );
+		wp_mail( $user_cell, $subject, $message, $headers );
 	}
 }
 
