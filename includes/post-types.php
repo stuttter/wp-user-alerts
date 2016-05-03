@@ -55,14 +55,29 @@ function wp_user_alerts_get_post_type_args() {
 
 	// Capabilities
 	$caps = array(
-		'create_posts'        => 'create_alerts',
-		'edit_posts'          => 'edit_alerts',
-		'edit_others_posts'   => 'edit_others_alerts',
-		'publish_posts'       => 'publish_alerts',
-		'read_private_posts'  => 'read_private_alerts',
-		'read_hidden_posts'   => 'read_hidden_alerts',
-		'delete_posts'        => 'delete_alerts',
-		'delete_others_posts' => 'delete_others_alerts'
+
+		// Meta caps
+		'edit_post'              => 'edit_alert',
+		'read_post'              => 'read_alert',
+		'delete_post'            => 'delete_alert',
+
+		// Primitive/meta caps
+		'read'                   => 'read',
+		'create_posts'           => 'create_alerts',
+
+		// Primitive caps (used outside of map_meta_cap)
+		'edit_posts'             => 'edit_alerts',
+		'edit_others_posts'      => 'edit_others_alerts',
+		'publish_posts'          => 'publish_alerts',
+		'read_private_posts'     => 'read_private_alerts',
+
+		// Primitive caps (used inside of map_meta_cap)
+		'delete_posts'           => 'delete_alerts',
+		'delete_private_posts'   => 'delete_private_alerts',
+		'delete_published_posts' => 'delete_published_alerts',
+		'delete_others_posts'    => 'delete_others_alerts',
+		'edit_private_posts'     => 'edit_private_alerts',
+		'edit_published_posts'   => 'edit_published_alerts'
 	);
 
 	// Filter & return
