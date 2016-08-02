@@ -50,7 +50,7 @@ function wp_user_alerts_get_allowed_post_types() {
 function wp_user_alerts_tiny_mce_callback( $in ) {
     $in['setup'] = "function (ed) {
         ed.on('keyup', function (e) {
-            do_preview(tinymce.activeEditor.getContent());
+            do_preview(tinymce.activeEditor.getContent({format: 'text'}));
         });}";
 
     return $in;
