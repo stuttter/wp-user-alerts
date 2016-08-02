@@ -23,6 +23,9 @@ function wp_user_alerts_admin_metaboxes( $post_type = '' ) {
 		return;
 	}
 
+	// TinyMCE customization runs only if the metabox is here
+	add_filter( 'tiny_mce_before_init', 'wp_user_alerts_tiny_mce_callback');
+
 	// Metabox title
 	$title = in_array( get_post_status(), wp_user_alerts_get_allowed_post_statuses(), true )
 		? esc_html__( 'Who can see this?', 'wp-user-alerts' )
