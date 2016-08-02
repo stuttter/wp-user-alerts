@@ -44,14 +44,17 @@ function wp_user_alerts_get_allowed_post_types() {
  * Modifies the TinyMCE setup to trigger the do_preview() function
  *
  * @since 0.1.0
- * @param $in
- * @return mixed
+ *
+ * @param array $in
+ *
+ * @return array
  */
-function wp_user_alerts_tiny_mce_callback( $in ) {
+function wp_user_alerts_tiny_mce_callback( $in = array() ) {
     $in['setup'] = "function (ed) {
-        ed.on('keyup', function (e) {
-            do_preview(tinymce.activeEditor.getContent({format: 'text'}));
-        });}";
+        ed.on( 'keyup', function (e) {
+            do_preview( tinymce.activeEditor.getContent( { format: 'text' } ) );
+        } );
+	}";
 
     return $in;
 }
