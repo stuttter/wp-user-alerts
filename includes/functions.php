@@ -41,6 +41,22 @@ function wp_user_alerts_get_allowed_post_types() {
 }
 
 /**
+ * Modifies the TinyMCE setup to trigger the do_preview() function
+ *
+ * @since 0.1.0
+ * @param $in
+ * @return mixed
+ */
+function wp_user_alerts_tiny_mce_callback( $in ) {
+    $in['setup'] = "function (ed) {
+        ed.on('keyup', function (e) {
+            do_preview(tinymce.activeEditor.getContent());
+        });}";
+
+    return $in;
+}
+
+/**
  * Return an array of registered alert types
  *
  * @since 0.1.0

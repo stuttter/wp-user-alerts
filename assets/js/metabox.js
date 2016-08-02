@@ -91,7 +91,7 @@ jQuery( document ).ready( function ( $ ) {
 		do_preview();
 	} );
 
-	function do_preview( the_content ) {
+	window.do_preview = function do_preview( the_content ) {
 		if ( the_content.length ) {
 			the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
 			the_content = the_content.substring( 0, 100 );
