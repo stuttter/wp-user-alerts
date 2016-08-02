@@ -92,6 +92,7 @@ jQuery( document ).ready( function ( $ ) {
 	} );
 
 	window.do_preview = function do_preview( the_content ) {
+
 		if ( the_content.length ) {
 			the_content = the_content.replace( /(\r\n|\n|\r)/gm, '<br />' );
 			the_content = the_content.substring( 0, 100 );
@@ -102,5 +103,5 @@ jQuery( document ).ready( function ( $ ) {
 
 		the_height = $( the_message ).height() + $( the_preview ).height() + 94;
 		the_pickers.height( the_height );
-	}
+	};
 } );
