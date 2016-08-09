@@ -424,7 +424,10 @@ function wp_user_alerts_sms_metabox( $user = null ) {
 				<?php endforeach; ?>
 
 				</select>
-				<p class="description"><?php esc_html_e( 'Usage charges may apply to incoming messages. Check with your cellular carrier.', 'wp-user-alerts' ); ?></p>
+				<p class="description">
+					<?php esc_html_e( 'Usage charges may apply to incoming messages. Check with your cellular carrier.', 'wp-user-alerts' ); ?>
+					<?php esc_html_e( 'If you do not know your carrier, visit carrierlookup.com for a quick and easy search.', 'wp-user-alerts' ); ?>
+				</p>
 			</td>
 		</tr>
 
