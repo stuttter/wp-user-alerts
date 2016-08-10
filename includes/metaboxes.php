@@ -3,7 +3,7 @@
 /**
  * User Alerts Metaboxes
  *
- * @package User/Alerts/Metaboxes
+ * @package Plugin/User/Alerts/Metaboxes
  */
 
 // Exit if accessed directly

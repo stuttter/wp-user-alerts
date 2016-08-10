@@ -3,7 +3,7 @@
 /**
  * User Alerts Hooks
  *
- * @package UserAlerts/Hooks
+ * @package Plugin/User/Alert/Hooks
  */
 
 // Exit if accessed directly
@@ -78,6 +78,9 @@ add_action( 'wp_user_alerts_send_sms',   'wp_user_alerts_users_by_sms',   10 );
 add_filter( 'wp_user_dashboard_get_sections', 'wp_user_alerts_add_sections'     );
 add_action( 'wp_user_dashboard_footer',       'wp_user_alerts_do_popups'        );
 add_filter( 'wp_get_post_sections',           'wp_user_alerts_add_post_section' );
+
+// Event Calendar
+add_filter( 'wp_event_calendar_get_meta_query', 'wp_user_alerts_calendar_page_main_query_args' );
 
 // Delete dismissed alerts
 add_action( 'deleted_user', 'wp_user_alerts_delete_user' );

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * User Dashboard Functions
+ *
+ * @package Plugin/User/Alert/Dashboard/Functions
+ */
+
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Return array of possible user IDs to query for active alerts

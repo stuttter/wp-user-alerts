@@ -3,7 +3,7 @@
 /**
  * User Alert Post Sections
  *
- * @package User/Alert/Post/Sections
+ * @package Plugin/User/Alert/Post/Sections
  */
 
 // Exit if accessed directly
