@@ -427,8 +427,10 @@ function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = n
 	// Append priority label to subject
 	$subject = wp_user_alerts_get_alert_message_subject( $post );
 
-	// Save user IDs to postmeta
-	update_post_meta( $post->ID, 'wp_user_alerts_user_ids', $user_ids );
+	// Save user IDs to postmeta, or delete if empty
+	! empty( $user_ids )
+		? update_post_meta( $post->ID, 'wp_user_alerts_user_ids', $user_ids )
+		: delete_post_meta( $post->ID, 'wp_user_alerts_user_ids' );
 
 	// Do the alerts
 	foreach ( $methods as $method ) {
