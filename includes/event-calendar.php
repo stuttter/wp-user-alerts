@@ -29,7 +29,7 @@ function wp_user_alerts_calendar_page_main_query_args( $args = array() ) {
 	}
 
 	// Add meta query clause
-	$args['meta_query'][] = array(
+	$args[] = array(
 		'relation' => 'AND',
 		array(
 			'key'     => 'wp_user_alerts_user_ids',
