@@ -421,7 +421,7 @@ function wp_user_alerts_maybe_do_all_alerts( $new_status, $old_status, $post = n
 	}
 
 	// Get the priority, methods, and user IDs
-	$user_ids = wp_user_alerts_get_alert_user_ids( $post->ID );
+	$user_ids = wp_user_alerts_get_alerted_user_ids( $post->ID );
 	$methods  = wp_user_alerts_get_post_methods( $post->ID );
 
 	// Append priority label to subject
@@ -568,10 +568,26 @@ function wp_user_alerts_get_alert_user_ids( $post_id = 0 ) {
 	$all_user_ids = apply_filters( 'wp_user_alerts_get_alert_user_ids', array(), $post_id );
 
 	// Remove duplicates
-	$deduped_user_ids = array_unique( $all_user_ids, SORT_NUMERIC );
+	$deduped_user_ids  = array_unique( $all_user_ids, SORT_NUMERIC );
+	$unfalsey_user_ids = array_filter( $deduped_user_ids );
 
 	// Return array
-	return $deduped_user_ids;
+	return (array) $unfalsey_user_ids;
+}
+
+/**
+ * Get user IDs that were alerted to specific post
+ *
+ * @since 0.1.0
+ *
+ * @param int $post_id
+ *
+ * @return array
+ */
+function wp_user_alerts_get_alerted_user_ids( $post_id = 0 ) {
+	$user_ids = wp_user_alerts_get_alert_user_ids( $post_id );
+
+	return apply_filters( 'wp_user_alerts_get_alerted_user_ids', $user_ids, $post_id );
 }
 
 /**
