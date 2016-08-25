@@ -30,8 +30,8 @@ function wp_user_alerts_calendar_page_main_query_args( $args = array() ) {
 
 	// Add meta query clause
 	$args[] = array(
-		'relation' => 'AND',
-		array(
+		'relation'            => 'AND',
+		'no_alerted_user_ids' => array(
 			'key'     => 'wp_user_alerts_user_ids',
 			'compare' => 'NOT EXISTS'
 		)
