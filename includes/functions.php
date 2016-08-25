@@ -553,8 +553,10 @@ function wp_user_alerts_get_post_methods( $post_id = 0 ) {
  * of the other functions that are filtering it.
  *
  * Failure to run `array_merge()` in your filter will clobber the existing
- * results. Failuer to return an array will cause fatal errors. Hook in wisely,
+ * results. Failure to return an array will cause fatal errors. Hook in wisely,
  * and always return a healthy array.
+ *
+ * To get the users who were alerted to a post, use `wp_user_alerts_get_user_ids()`.
  *
  * @since 0.1.0
  *
