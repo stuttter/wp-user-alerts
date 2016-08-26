@@ -190,7 +190,7 @@ function wp_user_alerts_metabox_existing_post() {
 						<th class="column-primary"><?php esc_html_e( 'People', 'wp-user-alerts' ); ?></th>
 						<th><?php esc_html_e( 'Name',      'wp-user-alerts' ); ?></th>
 						<th><?php esc_html_e( 'Email',     'wp-user-alerts' ); ?></th>
-						<th><?php esc_html_e( 'Dismissed', 'wp-user-alerts' ); ?></th>
+						<th><?php esc_html_e( 'Acknowledged', 'wp-user-alerts' ); ?></th>
 					</tr>
 				</thead>
 
@@ -221,7 +221,7 @@ function wp_user_alerts_metabox_existing_post() {
 					</td>
 					<td class="name column-name" data-colname="<?php esc_html_e( 'Name', 'wp-user-alerts' ); ?>"><?php printf( '%s %s', $user->first_name, $user->last_name ); ?></td>
 					<td class="email column-email" data-colname="<?php esc_html_e( 'Email', 'wp-user-alerts' ); ?>"><?php echo make_clickable( $user->user_email ); ?></td>
-					<td class="dismissed column-dismissed" data-colname="<?php esc_html_e( 'Dismissed', 'wp-user-alerts' ); ?>"><?php echo esc_html( $dismissed ); ?></td>
+					<td class="dismissed column-dismissed" data-colname="<?php esc_html_e( 'Acknowledged', 'wp-user-alerts' ); ?>"><?php echo esc_html( $dismissed ); ?></td>
 				</tr><?php
 
 			endforeach;

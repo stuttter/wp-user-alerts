@@ -107,7 +107,7 @@ function wp_user_alerts_add_sections( $sections = array() ) {
 		'id'           => 'dismissed',
 		'slug'         => 'dismissed',
 		'url'          => '',
-		'label'        => esc_html__( 'Dismissed', 'wp-user-alerts' ),
+		'label'        => esc_html__( 'Acknowledged', 'wp-user-alerts' ),
 		'show_in_menu' => 'visible',
 		'order'        => 100
 	);
